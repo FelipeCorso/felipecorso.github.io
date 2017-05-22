@@ -1,0 +1,47 @@
+<div class="row" ng-if="vm.multipleSelect">
+    <div class="col-xs-6 col-sm-4" ng-repeat="answerOption in vm.model.answerOptions | filter:{type:vm.answerType}:true">
+        <div class="pull-right">
+            <i class="fa fa-times" aria-hidden="true"
+               title="Clique para remover a imagem"
+               ng-click="vm.removeImage(answerOption)"></i>
+        </div>
+        <a href="https://drive.google.com/uc?export=view&id={{answerOption.image.id}}" target="_blank">
+            <img class="img-thumbnail"
+                 ng-src="https://drive.google.com/uc?export=view&id={{answerOption.image.id}}"
+                 alt="{{vm.altImage}}"
+                 title="Clique para abrir a imagem em tamanho real." />
+        </a>
+    </div>
+    <div class="col-xs-6 col-sm-4">
+        <div class="img-responsive my-gallery-no-img pointer"
+             title="Clique para adicionar uma imagem"
+             ng-click="vm.authSvc.createPicker(vm.model.parent, vm.imageSelected, vm.multipleSelect)">
+            <i class="fa fa-picture-o fa-3x" aria-hidden="true"></i>
+        </div>
+    </div>
+</div>
+
+<div class="row" ng-if="!vm.multipleSelect">
+    <div class="col-md-12">
+        <div ng-if="vm.hasImage()">
+            <div class="pull-right">
+                <i class="fa fa-times" aria-hidden="true"
+                   title="Clique para remover a imagem"
+                   ng-click="vm.imageRemoved()"></i>
+            </div>
+            <a href="https://drive.google.com/uc?export=view&id={{vm.model.image.id}}" target="_blank">
+                <img class="img-thumbnail"
+                     ng-src="https://drive.google.com/uc?export=view&id={{vm.model.image.id}}"
+                     alt="{{vm.altImage}}"
+                     title="Clique para abrir a imagem em tamanho real." />
+            </a>
+        </div>
+
+        <div class="img-responsive my-gallery-no-img pointer"
+             title="Clique para adicionar uma imagem"
+             ng-if="!vm.hasImage()"
+             ng-click="vm.authSvc.createPicker(vm.model.parent, vm.imageSelected, vm.multipleSelect)">
+            <i class="fa fa-picture-o fa-3x" aria-hidden="true"></i>
+        </div>
+    </div>
+</div>

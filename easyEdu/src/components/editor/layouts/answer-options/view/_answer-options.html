@@ -1,0 +1,93 @@
+<div class="row">
+    <div class="col-md-8">
+        <div class="form-group" ng-if="vm.selectedActivity.type === 'LETTERS'">
+            <label>Adicione uma imagem para a atividade</label>
+
+            <editor-insert-image model="vm.selectedActivity" alt-image="Imagem da atividade"></editor-insert-image>
+            <hr>
+        </div>
+        <div class="form-group">
+            <label>Adicionar um áudio para a atividade</label>
+            <i>Permitir adicionar áudio</i>
+        </div>
+
+        <div ng-if="vm.selectedActivity.type === 'PICTURES'">
+            <hr>
+            <div class="form-group"
+                 ng-required="vm.selectedActivity.type === 'PICTURES'">
+                <label>Adicionar as respostas corretas</label>
+                <editor-insert-image model="vm.selectedActivity"
+                                     answer-type="CORRECT"
+                                     alt-image="Opção de resposta correta"
+                                     multiple-select="true"></editor-insert-image>
+            </div>
+
+            <hr>
+            <div class="form-group"
+                 ng-required="vm.selectedActivity.type === 'PICTURES'">
+                <label>Adicionar as respostas incorretas</label>
+                <editor-insert-image model="vm.selectedActivity"
+                                     answer-type="INCORRECT"
+                                     alt-image="Opção de resposta incorreta"
+                                     multiple-select="true"></editor-insert-image>
+            </div>
+        </div>
+
+    </div>
+    <div class="col-md-4">
+        <div class="form-group">
+            <label class="control-label" for="activity.name">Nome da atividade</label>
+            <input class="form-control"
+                   type="text"
+                   id="activity.name"
+                   placeholder="Informe um nome para a atividade"
+                   ng-model="vm.selectedActivity.name">
+        </div>
+        <div class="form-group required">
+            <label class="control-label" for="activity.answer">Resposta</label>
+            <input class="form-control"
+                   type="text"
+                   id="activity.answer"
+                   placeholder="Informe a resposta da atividade"
+                   required
+                   ng-model="vm.selectedActivity.answer">
+        </div>
+
+        <div class="form-group">
+            <label for="activity.level">Nível de dificuldade</label>
+            <select class="form-control"
+                    required
+                    id="activity.level"
+                    placeholder="Informe um nível de dificuldade"
+                    ng-model="vm.selectedActivity.level"
+                    ng-options="option.value as option.label for option in vm.difficultyLevels">
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="activity.tip">Dica</label>
+            <input class="form-control"
+                   type="text"
+                   id="activity.tip"
+                   placeholder="Informe uma dica para a atividade"
+                   ng-model="vm.selectedActivity.tip">
+        </div>
+
+        <div class="form-group">
+            <label for="activity.time">Tempo para resolução (mm:ss)</label>
+            <input class="form-control"
+                   type="datetime"
+                   id="activity.time"
+                   placeholder="59:59"
+                   ng-model="vm.selectedActivity.time">
+        </div>
+    </div>
+</div>
+<hr>
+<div class="row">
+    <div class="col-md-12">
+        <button type="button" class="btn btn-primary" ng-click="vm.saveAction()">Salvar</button>
+        <button type="button" class="btn btn-danger" ng-click="vm.deleteAction()" ng-if="vm.selectedActivity.id">Excluir</button>
+        <button type="button" class="btn btn-link pull-right" ng-click="vm.cancelAction()">Cancelar</button>
+    </div>
+</div>

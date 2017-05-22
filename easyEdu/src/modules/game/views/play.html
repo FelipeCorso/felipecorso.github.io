@@ -1,0 +1,56 @@
+<div ng-init="vm.play()"></div>
+<div class="row" ng-if="vm.gameMode !== 'MULTIPLAYER'">
+    <div class="col-md-12 text-center">
+        <game-letters-layout
+                action-next-phase="vm.actionNextPhase()"
+                activity="vm.selectedActivity"
+                category="vm.category"
+                game-mode="vm.gameMode"
+                has-more-phases="vm.hasMorePhases()"
+                ng-if="vm.selectedActivity.type === 'LETTERS'"></game-letters-layout>
+        <game-pictures-layout
+                action-next-phase="vm.actionNextPhase()"
+                activity="vm.selectedActivity"
+                category="vm.category"
+                game-mode="vm.gameMode"
+                has-more-phases="vm.hasMorePhases()"
+                play="vm.play()"
+                ng-if="vm.selectedActivity.type === 'PICTURES'"></game-pictures-layout>
+    </div>
+</div>
+<div class="row" ng-if="vm.gameMode === 'MULTIPLAYER'">
+    <div class="col-md-6 rotate-left">
+        <game-letters-layout
+                action-next-phase="vm.actionNextPhase()"
+                activity="vm.selectedActivity"
+                category="vm.category"
+                game-mode="vm.gameMode"
+                has-more-phases="vm.hasMorePhases()"
+                ng-if="vm.selectedActivity.type === 'LETTERS'"></game-letters-layout>
+        <game-pictures-layout
+                action-next-phase="vm.actionNextPhase()"
+                activity="vm.selectedActivity"
+                category="vm.category"
+                game-mode="vm.gameMode"
+                has-more-phases="vm.hasMorePhases()"
+                play="vm.play()"
+                ng-if="vm.selectedActivity.type === 'PICTURES'"></game-pictures-layout>
+    </div>
+    <div class="col-md-6 rotate-right">
+        <game-letters-layout
+                action-next-phase="vm.actionNextPhase()"
+                activity="vm.selectedActivity"
+                category="vm.category"
+                game-mode="vm.gameMode"
+                has-more-phases="vm.hasMorePhases()"
+                ng-if="vm.selectedActivity.type === 'LETTERS'"></game-letters-layout>
+        <game-pictures-layout
+                action-next-phase="vm.actionNextPhase()"
+                activity="vm.selectedActivity"
+                category="vm.category"
+                game-mode="vm.gameMode"
+                has-more-phases="vm.hasMorePhases()"
+                play="vm.play()"
+                ng-if="vm.selectedActivity.type === 'PICTURES'"></game-pictures-layout>
+    </div>
+</div>

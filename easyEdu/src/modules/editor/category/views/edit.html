@@ -1,0 +1,132 @@
+<div class="row">
+    <div class="col-sm-3">
+
+        <!--<editor-multiple-uploads done-callback="vm.doneFile(file, activity)" on-remove-item="vm.removeFile(file, activity)" options="{queueLimit: 1}"></editor-multiple-uploads>-->
+        <label for="category.name" class="control-label">Nome da categoria</label>
+        <input class="form-control" type="text"
+               id="category.name"
+               ng-model="vm.category.name"
+               placeholder="Dê um nome para a categoria">
+
+        <hr>
+
+        <editor-insert-image model="vm.category" alt-image="Imagem da categoria"></editor-insert-image>
+
+<!--
+        <div ng-if="vm.hasImage()">
+            <div class="pull-right">
+                <i class="fa fa-times" aria-hidden="true"
+                   title="Clique para remover a imagem"
+                   ng-click="vm.categoryImageRemoved()"></i>
+            </div>
+            <a href="https://drive.google.com/uc?export=view&id={{vm.category.image.id}}" target="_blank">
+                <img class="img-thumbnail"
+                     ng-src="https://drive.google.com/uc?export=view&id={{vm.category.image.id}}"
+                     alt="Imagem da categoria"
+                     title="Clique para abrir a imagem em tamanho real." />
+            </a>
+        </div>
+
+        <div class="img-responsive my-gallery-no-img pointer"
+             title="Clique para adicionar uma imagem"
+             ng-if="!vm.hasImage()"
+             ng-click="app.authSvc.createPicker(vm.category.parent, vm.categoryImageSelected)">
+            <i class="fa fa-picture-o fa-3x" aria-hidden="true"></i>
+        </div>
+        -->
+
+        <div ng-if="vm.category">
+            <hr>
+            <div class="row">
+                <div class="col-md-12">
+                    <button class="btn btn-primary btn-sm margin-bottom-5"
+                            type="button"
+                            ng-disabled="!vm.category.activities.length || !vm.isEnabledBtnExport()"
+                            ng-click="vm.exportJSON()">
+                        JSON
+                    </button>
+                    <button class="btn btn-primary btn-sm margin-bottom-5"
+                            type="button"
+                            ng-disabled="!vm.category.activities.length || !vm.isEnabledBtnExport()"
+                            ng-click=""
+                            onclick="alert('Exportou a pasta compactada');">
+                        Modo offline
+                    </button>
+                    <button class="btn btn-primary btn-sm margin-bottom-5"
+                            type="button"
+                            ng-disabled="!vm.category.activities.length || !vm.isEnabledBtnExport()"
+                            ng-click="vm.generateQrCode()">
+                        Gerar QR Code
+                    </button>
+                    <a id="downloadAnchorElem" style="display:none"></a>
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-sm-6">
+                    <a class="pointer"
+                       title="Adicionar atividade"
+                       ng-disabled="vm.category.activities.length && vm.isActivityAnswerEmpty()"
+                       ng-click="vm.addActivity()">
+                        <i class="fa fa-plus"></i>
+                    </a>
+                </div>
+                <div class="col-sm-6 pull-right" ng-if="vm.category.activities.length">
+                    <label>
+                        Marcar todas
+                        <input type="checkbox" ng-model="vm.isAllSelected" ng-click="vm.toggleAll()" bn-uniform
+                               ng-model="activity.export">
+                    </label>
+                </div>
+            </div>
+            <editor-category-list-activities
+                    activities="vm.category.activities"
+                    selected-activity="vm.selectedActivity"
+                    option-toggled="vm.optionToggled()">
+            </editor-category-list-activities>
+        </div>
+        <hr>
+        <div class="row margin-bottom-20">
+            <div class="col-md-12">
+                <button type="button" class="btn btn-primary" ng-click="vm.saveCategory()">Salvar</button>
+                <button type="button" class="btn btn-danger" ng-click="vm.deleteCategory()">Excluir</button>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-9">
+        <div class="row">
+            <div class="col-md-12">
+                <qrcode data="{{vm.qrCodeData}}" href="{{vm.qrCodeData}}" ng-if="vm.qrCodeData" size="200"></qrcode>
+            </div>
+        </div>
+        <editor-category-activity-type
+                selected-activity="vm.selectedActivity"
+                ng-if="vm.selectedActivity && !vm.selectedActivity.type"></editor-category-activity-type>
+
+        <div ng-if="vm.selectedActivity.type">
+            <div class="row">
+                <div class="col-md-12">
+                    <button class="btn btn-success" type="button"
+                            ng-click="vm.copySelectedActivity()"
+                            title="Clique para testar a atividade">Testar atividade</button>
+                </div>
+            </div>
+            <game-letters-layout
+                    activity="vm.selectedActivity"
+                    ng-if="vm.selectedActivity.type === 'LETTERS'"></game-letters-layout>
+            <game-pictures-layout
+                    activity="vm.selectedActivityCopy"
+                    play="vm.copySelectedActivity()"
+                    ng-if="vm.selectedActivity.type === 'PICTURES' && vm.selectedActivityCopy"></game-pictures-layout>
+            <editor-letters-layout
+                    ng-if="vm.selectedActivity.type === 'LETTERS'"
+                    activity="vm.selectedActivity"
+                    alphabet="vm.category.alphabet"></editor-letters-layout>
+            <hr>
+            <editor-answer-options
+                    selected-activity="vm.selectedActivity"
+                    on-save-action="vm.saveActivity()"
+                    on-delete-action="vm.deleteActivity()"></editor-answer-options>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,110 @@
+<div class="row">
+    <div class="col-md-12">
+        <span ng-if="vm.uploader.queueLimit != 1" class="btn btn-success fileinput-button" ng-class="{disabled: vm.disabled}">
+            <i class="fa fa-fw fa-plus"></i>
+            <span>Adicionar arquivos</span>
+            <input type="file" nv-file-select="" uploader="vm.uploader" multiple/>
+        </span>
+
+         <span ng-if="vm.uploader.queueLimit === 1 && vm.uploader.queue.length === 0" class="btn btn-success fileinput-button" ng-class="{disabled: vm.disabled}">
+            <i class="fa fa-fw fa-plus"></i>
+            <span>Adicionar arquivo</span>
+            <input type="file" nv-file-select="" uploader="vm.uploader" />
+        </span>
+    </div>
+
+    <div class="col-md-12" ng-if="vm.uploader.queue.length || vm.uploaderErrors.length">
+        <div class="table">
+            <div class="hidden-xs col-sm-6 bold padding-top-10 padding-left-10 padding-right-10 ">Nome do arquivo</div>
+            <div class="hidden-xs col-sm-2 bold padding-top-10 padding-left-10 padding-right-10 ">Tamanho</div>
+            <div class="hidden-xs col-sm-2 bold padding-top-10 padding-left-10 padding-right-10 ">Progresso</div>
+            <div class="hidden-xs col-sm-2 bold padding-top-10 padding-left-10 padding-right-10 ">Ações</div>
+            <div class="no-padding row-sm-height col-md-12" ng-repeat="item in vm.uploader.queue">
+                <hr class="hidden-xs col-xs-12 no-padding margin-bottom-5 margin-top-5" ng-style="{'border-width': $first ? '2px' : '1px'}">
+                <div class="row-sm-height">
+                    <div class="visible-xs col-xs-12 col-sm-6 padding-left-10 padding-right-10 text-center bold padding-top-10">Nome do arquivo</div>
+                    <div class="hidden-xs col-xs-12 col-sm-6 padding-left-10 padding-right-10 col-sm-height col-sm-middle bold">{{item.file.name}}</div>
+                    <div class="visible-xs col-xs-12 col-sm-6 padding-left-10 padding-right-10 col-sm-height col-sm-middle text-center">{{item.file.name}}</div>
+
+                    <div class="visible-xs col-xs-12 col-sm-2 padding-left-10 padding-right-10 text-center bold padding-top-10">Tamanho</div>
+                    <div class="hidden-xs col-xs-12 col-sm-2 padding-left-10 padding-right-10 col-sm-height col-sm-middle">{{item.file.size/1024/1024|number:2}} MB</div>
+                    <div class="visible-xs col-xs-12 col-sm-2 padding-left-10 padding-right-10 col-sm-height col-sm-middle text-center">{{item.file.size/1024/1024|number:2}} MB</div>
+
+                    <div class="visible-xs col-xs-12 col-sm-2 padding-left-10 padding-right-10 text-center bold padding-top-10">Progresso</div>
+                    <div class="col-xs-12 col-sm-2 padding-left-10 padding-right-10 col-sm-height col-sm-middle">
+                        <div class="progress" style="margin-bottom: 0;">
+                            <div class="progress-bar" role="progressbar" ng-style="{ 'width': item.progress + '%' }"></div>
+                        </div>
+                    </div>
+
+                    <div class="visible-xs col-xs-12 col-sm-2 padding-left-10 padding-right-10 text-center bold padding-top-10">Ações</div>
+                    <div class="hidden-xs col-xs-12 col-sm-2 padding-left-10 padding-right-10 col-sm-height col-sm-middle">
+                        <button ng-if="item.isUploading" type="button" class="btn btn-warning btn-xs" ng-click="item.cancel(); item.remove()"
+                                ng-disabled="!item.isUploading">
+                            <span class="fa fa-fw fa-ban"></span> Cancelar
+                        </button>
+                        <button type="button" class="btn btn-danger btn-xs" ng-click="item.remove(); vm.removeItem(item)">
+                            <span class="fa fa-fw fa-remove"></span> Remover
+                        </button>
+                    </div>
+                    <div class="visible-xs col-xs-12 col-sm-2 padding-left-10 padding-right-10 col-sm-height col-sm-middle text-center">
+                        <button ng-if="item.isUploading" type="button" class="btn btn-warning btn-xs" ng-click="item.cancel(); item.remove()"
+                                ng-disabled="!item.isUploading">
+                            <span class="fa fa-fw fa-ban"></span> Cancelar
+                        </button>
+                        <button type="button" class="btn btn-danger btn-xs" ng-click="item.remove(); vm.removeItem(item)">
+                            <span class="fa fa-fw fa-remove"></span> Remover
+                        </button>
+                    </div>
+                    <hr class="visible-xs col-xs-12 no-padding no-margin-bottom margin-top-15" ng-if="!$last">
+                </div>
+            </div>
+
+            <div class="no-padding row-sm-height col-md-12" ng-repeat="item in vm.uploaderErrors">
+                <hr class="hidden-xs col-xs-12 no-padding margin-bottom-5 margin-top-5" ng-style="{'border-width': $first && !vm.uploader.queue.length ? '2px' : '1px'}">
+                <div class="row-sm-height">
+                    <div class="visible-xs col-xs-12 col-sm-6 padding-left-10 padding-right-10 text-center bold padding-top-10">Nome do arquivo</div>
+                    <div class="hidden-xs col-xs-12 col-sm-6 padding-left-10 padding-right-10 col-sm-height col-sm-middle bold">{{item.file.name}}</div>
+                    <div class="visible-xs col-xs-12 col-sm-6 padding-left-10 padding-right-10 col-sm-height col-sm-middle text-center">{{item.file.name}}</div>
+
+                    <div class="visible-xs col-xs-12 col-sm-2 padding-left-10 padding-right-10 text-center bold padding-top-10">Tamanho</div>
+                    <div class="hidden-xs col-xs-12 col-sm-2 padding-left-10 padding-right-10 col-sm-height col-sm-middle">{{item.file.size/1024/1024|number:2}} MB</div>
+                    <div class="visible-xs col-xs-12 col-sm-2 padding-left-10 padding-right-10 col-sm-height col-sm-middle text-center">{{item.file.size/1024/1024|number:2}} MB</div>
+
+                    <div class="visible-xs col-xs-12 col-sm-2 padding-left-10 padding-right-10 text-center bold padding-top-10">Progresso</div>
+                    <div class="hidden-xs col-xs-12 col-sm-2 padding-left-10 padding-right-10 col-sm-height col-sm-middle text-danger">item.file.error</div>
+                    <div class="visible-xs col-xs-12 col-sm-2 padding-left-10 padding-right-10 col-sm-height col-sm-middle text-danger text-center">item.file.error</div>
+
+                    <div class="visible-xs col-xs-12 col-sm-2 padding-left-10 padding-right-10 text-center bold padding-top-10">Ações</div>
+                    <div class="col-xs-12 col-sm-2 padding-left-10 padding-right-10 text-center bold padding-top-10">
+                        <button type="button" class="btn btn-danger btn-xs" ng-click="vm.removeErrorItem($index)">
+                            <span class="fa fa-fw fa-remove"></span> Remover
+                        </button>
+                    </div>
+
+                    <hr class="visible-xs col-xs-12 no-padding no-margin-bottom margin-top-15" ng-if="!$last">
+                </div>
+            </div>
+        </div>
+        <hr/>
+        <div ng-if="vm.uploader.getNotUploadedItems().length">
+            <div>
+                <div class="progress">
+                    <div class="progress-bar" role="progressbar" ng-style="{ 'width': vm.uploader.progress + '%' }"></div>
+                </div>
+            </div>
+            <button ng-if="!vm.uploader.autoUpload" type="button" class="btn btn-success btn-s" ng-click="vm.uploader.uploadAll()"
+                    ng-disabled="!vm.uploader.getNotUploadedItems().length">
+                <span class="fa fa-fw fa-upload"></span> Enviar todos
+            </button>
+            <button ng-if="vm.uploader.isUploading" type="button" class="btn btn-warning btn-s" ng-click="vm.uploader.cancelAll()"
+                    ng-disabled="!vm.uploader.isUploading">
+                <span class="fa fa-fw fa-ban"></span> Cancelar todos
+            </button>
+            <button ng-if="vm.uploader.isUploading"  type="button" class="btn btn-danger btn-s" ng-click="vm.uploader.clearQueue()"
+                    ng-disabled="!vm.uploader.queue.length">
+                <span class="fa fa-fw fa-trash"></span> Remover todos
+            </button>
+        </div>
+    </div>
+</div>

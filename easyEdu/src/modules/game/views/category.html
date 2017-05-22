@@ -1,0 +1,24 @@
+<div class="panel-group">
+    <div class="panel panel-default">
+        <div class="panel-heading text-center">
+            <div class="row">
+                <div class="col-md-12">
+                    <h2>Escolha uma categoria</h2>
+                </div>
+            </div>
+        </div>
+        <div class="panel-body text-center">
+            <div class="row">
+                <div class="col-xs-6 col-sm-4 col-md-2" style="max-height: 235px; height: 235px;" ng-repeat="category in vm.getCategories()">
+                    <a class="text-decoration-none" ng-click="vm.setCategory(category)" ui-sref="game.mode({category: category})">
+                        <div class="thumbnail">
+                            <img class="img-thumbnail" ng-src="{{category.image.link}}" ng-if="category.image.link" alt="Imagem da categoria">
+                            <span>{{category.name}}</span>
+                            <!--<a class="btn" ui-sref="game.game-mode">Português</a><a class="btn" ui-sref="game.game-mode">Matemática</a><a class="btn" ui-sref="game.game-mode">Inglês</a>-->
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

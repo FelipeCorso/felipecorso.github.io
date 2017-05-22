@@ -1,0 +1,27 @@
+<div ng-if="app.authSvc.isSignedInGoogle()">
+    <div class="row">
+        <div class="col-sm-3 text-center" ng-repeat="category in vm.categories">
+            <button class="btn btn-link" type="button" ui-sref="editor.category.edit({id: category.id})">
+                <img class="img-responsive center-block img-category"
+                     ng-src="https://drive.google.com/uc?export=view&id={{category.image.id}}"
+                     alt="Imagem da categoria" ng-if="category.image.id">
+                <div class="img-responsive my-gallery-no-img" ng-if="!category.image.id">
+                    <i class="fa fa-picture-o fa-3x" aria-hidden="true"></i>
+                </div>
+                <h4 class="text-center">{{category.name}}</h4>
+            </button>
+        </div>
+    </div>
+
+    <div class="row" ng-if="!vm.categories.length">
+        <div class="col-md-12">
+            <div class="alert alert-info">Você não possui categorias em sua galeria. :(</div>
+        </div>
+    </div>
+</div>
+
+<div class="row" ng-if="!app.authSvc.isSignedInGoogle()">
+    <div class="col-md-12">
+        <div class="alert alert-warning">Para consultar a sua galeria é necessário estar conectado com o Google.</div>
+    </div>
+</div>

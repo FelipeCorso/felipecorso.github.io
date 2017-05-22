@@ -1,0 +1,21 @@
+<div class="container">
+	<!-- BEGIN PAGE HEAD -->
+	<div class="page-head">
+		<!-- BEGIN PAGE TITLE -->
+		<div class="page-title">
+			<h1>{{$state.current.data.pageTitle}} <small>{{$state.current.data.subTitle}}</small></h1>
+		</div>
+		<!-- END PAGE TITLE -->
+	</div>
+	<!-- END PAGE HEAD -->
+	<!-- BEGIN PAGE CONTENT INNER -->
+	<div class="row margin-top-10">
+		<div class="col-md-12">
+			<div class="portlet light">
+				<div class="portlet-body" ui-view="error-content">
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- END CONTENT -->
+</div>

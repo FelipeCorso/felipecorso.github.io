@@ -1,0 +1,47 @@
+<nav class="navbar navbar-default navbar-static-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                    aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" ui-sref="editor">EasyEdu</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav" ng-if="app.primaryNavigation.length > 0">
+                <li ng-repeat="item in app.primaryNavigation | orderBy: 'order'" ui-sref-active="active">
+                    <a ui-sref="{{item.stateName}}" ng-bind="item.title"></a>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <div>
+                        <a class="btn btn-social-icon btn-sm btn-google"
+                           ng-click="app.authSvc.handleAuthClick($event)"
+                           ng-if="!app.authSvc.isSignedInGoogle()"
+                           title="Acessar com o Google">
+                            <i class="fa fa-google"></i>
+                        </a>
+                        <a class="btn btn-default btn-social-icon btn-sm"
+                           ng-click="app.authSvc.handleSignOutClick($event)"
+                           ng-if="app.authSvc.isSignedInGoogle()"
+                           title="Sair">
+                            <i class="fa fa-sign-out" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <!--/.nav-collapse -->
+    </div>
+</nav>
+<div class="container">
+    <div ui-view></div>
+    <footer class="footer">
+        <hr/>
+        <p class="text-center">Made by Felipe Corso</p>
+    </footer>
+</div>
