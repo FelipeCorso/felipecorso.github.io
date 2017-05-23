@@ -5,7 +5,7 @@ define(function() {
     function Service($http, $q, $rootScope) {
 
         // The Browser API key obtained from the Google Developers Console.
-        var DEVELOPER_KEY = 'AIzaSyBKTxbT-7qN_m1j5zMQWdTAxJ8r9xFbSUs';
+        var DEVELOPER_KEY = 'AIzaSyBSklh1MWow4DDwhL1bna7vKA4LR1RmHQY';
 
         // Client ID and API key from the Developer Console
         var CLIENT_ID = '661558756492-p0agpbu1e13ac7npde96ts04mb6mv9o4.apps.googleusercontent.com';
