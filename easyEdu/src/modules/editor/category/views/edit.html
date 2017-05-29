@@ -3,9 +3,10 @@
 
         <!--<editor-multiple-uploads done-callback="vm.doneFile(file, activity)" on-remove-item="vm.removeFile(file, activity)" options="{queueLimit: 1}"></editor-multiple-uploads>-->
         <label for="category.name" class="control-label">Nome da categoria</label>
-        <input class="form-control" type="text"
+        <input class="form-control input-circle" type="text"
                id="category.name"
-               ng-model="vm.category.name"
+               ng-model="vm.categoryNewName"
+               ng-value="vm.category.name"
                placeholder="Dê um nome para a categoria">
 
         <hr>
@@ -39,20 +40,20 @@
             <hr>
             <div class="row">
                 <div class="col-md-12">
-                    <button class="btn btn-primary btn-sm margin-bottom-5"
+                    <button class="btn btn-circle btn-primary btn-sm margin-bottom-5"
                             type="button"
                             ng-disabled="!vm.category.activities.length || !vm.isEnabledBtnExport()"
                             ng-click="vm.exportJSON()">
                         JSON
                     </button>
-                    <button class="btn btn-primary btn-sm margin-bottom-5"
+                    <button class="btn btn-circle btn-primary btn-sm margin-bottom-5"
                             type="button"
                             ng-disabled="!vm.category.activities.length || !vm.isEnabledBtnExport()"
                             ng-click=""
                             onclick="alert('Exportou a pasta compactada');">
                         Modo offline
                     </button>
-                    <button class="btn btn-primary btn-sm margin-bottom-5"
+                    <button class="btn btn-circle btn-primary btn-sm margin-bottom-5"
                             type="button"
                             ng-disabled="!vm.category.activities.length || !vm.isEnabledBtnExport()"
                             ng-click="vm.generateQrCode()">
@@ -88,8 +89,21 @@
         <hr>
         <div class="row margin-bottom-20">
             <div class="col-md-12">
-                <button type="button" class="btn btn-primary" ng-click="vm.saveCategory()">Salvar</button>
-                <button type="button" class="btn btn-danger" ng-click="vm.deleteCategory()">Excluir</button>
+                <button type="button" class="btn btn-circle btn-primary"
+                        ng-disabled="vm.isLoading"
+                        ng-click="vm.saveCategory()">
+                    Salvar
+                </button>
+                <button type="button" class="btn btn-circle btn-danger"
+                        ng-disabled="vm.isLoading"
+                        ng-click="vm.deleteCategory()">Excluir</button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12" ng-if="vm.isLoading">
+                <div>
+                    <i class="fa fa-fw fa-spin fa-spinner"></i> <strong>{{'Aguarde um instante'}}</strong>
+                </div>
             </div>
         </div>
     </div>
@@ -106,22 +120,11 @@
         <div ng-if="vm.selectedActivity.type">
             <div class="row">
                 <div class="col-md-12">
-                    <button class="btn btn-success" type="button"
-                            ng-click="vm.copySelectedActivity()"
+                    <button class="btn btn-circle btn-success" type="button"
+                            ng-click="vm.testSelectedActivity()"
                             title="Clique para testar a atividade">Testar atividade</button>
                 </div>
             </div>
-            <game-letters-layout
-                    activity="vm.selectedActivity"
-                    ng-if="vm.selectedActivity.type === 'LETTERS'"></game-letters-layout>
-            <game-pictures-layout
-                    activity="vm.selectedActivityCopy"
-                    play="vm.copySelectedActivity()"
-                    ng-if="vm.selectedActivity.type === 'PICTURES' && vm.selectedActivityCopy"></game-pictures-layout>
-            <editor-letters-layout
-                    ng-if="vm.selectedActivity.type === 'LETTERS'"
-                    activity="vm.selectedActivity"
-                    alphabet="vm.category.alphabet"></editor-letters-layout>
             <hr>
             <editor-answer-options
                     selected-activity="vm.selectedActivity"

@@ -1,8 +1,8 @@
 define(function() {
     'use strict';
-    Service.$inject = ['$http', '$q', "AuthorizationSvc"];
+    Service.$inject = ['$http', '$q', "$state", "AuthorizationSvc"];
     /*@ngInject*/
-    function Service($http, $q, AuthorizationSvc) {
+    function Service($http, $q, $state, AuthorizationSvc) {
         var category = undefined;
 
         var service = {
@@ -28,7 +28,15 @@ define(function() {
 
         function getDefaultCategories() {
             var future = $q.defer();
-            future.resolve([]);
+            $http.get("src/data/categories-default.json")
+                .then(function(response) {
+                    future.resolve(response.data);
+                })
+                .catch(function(error) {
+                    future.reject(error);
+                    console.error(error);
+                    $state.go("game.start", {}, {reload: true});
+                });
             return future.promise;
         }
     }

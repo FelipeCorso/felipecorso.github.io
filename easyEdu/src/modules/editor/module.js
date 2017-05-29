@@ -1,10 +1,13 @@
 define([
     '../../config/namespace',
+    './controllers/EditorCtrl',
     './config/module.routes'
 ], function(namespace,
+            EditorCtrl,
             moduleRoutes) {
     'use strict';
     angular.module(namespace + '.editor', ['ui.router', namespace + '.navigation'])
+        .controller('EditorCtrl', EditorCtrl)
         .run(['RouterHelper', function(RouterHelper) {
             RouterHelper.configureStates(moduleRoutes());
         }]);

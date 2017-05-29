@@ -127,7 +127,7 @@ define([], function() {
         var scoreText;
         var timer;
         var timerText;
-        var timerPromisse;
+        var timerPromise;
 
         // initLevel();
 
@@ -774,7 +774,7 @@ define([], function() {
         }
 
         function createTimer() {
-            if (timerPromisse) {
+            if (timerPromise) {
                 cancelTimer();
             }
             timer = new moment();
@@ -793,11 +793,11 @@ define([], function() {
         }
 
         function cancelTimer() {
-            $interval.cancel(timerPromisse);
+            $interval.cancel(timerPromise);
         }
 
         function timerExec() {
-            timerPromisse = $interval(function() {
+            timerPromise = $interval(function() {
                 checkGameOver();
                 if (!isWinMatch() && !vm.isGameOver) {
                     timerText.text = timer.format("mm:ss"); // remover

@@ -15,6 +15,7 @@ define([], function() {
 
     Controller.$inject = ["$state", "AuthorizationSvc"];
     function Controller($state, AuthorizationSvc) {
+        var METADATA_FILE_NAME = "metadata";
         var vm = this;
         vm.rootFolder = {};
         vm.metadata = {};
@@ -24,6 +25,7 @@ define([], function() {
 
         function saveCategory() {
             if (AuthorizationSvc.isSignedInGoogle()) {
+                AuthorizationSvc.isLoading = true;
                 return AuthorizationSvc.isExistRootFolder()
                     .then(function(rootFolder) {
                         if (rootFolder) {
@@ -31,7 +33,7 @@ define([], function() {
                         }
                         return AuthorizationSvc.createRootFolder()
                             .then(function(rootFolder) {
-                                return AuthorizationSvc.createJson("metadata", [], rootFolder.id)
+                                return AuthorizationSvc.createJson(METADATA_FILE_NAME, [], rootFolder.id)
                                     .then(function(metadata) {
                                         vm.metadata = metadata;
                                         return rootFolder;
@@ -47,7 +49,7 @@ define([], function() {
                     })
                     .then(function(categoryFolder) {
                         vm.category.parent = categoryFolder.id;
-                        return AuthorizationSvc.createJson(vm.category.name, vm.category, categoryFolder.id);
+                        return AuthorizationSvc.createJson(METADATA_FILE_NAME, vm.category, categoryFolder.id);
                     })
                     .then(function(categoryMetadata) {
                         vm.category.id = categoryMetadata.id;
@@ -76,6 +78,9 @@ define([], function() {
                     })
                     .catch(function(error) {
                         console.log(error);
+                    })
+                    .finally(function() {
+                        AuthorizationSvc.isLoading = false;
                     });
             }
         }

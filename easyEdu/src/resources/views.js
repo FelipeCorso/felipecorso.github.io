@@ -38,13 +38,13 @@ angular.module('resources.views', []).run(['$templateCache', function($templateC
   $templateCache.put('src/components/editor/category/create-category/view/_create-category.html',
     "<div class=\"form-group\">\n" +
     "    <label for=\"category.name\" class=\"control-label\">Nome da categoria</label>\n" +
-    "    <input class=\"form-control\" type=\"text\"\n" +
+    "    <input class=\"form-control input-circle\" type=\"text\"\n" +
     "           id=\"category.name\"\n" +
     "           ng-model=\"vm.category.name\"\n" +
     "           placeholder=\"Dê um nome para a categoria\">\n" +
     "</div>\n" +
     "\n" +
-    "<button type=\"button\" class=\"btn btn-primary\" ng-click=\"vm.saveCategory()\">\n" +
+    "<button type=\"button\" class=\"btn btn-circle btn-primary\" ng-click=\"vm.saveCategory()\">\n" +
     "    <i class=\"fa fa-save\" aria-label=\"true\"></i>\n" +
     "    Salvar\n" +
     "</button>"
@@ -167,27 +167,28 @@ angular.module('resources.views', []).run(['$templateCache', function($templateC
     "\n" +
     "    </div>\n" +
     "    <div class=\"col-md-4\">\n" +
-    "        <div class=\"form-group\">\n" +
+    "        <div class=\"form-group required\">\n" +
     "            <label class=\"control-label\" for=\"activity.name\">Nome da atividade</label>\n" +
-    "            <input class=\"form-control\"\n" +
+    "            <input class=\"form-control input-circle\"\n" +
     "                   type=\"text\"\n" +
     "                   id=\"activity.name\"\n" +
+    "                   required\n" +
     "                   placeholder=\"Informe um nome para a atividade\"\n" +
     "                   ng-model=\"vm.selectedActivity.name\">\n" +
     "        </div>\n" +
-    "        <div class=\"form-group required\">\n" +
+    "        <div class=\"form-group required\" ng-if=\"vm.selectedActivity.type === 'LETTERS'\">\n" +
     "            <label class=\"control-label\" for=\"activity.answer\">Resposta</label>\n" +
-    "            <input class=\"form-control\"\n" +
+    "            <input class=\"form-control input-circle\"\n" +
     "                   type=\"text\"\n" +
     "                   id=\"activity.answer\"\n" +
     "                   placeholder=\"Informe a resposta da atividade\"\n" +
-    "                   required\n" +
+    "                   required=\"vm.selectedActivity.type === 'LETTERS'\"\n" +
     "                   ng-model=\"vm.selectedActivity.answer\">\n" +
     "        </div>\n" +
     "\n" +
     "        <div class=\"form-group\">\n" +
     "            <label for=\"activity.level\">Nível de dificuldade</label>\n" +
-    "            <select class=\"form-control\"\n" +
+    "            <select class=\"btn btn-default btn-circle\"\n" +
     "                    required\n" +
     "                    id=\"activity.level\"\n" +
     "                    placeholder=\"Informe um nível de dificuldade\"\n" +
@@ -196,18 +197,19 @@ angular.module('resources.views', []).run(['$templateCache', function($templateC
     "            </select>\n" +
     "        </div>\n" +
     "\n" +
-    "        <div class=\"form-group\">\n" +
+    "        <div class=\"form-group\" ng-class=\"{'required': vm.selectedActivity.type === 'PICTURES'}\">\n" +
     "            <label for=\"activity.tip\">Dica</label>\n" +
-    "            <input class=\"form-control\"\n" +
+    "            <input class=\"form-control input-circle\"\n" +
     "                   type=\"text\"\n" +
     "                   id=\"activity.tip\"\n" +
+    "                   required=\"vm.selectedActivity.type === 'PICTURES'\"\n" +
     "                   placeholder=\"Informe uma dica para a atividade\"\n" +
     "                   ng-model=\"vm.selectedActivity.tip\">\n" +
     "        </div>\n" +
     "\n" +
     "        <div class=\"form-group\">\n" +
     "            <label for=\"activity.time\">Tempo para resolução (mm:ss)</label>\n" +
-    "            <input class=\"form-control\"\n" +
+    "            <input class=\"form-control input-circle\"\n" +
     "                   type=\"datetime\"\n" +
     "                   id=\"activity.time\"\n" +
     "                   placeholder=\"59:59\"\n" +
@@ -218,8 +220,8 @@ angular.module('resources.views', []).run(['$templateCache', function($templateC
     "<hr>\n" +
     "<div class=\"row\">\n" +
     "    <div class=\"col-md-12\">\n" +
-    "        <button type=\"button\" class=\"btn btn-primary\" ng-click=\"vm.saveAction()\">Salvar</button>\n" +
-    "        <button type=\"button\" class=\"btn btn-danger\" ng-click=\"vm.deleteAction()\" ng-if=\"vm.selectedActivity.id\">Excluir</button>\n" +
+    "        <button type=\"button\" class=\"btn btn-circle btn-primary\" ng-click=\"vm.saveAction()\">Salvar</button>\n" +
+    "        <button type=\"button\" class=\"btn btn-circle btn-danger\" ng-click=\"vm.deleteAction()\" ng-if=\"vm.selectedActivity.id\">Excluir</button>\n" +
     "        <button type=\"button\" class=\"btn btn-link pull-right\" ng-click=\"vm.cancelAction()\">Cancelar</button>\n" +
     "    </div>\n" +
     "</div>"
@@ -471,7 +473,7 @@ angular.module('resources.views', []).run(['$templateCache', function($templateC
     "                        <div ng-if=\"vm.isWinMatch || vm.isWinGame\">\n" +
     "                            <h1>Parabéns!</h1>\n" +
     "                            <h3>Você ganhou {{vm.isWinMatch ? \"a partida\" : \"o jogo\"}}</h3>\n" +
-    "                            <h4>O seu tempo foi de {{vm.getTimeResult()}}</h4>\n" +
+    "                            <h4>O seu tempo foi de {{vm.getTimeResult() | date:\"mm:ss\"}}</h4>\n" +
     "                        </div>\n" +
     "                        <div ng-if=\"vm.isGameOver\">\n" +
     "                            <h1>Que pena!</h1>\n" +
@@ -736,9 +738,10 @@ angular.module('resources.views', []).run(['$templateCache', function($templateC
     "\n" +
     "        <!--<editor-multiple-uploads done-callback=\"vm.doneFile(file, activity)\" on-remove-item=\"vm.removeFile(file, activity)\" options=\"{queueLimit: 1}\"></editor-multiple-uploads>-->\n" +
     "        <label for=\"category.name\" class=\"control-label\">Nome da categoria</label>\n" +
-    "        <input class=\"form-control\" type=\"text\"\n" +
+    "        <input class=\"form-control input-circle\" type=\"text\"\n" +
     "               id=\"category.name\"\n" +
-    "               ng-model=\"vm.category.name\"\n" +
+    "               ng-model=\"vm.categoryNewName\"\n" +
+    "               ng-value=\"vm.category.name\"\n" +
     "               placeholder=\"Dê um nome para a categoria\">\n" +
     "\n" +
     "        <hr>\n" +
@@ -772,20 +775,20 @@ angular.module('resources.views', []).run(['$templateCache', function($templateC
     "            <hr>\n" +
     "            <div class=\"row\">\n" +
     "                <div class=\"col-md-12\">\n" +
-    "                    <button class=\"btn btn-primary btn-sm margin-bottom-5\"\n" +
+    "                    <button class=\"btn btn-circle btn-primary btn-sm margin-bottom-5\"\n" +
     "                            type=\"button\"\n" +
     "                            ng-disabled=\"!vm.category.activities.length || !vm.isEnabledBtnExport()\"\n" +
     "                            ng-click=\"vm.exportJSON()\">\n" +
     "                        JSON\n" +
     "                    </button>\n" +
-    "                    <button class=\"btn btn-primary btn-sm margin-bottom-5\"\n" +
+    "                    <button class=\"btn btn-circle btn-primary btn-sm margin-bottom-5\"\n" +
     "                            type=\"button\"\n" +
     "                            ng-disabled=\"!vm.category.activities.length || !vm.isEnabledBtnExport()\"\n" +
     "                            ng-click=\"\"\n" +
     "                            onclick=\"alert('Exportou a pasta compactada');\">\n" +
     "                        Modo offline\n" +
     "                    </button>\n" +
-    "                    <button class=\"btn btn-primary btn-sm margin-bottom-5\"\n" +
+    "                    <button class=\"btn btn-circle btn-primary btn-sm margin-bottom-5\"\n" +
     "                            type=\"button\"\n" +
     "                            ng-disabled=\"!vm.category.activities.length || !vm.isEnabledBtnExport()\"\n" +
     "                            ng-click=\"vm.generateQrCode()\">\n" +
@@ -821,8 +824,21 @@ angular.module('resources.views', []).run(['$templateCache', function($templateC
     "        <hr>\n" +
     "        <div class=\"row margin-bottom-20\">\n" +
     "            <div class=\"col-md-12\">\n" +
-    "                <button type=\"button\" class=\"btn btn-primary\" ng-click=\"vm.saveCategory()\">Salvar</button>\n" +
-    "                <button type=\"button\" class=\"btn btn-danger\" ng-click=\"vm.deleteCategory()\">Excluir</button>\n" +
+    "                <button type=\"button\" class=\"btn btn-circle btn-primary\"\n" +
+    "                        ng-disabled=\"vm.isLoading\"\n" +
+    "                        ng-click=\"vm.saveCategory()\">\n" +
+    "                    Salvar\n" +
+    "                </button>\n" +
+    "                <button type=\"button\" class=\"btn btn-circle btn-danger\"\n" +
+    "                        ng-disabled=\"vm.isLoading\"\n" +
+    "                        ng-click=\"vm.deleteCategory()\">Excluir</button>\n" +
+    "            </div>\n" +
+    "        </div>\n" +
+    "        <div class=\"row\">\n" +
+    "            <div class=\"col-md-12\" ng-if=\"vm.isLoading\">\n" +
+    "                <div>\n" +
+    "                    <i class=\"fa fa-fw fa-spin fa-spinner\"></i> <strong>{{'Aguarde um instante'}}</strong>\n" +
+    "                </div>\n" +
     "            </div>\n" +
     "        </div>\n" +
     "    </div>\n" +
@@ -839,22 +855,11 @@ angular.module('resources.views', []).run(['$templateCache', function($templateC
     "        <div ng-if=\"vm.selectedActivity.type\">\n" +
     "            <div class=\"row\">\n" +
     "                <div class=\"col-md-12\">\n" +
-    "                    <button class=\"btn btn-success\" type=\"button\"\n" +
-    "                            ng-click=\"vm.copySelectedActivity()\"\n" +
+    "                    <button class=\"btn btn-circle btn-success\" type=\"button\"\n" +
+    "                            ng-click=\"vm.testSelectedActivity()\"\n" +
     "                            title=\"Clique para testar a atividade\">Testar atividade</button>\n" +
     "                </div>\n" +
     "            </div>\n" +
-    "            <game-letters-layout\n" +
-    "                    activity=\"vm.selectedActivity\"\n" +
-    "                    ng-if=\"vm.selectedActivity.type === 'LETTERS'\"></game-letters-layout>\n" +
-    "            <game-pictures-layout\n" +
-    "                    activity=\"vm.selectedActivityCopy\"\n" +
-    "                    play=\"vm.copySelectedActivity()\"\n" +
-    "                    ng-if=\"vm.selectedActivity.type === 'PICTURES' && vm.selectedActivityCopy\"></game-pictures-layout>\n" +
-    "            <editor-letters-layout\n" +
-    "                    ng-if=\"vm.selectedActivity.type === 'LETTERS'\"\n" +
-    "                    activity=\"vm.selectedActivity\"\n" +
-    "                    alphabet=\"vm.category.alphabet\"></editor-letters-layout>\n" +
     "            <hr>\n" +
     "            <editor-answer-options\n" +
     "                    selected-activity=\"vm.selectedActivity\"\n" +
@@ -870,8 +875,8 @@ angular.module('resources.views', []).run(['$templateCache', function($templateC
     "<div class=\"row\">\n" +
     "    <div class=\"col-md-12\">\n" +
     "\n" +
-    "        <a class=\"btn btn-success btn-lg\" ui-sref=\"editor.category.add\">\n" +
-    "            <i class=\"fa fa-plus fa-3x\"></i>\n" +
+    "        <a ui-sref=\"editor.category.add\">\n" +
+    "            <i class=\"fa fa-plus fa-3x\"></i> Adicionar categoria\n" +
     "        </a>\n" +
     "\n" +
     "        <h3>Exemplo de álbum 1</h3>\n" +
@@ -887,7 +892,7 @@ angular.module('resources.views', []).run(['$templateCache', function($templateC
     "<div ng-if=\"app.authSvc.isSignedInGoogle()\">\n" +
     "    <div class=\"row\">\n" +
     "        <div class=\"col-sm-3 text-center\" ng-repeat=\"category in vm.categories\">\n" +
-    "            <button class=\"btn btn-link\" type=\"button\" ui-sref=\"editor.category.edit({id: category.id})\">\n" +
+    "            <a href=\"#\" ui-sref=\"editor.category.edit({id: category.id})\">\n" +
     "                <img class=\"img-responsive center-block img-category\"\n" +
     "                     ng-src=\"https://drive.google.com/uc?export=view&id={{category.image.id}}\"\n" +
     "                     alt=\"Imagem da categoria\" ng-if=\"category.image.id\">\n" +
@@ -895,7 +900,7 @@ angular.module('resources.views', []).run(['$templateCache', function($templateC
     "                    <i class=\"fa fa-picture-o fa-3x\" aria-hidden=\"true\"></i>\n" +
     "                </div>\n" +
     "                <h4 class=\"text-center\">{{category.name}}</h4>\n" +
-    "            </button>\n" +
+    "            </a>\n" +
     "        </div>\n" +
     "    </div>\n" +
     "\n" +
@@ -915,7 +920,177 @@ angular.module('resources.views', []).run(['$templateCache', function($templateC
 
 
   $templateCache.put('src/modules/editor/views/index.html',
-    "<nav class=\"navbar navbar-default navbar-static-top\">\n" +
+    "<div class=\"page-container-bg-solid page-header-fixed page-sidebar-closed-hide-logo\">\n" +
+    "\n" +
+    "    <div class=\"page-header navbar navbar-fixed-top\">\n" +
+    "        <!-- BEGIN HEADER INNER -->\n" +
+    "        <div class=\"page-header-inner \">\n" +
+    "            <!-- BEGIN LOGO -->\n" +
+    "            <div class=\"page-logo\">\n" +
+    "                <!--<a href=\"index.html\">\n" +
+    "                    <img src=\"../assets/layouts/layout4/img/logo-light.png\" alt=\"logo\" class=\"logo-default\">\n" +
+    "                </a>-->\n" +
+    "                <h1 class=\"brand-name\">EasyEdu</h1>\n" +
+    "                <div class=\"menu-toggler sidebar-toggler hide\">\n" +
+    "                    <!-- DOC: Remove the above \"hide\" to enable the sidebar toggler button on header -->\n" +
+    "                </div>\n" +
+    "            </div>\n" +
+    "            <!-- END LOGO -->\n" +
+    "            <!-- BEGIN RESPONSIVE MENU TOGGLER -->\n" +
+    "            <a href=\"javascript:;\" class=\"menu-toggler responsive-toggler\" data-toggle=\"collapse\" data-target=\".navbar-collapse\"> </a>\n" +
+    "            <!-- END RESPONSIVE MENU TOGGLER -->\n" +
+    "            <!-- BEGIN PAGE ACTIONS -->\n" +
+    "            <!-- DOC: Remove \"hide\" class to enable the page header actions -->\n" +
+    "\n" +
+    "            <!-- END PAGE ACTIONS -->\n" +
+    "            <!-- BEGIN PAGE TOP -->\n" +
+    "            <div class=\"page-top\">\n" +
+    "                <!-- BEGIN HEADER SEARCH BOX -->\n" +
+    "                <!-- DOC: Apply \"search-form-expanded\" right after the \"search-form\" class to have half expanded search box -->\n" +
+    "\n" +
+    "                <!-- END HEADER SEARCH BOX -->\n" +
+    "                <!-- BEGIN TOP NAVIGATION MENU -->\n" +
+    "                <div class=\"top-menu\">\n" +
+    "                    <ul class=\"nav navbar-nav pull-right\">\n" +
+    "\n" +
+    "                        <!-- BEGIN NOTIFICATION DROPDOWN -->\n" +
+    "                        <!-- DOC: Apply \"dropdown-dark\" class after below \"dropdown-extended\" to change the dropdown styte -->\n" +
+    "                        <!-- DOC: Apply \"dropdown-hoverable\" class after \"dropdown\" and remove data-toggle=\"dropdown\" data-hover=\"dropdown\" data-close-others=\"true\" attributes to enable hover dropdown mode -->\n" +
+    "                        <!-- DOC: Remove \"dropdown-hoverable\" and add data-toggle=\"dropdown\" data-hover=\"dropdown\" data-close-others=\"true\" attributes to the below A element with dropdown-toggle class -->\n" +
+    "\n" +
+    "                        <!-- END NOTIFICATION DROPDOWN -->\n" +
+    "\n" +
+    "                        <!-- BEGIN INBOX DROPDOWN -->\n" +
+    "                        <!-- DOC: Apply \"dropdown-dark\" class after below \"dropdown-extended\" to change the dropdown styte -->\n" +
+    "\n" +
+    "                        <!-- END INBOX DROPDOWN -->\n" +
+    "\n" +
+    "                        <!-- BEGIN TODO DROPDOWN -->\n" +
+    "                        <!-- DOC: Apply \"dropdown-dark\" class after below \"dropdown-extended\" to change the dropdown styte -->\n" +
+    "\n" +
+    "                        <!-- END TODO DROPDOWN -->\n" +
+    "                        <!-- BEGIN USER LOGIN DROPDOWN -->\n" +
+    "                        <!-- DOC: Apply \"dropdown-dark\" class after below \"dropdown-extended\" to change the dropdown styte -->\n" +
+    "                        <li class=\"dropdown dropdown-user dropdown-dark\" ng-if=\"app.authSvc.isSignedInGoogle()\">\n" +
+    "                            <a href=\"javascript:;\" class=\"dropdown-toggle\" id=\"dLabel\" data-toggle=\"dropdown\" data-hover=\"dropdown\" data-close-others=\"true\" aria-expanded=\"false\">\n" +
+    "                                <span class=\"username username-hide-on-mobile\"> {{vm.userInformation.name}} </span>\n" +
+    "                                <!-- DOC: Do not remove below empty space(&nbsp;) as its purposely used -->\n" +
+    "                                <img class=\"img-circle\" alt=\"User photo\" ng-src=\"{{vm.userInformation.urlPhoto}}\">\n" +
+    "                            </a>\n" +
+    "                            <ul class=\"dropdown-menu dropdown-menu-default\" aria-labelledby=\"dLabel\">\n" +
+    "                                <li>\n" +
+    "                                    <a href=\"javascript:;\" ng-click=\"app.authSvc.handleSignOutClick($event)\">\n" +
+    "                                        <i class=\"fa fa-sign-out\" aria-hidden=\"true\"></i> Sair\n" +
+    "                                    </a>\n" +
+    "                                </li>\n" +
+    "                            </ul>\n" +
+    "                        </li>\n" +
+    "\n" +
+    "                        <li class=\"dropdown dropdown-user dropdown-dark\" ng-if=\"!app.authSvc.isSignedInGoogle()\">\n" +
+    "                            <a href=\"javascript:;\" class=\"dropdown-toggle\"\n" +
+    "                               ng-click=\"app.authSvc.handleAuthClick($event)\"\n" +
+    "                               data-toggle=\"dropdown\" data-hover=\"dropdown\" data-close-others=\"true\" aria-expanded=\"false\">\n" +
+    "                                <span class=\"username username-hide-on-mobile vertical-align-middle\"> Acessar com o Google </span>\n" +
+    "                                <div class=\"login-option social-icon-position googleplus-icon\"></div>\n" +
+    "                            </a>\n" +
+    "                        </li>\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "                        <!-- <a class=\"btn btn-social-icon btn-sm btn-google\"\n" +
+    "                            ng-click=\"app.authSvc.handleAuthClick($event)\"\n" +
+    "                            ng-if=\"!app.authSvc.isSignedInGoogle()\"\n" +
+    "                            title=\"Acessar com o Google\">\n" +
+    "                             <i class=\"fa fa-google\"></i>\n" +
+    "                         </a>\n" +
+    "                         <div ng-if=\"app.authSvc.isSignedInGoogle()\">\n" +
+    "                             {{vm.userInformation.name}}\n" +
+    "                             <img class=\"img-circle\" alt=\"User photo\"\n" +
+    "                                  ng-src=\"{{vm.userInformation.urlPhoto}}\">\n" +
+    "                             <button type=\"button\" class=\"btn btn-link btn-social-icon btn-sm\"\n" +
+    "                                     ng-click=\"app.authSvc.handleSignOutClick($event)\"\n" +
+    "                                     title=\"Sair\">\n" +
+    "                                 <i class=\"fa fa-sign-out\" aria-hidden=\"true\"></i>\n" +
+    "                             </button>\n" +
+    "                         </div>-->\n" +
+    "                        <!-- END USER LOGIN DROPDOWN -->\n" +
+    "\n" +
+    "                        <!-- BEGIN QUICK SIDEBAR TOGGLER -->\n" +
+    "\n" +
+    "                        <!-- END QUICK SIDEBAR TOGGLER -->\n" +
+    "                    </ul>\n" +
+    "                </div>\n" +
+    "                <!-- END TOP NAVIGATION MENU -->\n" +
+    "            </div>\n" +
+    "            <!-- END PAGE TOP -->\n" +
+    "        </div>\n" +
+    "        <!-- END HEADER INNER -->\n" +
+    "    </div>\n" +
+    "\n" +
+    "    <div class=\"clearfix\"></div>\n" +
+    "\n" +
+    "    <!-- BEGIN PAGE SPINNER -->\n" +
+    "    <div ng-spinner-bar class=\"page-spinner-bar\" ng-if=\"app.authSvc.isLoading\">\n" +
+    "        <div class=\"bounce1\"></div>\n" +
+    "        <div class=\"bounce2\"></div>\n" +
+    "        <div class=\"bounce3\"></div>\n" +
+    "    </div>\n" +
+    "    <!-- END PAGE SPINNER -->\n" +
+    "\n" +
+    "    <div class=\"page-container\" ng-if=\"!app.authSvc.isLoading\">\n" +
+    "\n" +
+    "        <div class=\"page-sidebar-wrapper\">\n" +
+    "            <!-- BEGIN SIDEBAR -->\n" +
+    "            <!-- DOC: Set data-auto-scroll=\"false\" to disable the sidebar from auto scrolling/focusing -->\n" +
+    "            <!-- DOC: Change data-auto-speed=\"200\" to adjust the sub menu slide up/down speed -->\n" +
+    "            <div class=\"page-sidebar navbar-collapse collapse\">\n" +
+    "                <!-- BEGIN SIDEBAR MENU -->\n" +
+    "                <!-- DOC: Apply \"page-sidebar-menu-light\" class right after \"page-sidebar-menu\" to enable light sidebar menu style(without borders) -->\n" +
+    "                <!-- DOC: Apply \"page-sidebar-menu-hover-submenu\" class right after \"page-sidebar-menu\" to enable hoverable(hover vs accordion) sub menu mode -->\n" +
+    "                <!-- DOC: Apply \"page-sidebar-menu-closed\" class right after \"page-sidebar-menu\" to collapse(\"page-sidebar-closed\" class must be applied to the body element) the sidebar sub menu mode -->\n" +
+    "                <!-- DOC: Set data-auto-scroll=\"false\" to disable the sidebar from auto scrolling/focusing -->\n" +
+    "                <!-- DOC: Set data-keep-expand=\"true\" to keep the submenues expanded -->\n" +
+    "                <!-- DOC: Set data-auto-speed=\"200\" to adjust the sub menu slide up/down speed -->\n" +
+    "                <ul class=\"page-sidebar-menu\" data-keep-expanded=\"false\" data-auto-scroll=\"true\" data-slide-speed=\"200\">\n" +
+    "                    <li class=\"nav-item\" ng-repeat=\"item in app.primaryNavigation | orderBy: 'order'\" ui-sref-active=\"active\">\n" +
+    "                        <a class=\"nav-link nav-toggle\" ui-sref=\"{{item.stateName}}\">\n" +
+    "                            <i class=\"fa\" ng-class=\"item.icon\" aria-hidden=\"true\"></i>\n" +
+    "                            <span class=\"title\">{{item.title}}</span>\n" +
+    "                        </a>\n" +
+    "                    </li>\n" +
+    "                </ul>\n" +
+    "                <!-- END SIDEBAR MENU -->\n" +
+    "            </div>\n" +
+    "            <!-- END SIDEBAR -->\n" +
+    "        </div>\n" +
+    "\n" +
+    "        <div class=\"page-content-wrapper\">\n" +
+    "            <div class=\"page-content\">\n" +
+    "                <div class=\"portlet light bordered\">\n" +
+    "                    <div class=\"portlet-body\">\n" +
+    "                        <div ui-view></div>\n" +
+    "                    </div>\n" +
+    "                </div>\n" +
+    "            </div>\n" +
+    "        </div>\n" +
+    "    </div>\n" +
+    "\n" +
+    "    <div class=\"page-footer\">\n" +
+    "        <div class=\"page-footer-inner\">\n" +
+    "            <p class=\"text-center\">Made by Felipe Corso</p>\n" +
+    "        </div>\n" +
+    "    </div>\n" +
+    "\n" +
+    "</div>\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "<nav class=\"navbar navbar-default navbar-static-top hidden\">\n" +
     "    <div class=\"container\">\n" +
     "        <div class=\"navbar-header\">\n" +
     "            <button type=\"button\" class=\"navbar-toggle collapsed\" data-toggle=\"collapse\" data-target=\"#navbar\"\n" +
@@ -942,12 +1117,16 @@ angular.module('resources.views', []).run(['$templateCache', function($templateC
     "                           title=\"Acessar com o Google\">\n" +
     "                            <i class=\"fa fa-google\"></i>\n" +
     "                        </a>\n" +
-    "                        <a class=\"btn btn-default btn-social-icon btn-sm\"\n" +
-    "                           ng-click=\"app.authSvc.handleSignOutClick($event)\"\n" +
-    "                           ng-if=\"app.authSvc.isSignedInGoogle()\"\n" +
-    "                           title=\"Sair\">\n" +
-    "                            <i class=\"fa fa-sign-out\" aria-hidden=\"true\"></i>\n" +
-    "                        </a>\n" +
+    "                        <div ng-if=\"app.authSvc.isSignedInGoogle()\">\n" +
+    "                            {{vm.userInformation.name}}\n" +
+    "                            <img class=\"img-circle\" alt=\"User photo\"\n" +
+    "                                 ng-src=\"{{vm.userInformation.urlPhoto}}\">\n" +
+    "                            <button type=\"button\" class=\"btn btn-link btn-social-icon btn-sm\"\n" +
+    "                               ng-click=\"app.authSvc.handleSignOutClick($event)\"\n" +
+    "                               title=\"Sair\">\n" +
+    "                                <i class=\"fa fa-sign-out\" aria-hidden=\"true\"></i>\n" +
+    "                            </button>\n" +
+    "                        </div>\n" +
     "                    </div>\n" +
     "                </li>\n" +
     "            </ul>\n" +
@@ -955,11 +1134,9 @@ angular.module('resources.views', []).run(['$templateCache', function($templateC
     "        <!--/.nav-collapse -->\n" +
     "    </div>\n" +
     "</nav>\n" +
-    "<div class=\"container\">\n" +
-    "    <div ui-view></div>\n" +
+    "<div class=\"container hidden\">\n" +
     "    <footer class=\"footer\">\n" +
     "        <hr/>\n" +
-    "        <p class=\"text-center\">Made by Felipe Corso</p>\n" +
     "    </footer>\n" +
     "</div>"
   );
@@ -978,11 +1155,10 @@ angular.module('resources.views', []).run(['$templateCache', function($templateC
     "        <div class=\"panel-body text-center\">\n" +
     "            <div class=\"row\">\n" +
     "                <div class=\"col-xs-6 col-sm-4 col-md-2\" style=\"max-height: 235px; height: 235px;\" ng-repeat=\"category in vm.getCategories()\">\n" +
-    "                    <a class=\"text-decoration-none\" ng-click=\"vm.setCategory(category)\" ui-sref=\"game.mode({category: category})\">\n" +
+    "                    <a class=\"text-decoration-none\" ng-click=\"vm.setCategory(category)\" ui-sref=\"game.mode({category: category, categoryId: category.id, loaded: true})\">\n" +
     "                        <div class=\"thumbnail\">\n" +
     "                            <img class=\"img-thumbnail\" ng-src=\"{{category.image.link}}\" ng-if=\"category.image.link\" alt=\"Imagem da categoria\">\n" +
     "                            <span>{{category.name}}</span>\n" +
-    "                            <!--<a class=\"btn\" ui-sref=\"game.game-mode\">Português</a><a class=\"btn\" ui-sref=\"game.game-mode\">Matemática</a><a class=\"btn\" ui-sref=\"game.game-mode\">Inglês</a>-->\n" +
     "                        </div>\n" +
     "                    </a>\n" +
     "                </div>\n" +
@@ -1007,14 +1183,14 @@ angular.module('resources.views', []).run(['$templateCache', function($templateC
     "            <div class=\"row text-center\">\n" +
     "                <div class=\"col-xs-6\">\n" +
     "                    <button class=\"btn btn-default btn-game-mode\" type=\"button\"\n" +
-    "                            ui-sref=\"game.play({category: vm.category, gameMode: 'SINGLE_PLAYER'})\">\n" +
+    "                            ng-click=\"vm.goToPlay('SINGLE_PLAYER')\">\n" +
     "                        <i class=\"fa fa-user fa-5x\"></i>\n" +
     "                        Single player\n" +
     "                    </button>\n" +
     "                </div>\n" +
     "                <div class=\"col-xs-6\">\n" +
     "                    <button class=\"btn btn-default btn-game-mode\" type=\"button\"\n" +
-    "                            ui-sref=\"game.play({category: vm.category, gameMode: 'MULTIPLAYER'})\">\n" +
+    "                            ng-click=\"vm.goToPlay('MULTIPLAYER')\">\n" +
     "                        <i class=\"fa fa-users fa-5x\"></i>\n" +
     "                        Multiplayer\n" +
     "                    </button>\n" +
@@ -1099,15 +1275,20 @@ angular.module('resources.views', []).run(['$templateCache', function($templateC
     "        <div class=\"panel-body text-center\">\n" +
     "            <div class=\"row\">\n" +
     "                <div class=\"col-md-12\">\n" +
-    "                    <a class=\"btn btn-success btn-lg\" ui-sref=\"game.category\">Iniciar</a>\n" +
+    "                    <a class=\"btn btn-circle btn-success btn-lg\" ui-sref=\"game.category\">Iniciar</a>\n" +
     "                </div>\n" +
     "            </div>\n" +
     "        </div>\n" +
     "        <div class=\"panel-footer\">\n" +
     "            <div class=\"row\">\n" +
     "                <div class=\"col-md-12\">\n" +
-    "                    <!--<button class=\"btn btn-link pull-right\" type=\"button\">Importar atividade</button>-->\n" +
-    "                    <a class=\"pull-right\" href=\"#\">Importar atividade</a>\n" +
+    "                    <label class=\"btn btn-link pull-right\" for=\"JSON_upload\" ng-click=\"vm.handleJsonSelect()\">Importar categoria</label>\n" +
+    "                    <input type=\"file\"\n" +
+    "                           style=\"display: none\"\n" +
+    "                           id=\"JSON_upload\"\n" +
+    "                           name=\"JSON_upload\"\n" +
+    "                           ng-model=\"vm.categoryBase64\"\n" +
+    "                           accept=\"application/json\" game-file-reader/>\n" +
     "                </div>\n" +
     "            </div>\n" +
     "        </div>\n" +

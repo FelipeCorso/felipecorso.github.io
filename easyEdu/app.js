@@ -18,6 +18,7 @@ define([
     , 'src/components/editor/layouts/memory-game/component'
     , 'src/components/editor/layouts/multiple-uploads/component'
     , 'src/components/editor/layouts/puzzle/component'
+    , 'src/components/game/file-reader/component'
     , 'src/components/game/letters-layout/component'
     , 'src/components/game/pictures-layout/component'
     /**
@@ -73,6 +74,7 @@ define([
         , namespace + '.components.editor.layouts.memory-game'
         , namespace + '.components.editor.layouts.multiple-uploads'
         , namespace + '.components.editor.layouts.puzzle'
+        , namespace + '.components.game.file-reader'
         , namespace + '.components.game.letters-layout'
         , namespace + '.components.game.pictures-layout'
     ])

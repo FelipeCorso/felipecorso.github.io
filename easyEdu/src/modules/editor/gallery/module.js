@@ -17,7 +17,8 @@ define([
                 {
                     title: "Gallery",
                     stateName: "editor.gallery",
-                    order: 0
+                    order: 0,
+                    icon: "fa-picture-o"
                 }
             );
         }]);

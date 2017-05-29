@@ -10,15 +10,20 @@
         <div class="panel-body text-center">
             <div class="row">
                 <div class="col-md-12">
-                    <a class="btn btn-success btn-lg" ui-sref="game.category">Iniciar</a>
+                    <a class="btn btn-circle btn-success btn-lg" ui-sref="game.category">Iniciar</a>
                 </div>
             </div>
         </div>
         <div class="panel-footer">
             <div class="row">
                 <div class="col-md-12">
-                    <!--<button class="btn btn-link pull-right" type="button">Importar atividade</button>-->
-                    <a class="pull-right" href="#">Importar atividade</a>
+                    <label class="btn btn-link pull-right" for="JSON_upload" ng-click="vm.handleJsonSelect()">Importar categoria</label>
+                    <input type="file"
+                           style="display: none"
+                           id="JSON_upload"
+                           name="JSON_upload"
+                           ng-model="vm.categoryBase64"
+                           accept="application/json" game-file-reader/>
                 </div>
             </div>
         </div>

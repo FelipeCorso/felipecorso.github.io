@@ -17,7 +17,8 @@ define([
                 {
                     title: "My gallery",
                     stateName: "editor.my-gallery",
-                    order: 1
+                    order: 1,
+                    icon: "fa-book"
                 }
             );
         }]);

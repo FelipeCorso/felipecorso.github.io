@@ -6,7 +6,6 @@ define(function() {
         var categories = {};
         var service = {};
 
-        service.get = get;
         service.add = add;
         service.createQrCodeJson = createQrCodeJson;
 
@@ -169,22 +168,6 @@ define(function() {
         };
 
         return service;
-
-        function get(id) {
-            return AuthorizationSvc.getFile(id);
-            /*return AuthorizationSvc.searchFolder("EasyEdu", "root")
-                .then(function(rootFolder) {
-                    return AuthorizationSvc.searchFolder("Cinco sentidos", rootFolder.id);
-                })
-                .then(function(categoryFolder) {
-                    return AuthorizationSvc.searchFile(categoryFolder.id, "Cinco sentidos.json");
-                })
-                .then(function(categoryJson) {
-                    console.log(categoryJson);
-                    return AuthorizationSvc.getFile(categoryJson.id)
-             });*/
-            // return categories[id];
-        }
 
         function add(category) {
             categories[category.id] = category;

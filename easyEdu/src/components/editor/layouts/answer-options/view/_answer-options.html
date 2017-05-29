@@ -35,27 +35,28 @@
 
     </div>
     <div class="col-md-4">
-        <div class="form-group">
+        <div class="form-group required">
             <label class="control-label" for="activity.name">Nome da atividade</label>
-            <input class="form-control"
+            <input class="form-control input-circle"
                    type="text"
                    id="activity.name"
+                   required
                    placeholder="Informe um nome para a atividade"
                    ng-model="vm.selectedActivity.name">
         </div>
-        <div class="form-group required">
+        <div class="form-group required" ng-if="vm.selectedActivity.type === 'LETTERS'">
             <label class="control-label" for="activity.answer">Resposta</label>
-            <input class="form-control"
+            <input class="form-control input-circle"
                    type="text"
                    id="activity.answer"
                    placeholder="Informe a resposta da atividade"
-                   required
+                   required="vm.selectedActivity.type === 'LETTERS'"
                    ng-model="vm.selectedActivity.answer">
         </div>
 
         <div class="form-group">
             <label for="activity.level">Nível de dificuldade</label>
-            <select class="form-control"
+            <select class="btn btn-default btn-circle"
                     required
                     id="activity.level"
                     placeholder="Informe um nível de dificuldade"
@@ -64,18 +65,19 @@
             </select>
         </div>
 
-        <div class="form-group">
+        <div class="form-group" ng-class="{'required': vm.selectedActivity.type === 'PICTURES'}">
             <label for="activity.tip">Dica</label>
-            <input class="form-control"
+            <input class="form-control input-circle"
                    type="text"
                    id="activity.tip"
+                   required="vm.selectedActivity.type === 'PICTURES'"
                    placeholder="Informe uma dica para a atividade"
                    ng-model="vm.selectedActivity.tip">
         </div>
 
         <div class="form-group">
             <label for="activity.time">Tempo para resolução (mm:ss)</label>
-            <input class="form-control"
+            <input class="form-control input-circle"
                    type="datetime"
                    id="activity.time"
                    placeholder="59:59"
@@ -86,8 +88,8 @@
 <hr>
 <div class="row">
     <div class="col-md-12">
-        <button type="button" class="btn btn-primary" ng-click="vm.saveAction()">Salvar</button>
-        <button type="button" class="btn btn-danger" ng-click="vm.deleteAction()" ng-if="vm.selectedActivity.id">Excluir</button>
+        <button type="button" class="btn btn-circle btn-primary" ng-click="vm.saveAction()">Salvar</button>
+        <button type="button" class="btn btn-circle btn-danger" ng-click="vm.deleteAction()" ng-if="vm.selectedActivity.id">Excluir</button>
         <button type="button" class="btn btn-link pull-right" ng-click="vm.cancelAction()">Cancelar</button>
     </div>
 </div>

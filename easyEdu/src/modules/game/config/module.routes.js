@@ -15,15 +15,17 @@ define(function() {
                 state: 'game.start',
                 config: {
                     url: "/start?categoryId",
-                    templateUrl: partialPath + "start.html",
                     controller: "GameCtrl",
                     controllerAs: "vm",
                     resolve: {
-                        CategoriesData: CategoriesData,
+                        CategoriesData: function() {
+                            return [];
+                        },
                         CategoryData: function() {
                             return {};
                         }
                     },
+                    templateUrl: partialPath + "start.html",
                     onEnter: ["$state", "$stateParams", function($state, $stateParams) {
                         if ($stateParams.categoryId) {
                             $state.go("game.mode", {categoryId: $stateParams.categoryId});
@@ -34,31 +36,39 @@ define(function() {
             {
                 state: 'game.category',
                 config: {
-                    url: "/category",
+                    url: "/category?categoryId",
+                    controller: "GameCtrl",
+                    controllerAs: "vm",
+                    resolve: {
+                        CategoriesData: CategoriesData,
+                        CategoryData: function() {
+                            return {};
+                        }
+                    },
                     templateUrl: partialPath + "category.html",
                     onEnter: ["$state", "$stateParams", function($state, $stateParams) {
-                        // if (!$stateParams.categoryId) {
-                        //     $state.go("game.start", {}, {reload: true});
-                        // }
+                        if ($stateParams.categoryId) {
+                            $state.go("game.mode", {categoryId: $stateParams.categoryId});
+                        }
                     }]
                 }
             },
             {
                 state: 'game.mode',
                 config: {
-                    url: "/mode?categoryId",
-                    params: {
-                        category: undefined
-                    },
-                    templateUrl: partialPath + "game-mode.html",
-                    controller: "GameCtrl",
-                    controllerAs: "vm",
                     resolve: {
                         CategoriesData: function() {
                             return [];
                         },
                         CategoryData: CategoryData
                     },
+                    url: "/mode/{categoryId}?loaded",
+                    params: {
+                        category: undefined
+                    },
+                    templateUrl: partialPath + "game-mode.html",
+                    controller: "GameCtrl",
+                    controllerAs: "vm",
                     onEnter: ["$state", "$stateParams", function($state, $stateParams) {
                         if (!$stateParams.categoryId) {
                             $state.go("game.start", {}, {reload: true});
@@ -74,26 +84,20 @@ define(function() {
             {
                 state: 'game.play',
                 config: {
-                    url: "/play",
-                    params: {
-                        category: undefined,
-                        gameMode: undefined
-                    },
-                    templateUrl: partialPath + "play.html",
-                    controller: "GameCtrl",
-                    controllerAs: "vm",
                     resolve: {
                         CategoriesData: function() {
                             return [];
                         },
                         CategoryData: function($stateParams) {
-                            return $stateParams.category;
+                            return $stateParams.category ? JSON.parse($stateParams.category) : undefined;
                         }
                     },
+                    url: "/play?gameMode?category",
+                    templateUrl: partialPath + "play.html",
+                    controller: "GameCtrl",
+                    controllerAs: "vm",
                     onEnter: ["$state", "$stateParams", function($state, $stateParams) {
-                        if (!$stateParams.category || !$stateParams.gameMode) {
-                            // TODO: remover o comentário quando finalizar
-                            // $state.go("error.404", {}, {reload: true});
+                        if (!$stateParams.category) {
                             $state.go("game.start", {}, {reload: true});
                         }
                     }]
@@ -120,7 +124,7 @@ define(function() {
         CategoryData.$inject = ["$state", "$stateParams", 'GameSvc'];
         /*@ngInject*/
         function CategoryData($state, $stateParams, GameSvc) {
-            if ($stateParams.categoryId) {
+            if (!$stateParams.loaded) {
                 return GameSvc.getCategory($stateParams.categoryId)
                     .then(function(response) {
                         return response;
@@ -130,7 +134,7 @@ define(function() {
                         return $state.go("error.404", {}, {reload: true});
                     });
             }
-            return {};
+            return $stateParams.category;
         }
 
         return routes;

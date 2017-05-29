@@ -7,7 +7,7 @@
                         <div ng-if="vm.isWinMatch || vm.isWinGame">
                             <h1>Parabéns!</h1>
                             <h3>Você ganhou {{vm.isWinMatch ? "a partida" : "o jogo"}}</h3>
-                            <h4>O seu tempo foi de {{vm.getTimeResult()}}</h4>
+                            <h4>O seu tempo foi de {{vm.getTimeResult() | date:"mm:ss"}}</h4>
                         </div>
                         <div ng-if="vm.isGameOver">
                             <h1>Que pena!</h1>

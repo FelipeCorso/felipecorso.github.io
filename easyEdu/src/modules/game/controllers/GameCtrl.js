@@ -1,8 +1,8 @@
 define([], function() {
     'use strict';
-    Controller.$inject = ["$rootScope","$scope", "$state", "$stateParams", "CategoriesData", "CategoryData", "GameSvc"];
+    Controller.$inject = ["$rootScope", "$scope", "$state", "$stateParams", "$http", "CategoriesData", "CategoryData", "GameSvc"];
     /*@ngInject*/
-    function Controller($rootScope,$scope, $state, $stateParams, CategoriesData, CategoryData, GameSvc) {
+    function Controller($rootScope, $scope, $state, $stateParams, $http, CategoriesData, CategoryData, GameSvc) {
 
         var difficultyLevels = ["EASY", "MEDIUM", "HARD", "IMPOSSIBLE"];
         var currentLevel;
@@ -12,8 +12,9 @@ define([], function() {
 
         vm.categories = CategoriesData;
         vm.category = CategoryData;
+        vm.categoryBase64 = undefined;
         vm.selectedActivity = {};
-        vm.gameMode = $stateParams.gameMode;
+        vm.gameMode = $stateParams.gameMode || "SINGLE_PLAYER";
 
         vm.getCategories = getCategories;
         vm.setCategories = setCategories;
@@ -22,6 +23,8 @@ define([], function() {
         vm.play = play;
         vm.actionNextPhase = actionNextPhase;
         vm.hasMorePhases = hasMorePhases;
+        vm.handleJsonSelect = handleJsonSelect;
+        vm.goToPlay = goToPlay;
 
         function getCategories() {
             return vm.categories;
@@ -108,6 +111,25 @@ define([], function() {
                 return activity.level === nextLevel;
             });
             return nextPhaseActivities && nextPhaseActivities.length;
+        }
+
+        function handleJsonSelect() {
+            $scope.$watch('vm.categoryBase64', function() {
+                var unwantedText = "data:;base64,";
+                if (vm.categoryBase64 && vm.categoryBase64.startsWith(unwantedText)) {
+                    vm.categoryBase64 = atob(vm.categoryBase64.replace(unwantedText, ""));
+                    vm.category = JSON.parse(vm.categoryBase64);
+                    $state.go("game.mode", {category: vm.category, categoryId: vm.category.id, loaded: true});
+                }
+            });
+        }
+
+        function getPlayParams(gameMode) {
+            return {category: JSON.stringify(vm.category), gameMode: gameMode};
+        }
+
+        function goToPlay(gameMode) {
+            $state.go("game.play", getPlayParams(gameMode))
         }
 
         /*vm.categories = [

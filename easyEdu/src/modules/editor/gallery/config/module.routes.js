@@ -1,4 +1,4 @@
-define(function () {
+define(function() {
     'use strict';
     var partialPath = "src/modules/editor/gallery/view/";
     return [
@@ -7,7 +7,12 @@ define(function () {
             config: {
                 url: "/gallery",
                 controller: 'GalleryCtrl as vm',
-                templateUrl: partialPath + "index.html"
+                templateUrl: partialPath + "index.html",
+                resolve: {
+                    waitParent: function(LoadGApi) {
+                        console.log(LoadGApi);
+                    }
+                }
             }
         }
     ];

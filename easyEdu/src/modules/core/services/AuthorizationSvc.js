@@ -5,13 +5,16 @@ define(function() {
     function Service($http, $q, $rootScope) {
 
         // The Browser API key obtained from the Google Developers Console.
-        var DEVELOPER_KEY = 'AIzaSyBKTxbT-7qN_m1j5zMQWdTAxJ8r9xFbSUs';
+        var DEVELOPER_KEY = 'AIzaSyBSklh1MWow4DDwhL1bna7vKA4LR1RmHQY';
 
         // Client ID and API key from the Developer Console
         var CLIENT_ID = '661558756492-p0agpbu1e13ac7npde96ts04mb6mv9o4.apps.googleusercontent.com';
 
         // Array of API discovery doc URLs for APIs used by the quickstart
-        var DISCOVERY_DOCS = ["https://www.googleapis.com/discovery/v1/apis/drive/v3/rest"];
+        var DISCOVERY_DOCS = [
+            "https://www.googleapis.com/discovery/v1/apis/drive/v3/rest",
+            "https://people.googleapis.com/$discovery/rest?version=v1"];
+        var DRIVE_FILES = "https://www.googleapis.com/drive/v3/files";
 
         // Replace with your own project number from console.developers.google.com.
         // See "Project number" under "IAM & Admin" > "Settings"
@@ -19,15 +22,18 @@ define(function() {
 
         // Authorization scopes required by the API; multiple scopes can be
         // included, separated by spaces.
-        var SCOPES = "https://www.googleapis.com/auth/drive " +
-            "https://www.googleapis.com/auth/drive.appdata " +
-            "https://www.googleapis.com/auth/drive.file " +
-            "https://www.googleapis.com/auth/drive.metadata " +
-            "https://www.googleapis.com/auth/drive.metadata.readonly " +
-            "https://www.googleapis.com/auth/drive.photos.readonly " +
-            "https://www.googleapis.com/auth/drive.readonly " +
-            "https://www.googleapis.com/auth/drive.scripts ";
-
+        var SCOPES =
+            "https://www.googleapis.com/auth/drive " +
+            "https://www.googleapis.com/auth/userinfo.profile";
+        /*+
+         "https://www.googleapis.com/auth/drive.appdata " +
+         "https://www.googleapis.com/auth/drive.file " +
+         "https://www.googleapis.com/auth/drive.metadata " +
+         "https://www.googleapis.com/auth/drive.metadata.readonly " +
+         "https://www.googleapis.com/auth/drive.photos.readonly " +
+         "https://www.googleapis.com/auth/drive.readonly " +
+         "https://www.googleapis.com/auth/drive.scripts ";
+         */
         var GOOGLE_DRIVE_NAME_ROOT_FOLDER = "EasyEdu";
 
         var GOOGLE_DRIVE_MIME_TYPE_PHOTO = "application/vnd.google-apps.photo";
@@ -35,10 +41,12 @@ define(function() {
         var APPLICATION_JSON = "application/json";
 
         var API_MYJSON = "https://api.myjson.com/bins";
+        var gApiClientFuture = $q.defer();
+        var gApiAuthFuture = $q.defer();
+        var gApiPickerFuture = $q.defer();
         var picker;
-        var pickerApiLoaded = false;
+        var gApiLoaded = false;
         var oauthToken;
-        var initialized = $q.defer();
         var isSignedIn = false;
         var service = {};
 
@@ -48,7 +56,7 @@ define(function() {
         service.handleUploadClick = handleUploadClick;
         service.handleCreateFolderClick = handleCreateFolderClick;
         service.createPicker = createPicker;
-        service.initialized = initialized.promise;
+        service.init = init;
         service.getFile = getFile;
         service.getQrCodeJson = getQrCodeJson;
         service.searchFolder = searchFolder;
@@ -63,8 +71,8 @@ define(function() {
         service.updateJson = updateJson;
         service.updateFile = updateFile;
         service.deleteFile = deleteFile;
-
-        init();
+        service.renameFile = renameFile;
+        service.getUserInformation = getUserInformation;
 
         return service;
 
@@ -72,9 +80,34 @@ define(function() {
          *  On load, called to load the auth2 library and API client library.
          */
         function init() {
+            var initialized = $q.defer();
+            if (!gApiLoaded) {
+                loadGApiClient()
+                    .then(function(response) {
+                        console.log(response);
+                        return loadGApiAuth();
+                    })
+                    .then(function(response) {
+                        console.log(response);
+                        return loadGApiPicker();
+                    })
+                    .then(function(response) {
+                        console.log(response);
+                        initialized.resolve("gapi was loaded");
+                    })
+                    .catch(function(error) {
+                        console.error("An error occurred while loading gapi", error);
+                        initialized.reject("An error occurred while loading gapi", error);
+                    });
+            } else {
+                initialized.resolve("gapi was loaded");
+            }
+            return initialized.promise;
+        }
+
+        function loadGApiClient() {
             gapi.load('client', initClient);
-            gapi.load('auth', initAuth);
-            gapi.load('picker', {'callback': onPickerApiLoad});
+            return gApiClientFuture.promise;
         }
 
         /**
@@ -83,17 +116,27 @@ define(function() {
          */
         function initClient() {
             gapi.client.init({
+                apiKey: DEVELOPER_KEY,
                 discoveryDocs: DISCOVERY_DOCS,
                 clientId: CLIENT_ID,
                 scope: SCOPES
-            }).then(function() {
-                initialized.resolve();
-                /*// Listen for sign-in state changes.
-                 gapi.auth2.getAuthInstance().isSignedIn.listen(updateSignInStatus);
+            })
+                .then(function() {
+                    gApiClientFuture.resolve("gapi client was loaded");
+                    /*// Listen for sign-in state changes.
+                     gapi.auth2.getAuthInstance().isSignedIn.listen(updateSignInStatus);
 
-                 // Handle the initial sign-in state.
-                 updateSignInStatus(gapi.auth2.getAuthInstance().isSignedIn.get());*/
-            });
+                     // Handle the initial sign-in state.
+                     updateSignInStatus(gapi.auth2.getAuthInstance().isSignedIn.get());*/
+                })
+                .catch(function() {
+                    gApiClientFuture.reject("gapi client was not loaded");
+                });
+        }
+
+        function loadGApiAuth() {
+            gapi.load('auth', initAuth);
+            return gApiAuthFuture.promise;
         }
 
         function initAuth() {
@@ -106,21 +149,28 @@ define(function() {
                 handleAuthResult);
         }
 
-        function onPickerApiLoad() {
-            pickerApiLoaded = true;
-            // createPicker();
-        }
-
         function handleAuthResult(authResult) {
             if (authResult && !authResult.error) {
                 oauthToken = authResult.access_token;
-                // createPicker();
+                gApiAuthFuture.resolve("gapi auth was loaded");
+            } else {
+                gApiAuthFuture.reject("gapi auth was not loaded");
             }
+        }
+
+        function loadGApiPicker() {
+            gapi.load('picker', {'callback': onPickerApiLoad});
+            return gApiPickerFuture.promise;
+        }
+
+        function onPickerApiLoad() {
+            gApiLoaded = true;
+            gApiPickerFuture.resolve("gapi picker was loaded");
         }
 
         // Create and render a Picker object for searching images.
         function createPicker(parentId, callback, multipleSelect) {
-            if (pickerApiLoaded && oauthToken) {
+            if (gApiLoaded && oauthToken) {
                 // var viewImages = new google.picker.View(google.picker.ViewId.DOCS_IMAGES);
                 var view = new google.picker.View(google.picker.ViewId.DOCS);
                 view.setMimeTypes("image/png,image/jpeg,image/jpg");
@@ -181,7 +231,7 @@ define(function() {
         function handleAuthClick(event) {
             gapi.auth2.getAuthInstance().signIn()
                 .then(function() {
-                    $rootScope.$emit("getMyGalleryData");
+                    $rootScope.$emit("signedInGoogle");
                     $rootScope.$apply();
                 });
         }
@@ -192,6 +242,7 @@ define(function() {
         function handleSignOutClick(event) {
             gapi.auth2.getAuthInstance().signOut()
                 .then(function() {
+                    $rootScope.$emit("signedOutGoogle");
                     $rootScope.$apply();
                 });
         }
@@ -481,7 +532,7 @@ define(function() {
                 close_delim;
 
             var request = gapi.client.request({
-                'path': '/upload/drive/v3/files' + fileId,
+                'path': '/upload/drive/v3/files/' + fileId,
                 'method': 'PUT',
                 'params': {'uploadType': 'multipart'},
                 'headers': {
@@ -588,6 +639,45 @@ define(function() {
             });
 
             return future.promise;
+        }
+
+        /**
+         * Rename a file.
+         *
+         * @param {String} fileId <span style="font-size: 13px; ">ID of the file to rename.</span><br>
+         * @param {String} newTitle New title for the file.
+         */
+        function renameFile(fileId, newTitle) {
+            var body = {'title': newTitle};
+            return updateFile(fileId, body);
+        }
+
+        function getUserInformation() {
+            var future = $q.defer();
+
+            gapi.client.people.people.get({
+                'resourceName': 'people/me',
+                'requestMask.includeField': 'person.names,person.photos'
+            }).then(success, error);
+
+            function success(response) {
+                var result = response.result;
+                var userinfo = {};
+                if (result.names && result.names.length) {
+                    userinfo.name = result.names[0].displayName;
+                }
+                if (result.photos && result.photos.length) {
+                    userinfo.urlPhoto = result.photos[0].url;
+                }
+                future.resolve(userinfo);
+            }
+
+            function error(error) {
+                future.reject(error.result);
+            }
+
+            return future.promise;
+
         }
 
     }

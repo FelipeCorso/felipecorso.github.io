@@ -40,17 +40,21 @@ define(function() {
             }
         ];
 
-        CategoryData.$inject = ["$state", "$stateParams", 'CategorySvc'];
+        CategoryData.$inject = ["LoadGApi", "$state", "$stateParams", 'AuthorizationSvc'];
         /*@ngInject*/
-        function CategoryData($state, $stateParams, CategorySvc) {
+        function CategoryData(LoadGApi, $state, $stateParams, AuthorizationSvc) {
             if ($stateParams.id) {
-                return CategorySvc.get($stateParams.id)
+                AuthorizationSvc.isLoading = true;
+                return AuthorizationSvc.getFile($stateParams.id)
                     .then(function(response) {
                         return response;
                     })
                     .catch(function(error) {
                         console.error(error);
                         return $state.go("error.404", {}, {reload: true});
+                    })
+                    .finally(function() {
+                        AuthorizationSvc.isLoading = false;
                     });
             }
             return $state.go("error.404", {}, {reload: true});

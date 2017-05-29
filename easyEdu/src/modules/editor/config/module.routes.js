@@ -7,22 +7,45 @@ define(function() {
                 state: 'editor',
                 config: {
                     url: "/editor",
-                    // controller: 'contactsCtrl as vm',
+                    controller: 'EditorCtrl as vm',
                     // abstract: true,
-                    templateUrl: partialPath + "index.html"
-                    // template: '<div ui-view></div>'
-                    ,
+                    templateUrl: partialPath + "index.html",
                     resolve: {
-                        LoadAuth: LoadAuth
+                        LoadGApi: LoadGApi,
+                        UserInformationData: UserInformationData
                     }
                 }
             }
         ];
 
-        LoadAuth.$inject = ["AuthorizationSvc"];
+        LoadGApi.$inject = ["AuthorizationSvc"];
         /*@ngInject*/
-        function LoadAuth(AuthorizationSvc) {
-            return AuthorizationSvc.initialized
+        function LoadGApi(AuthorizationSvc) {
+            return AuthorizationSvc.init()
+                .then(function(response) {
+                    console.log(response);
+                    return true;
+                })
+                .catch(function(error) {
+                    console.error(error);
+                    return false;
+                });
+        }
+
+        UserInformationData.$inject = ["LoadGApi", "AuthorizationSvc"];
+        /*@ngInject*/
+        function UserInformationData(LoadGApi, AuthorizationSvc) {
+            if (LoadGApi && AuthorizationSvc.isSignedInGoogle()) {
+                return AuthorizationSvc.getUserInformation()
+                    .then(function(response) {
+                        return response;
+                    })
+                    .catch(function(error) {
+                        console.error(error);
+                        return {};
+                    });
+            }
+            return {};
         }
 
         return routes;

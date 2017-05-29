@@ -11,14 +11,14 @@
             <div class="row text-center">
                 <div class="col-xs-6">
                     <button class="btn btn-default btn-game-mode" type="button"
-                            ui-sref="game.play({category: vm.category, gameMode: 'SINGLE_PLAYER'})">
+                            ng-click="vm.goToPlay('SINGLE_PLAYER')">
                         <i class="fa fa-user fa-5x"></i>
                         Single player
                     </button>
                 </div>
                 <div class="col-xs-6">
                     <button class="btn btn-default btn-game-mode" type="button"
-                            ui-sref="game.play({category: vm.category, gameMode: 'MULTIPLAYER'})">
+                            ng-click="vm.goToPlay('MULTIPLAYER')">
                         <i class="fa fa-users fa-5x"></i>
                         Multiplayer
                     </button>

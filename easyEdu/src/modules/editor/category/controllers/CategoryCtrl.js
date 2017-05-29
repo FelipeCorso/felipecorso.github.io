@@ -1,13 +1,15 @@
 define([], function() {
     'use strict';
-    Controller.$inject = ["$scope", "$state", "$stateParams", "moment", "CategoryData", "CategorySvc", "AuthorizationSvc"];
+    Controller.$inject = ["$window", "$scope", "$state", "$stateParams", "moment", "CategoryData", "CategorySvc", "AuthorizationSvc"];
     /*@ngInject*/
-    function Controller($scope, $state, $stateParams, moment, CategoryData, CategorySvc, AuthorizationSvc) {
+    function Controller($window, $scope, $state, $stateParams, moment, CategoryData, CategorySvc, AuthorizationSvc) {
         var vm = this;
 
         vm.isAllSelected = false;
         vm.selectedActivity = undefined;
         vm.category = CategoryData;
+        vm.categoryNewName = "";
+        vm.isLoading = false;
 
         vm.optionToggled = optionToggled;
         vm.toggleAll = toggleAll;
@@ -23,7 +25,7 @@ define([], function() {
         vm.categoryImageSelected = categoryImageSelected;
         vm.categoryImageRemoved = categoryImageRemoved;
         vm.hasImage = hasImage;
-        vm.copySelectedActivity = copySelectedActivity;
+        vm.testSelectedActivity = testSelectedActivity;
 
         function optionToggled() {
             vm.isAllSelected = vm.category.activities.every(function(item) {
@@ -82,6 +84,15 @@ define([], function() {
         }
 
         function saveCategory() {
+            var newName = false;
+            if (vm.categoryNewName && !angular.equals(vm.category.name, vm.categoryNewName)) {
+                vm.category.name = vm.categoryNewName;
+                newName = true;
+            } else {
+                vm.categoryNewName = vm.category.name;// Nome não pode ser ""
+            }
+
+            vm.isLoading = true;
             AuthorizationSvc.updateJson($stateParams.id, vm.category, vm.category.parent)
                 .then(function() {
                     return AuthorizationSvc.getFile(vm.category.metadataRoot.id);
@@ -93,13 +104,25 @@ define([], function() {
                             item.name = vm.category.name;
                         }
                     });
-                    AuthorizationSvc.updateJson(vm.category.metadataRoot.id, metadata);
+                    return AuthorizationSvc.updateJson(vm.category.metadataRoot.id, metadata);
+                })
+                .then(function() {
+                    if (newName) {
+                        AuthorizationSvc.renameFile(vm.category.parent, vm.categoryNewName);
+                    }
+                })
+                .catch(function(error) {
+                    console.log(error);
+                })
+                .finally(function() {
+                    vm.isLoading = false;
                 });
         }
 
         function deleteCategory() {
             var result = confirm("Você tem certeza que deseja deletar a categoria?\nEssa ação não poderá ser desfeita!");
             if (result) {
+                vm.isLoading = true;
                 AuthorizationSvc.deleteFile(vm.category.parent)
                     .then(function() {
                         return AuthorizationSvc.getFile(vm.category.metadataRoot.id);
@@ -117,6 +140,9 @@ define([], function() {
                     })
                     .catch(function(error) {
                         console.error(error);
+                    })
+                    .finally(function() {
+                        vm.isLoading = false;
                     });
             }
         }
@@ -173,8 +199,10 @@ define([], function() {
             return vm.category.image && vm.category.image.id;
         }
 
-        function copySelectedActivity() {
-            vm.selectedActivityCopy = angular.copy(vm.selectedActivity);
+        function testSelectedActivity() {
+            var category = {activities: [vm.selectedActivity]};
+            var url = $state.href("game.play", {category: JSON.stringify(category)});
+            $window.open(url, '_blank');
         }
 
         function categoryImageRemoved() {

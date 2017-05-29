@@ -23,7 +23,7 @@ define([], function() {
     /*@ngInject*/
     function Controller($scope, moment, $interval) {
         var _ = require('lodash');
-        var timerPromisse;
+        var timerPromise;
         var vm = this;
         vm.isWinMatch = false;
         vm.isWinGame = false;
@@ -414,7 +414,7 @@ define([], function() {
          }
          */
         function createTimer() {
-            if (timerPromisse) {
+            if (timerPromise) {
                 cancelTimer();
             }
             vm.timer = new moment();
@@ -432,13 +432,13 @@ define([], function() {
         }
 
         function cancelTimer() {
-            $interval.cancel(timerPromisse);
+            $interval.cancel(timerPromise);
         }
 
         function timerExec() {
-            timerPromisse = $interval(function() {
+            timerPromise = $interval(function() {
                 checkGameOver();
-                if (!vm.isWinMatch && !vm.isGameOver) {
+                if (!vm.isWonMatch && !vm.isGameOver) {
                     vm.timer.subtract(1, 'second');
                     checkGameOver();
                 } else {
@@ -448,7 +448,8 @@ define([], function() {
         }
 
         function getTimeResult() {
-            return moment.utc(moment(vm.activity.time, "mm:ss").diff(vm.timer, "mm:ss")).format("mm:ss");
+            // return moment.utc(moment(vm.activity.time, "mm:ss").diff(vm.timer, "mm:ss")).format("mm:ss");
+            return moment(vm.activity.time, "mm:ss").diff(vm.timer, "mm:ss");
         }
 
         $scope.$on("$destroy", function() {

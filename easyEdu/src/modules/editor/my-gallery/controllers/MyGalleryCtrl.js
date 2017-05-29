@@ -6,7 +6,8 @@ define([], function() {
         var vm = this;
         vm.categories = MyGalleryData;
 
-        $rootScope.$on("getMyGalleryData", getMyGalleryData);
+        $rootScope.$on("signedInGoogle", getMyGalleryData);
+        $rootScope.$on("signedOutGoogle", cleanMyGalleryData);
 
         function getMyGalleryData() {
             if (($state.current.name === "editor.my-gallery") && AuthorizationSvc.isSignedInGoogle()) {
@@ -26,6 +27,10 @@ define([], function() {
                         }
                     });
             }
+        }
+
+        function cleanMyGalleryData() {
+            vm.categories = [];
         }
     }
 
