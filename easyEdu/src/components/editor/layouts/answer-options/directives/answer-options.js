@@ -15,9 +15,9 @@ define([], function() {
         };
     }
 
-    Controller.$inject = ['DifficultyLevels'];
+    Controller.$inject = ["$window", "$state", 'DifficultyLevels'];
     /*@ngInject*/
-    function Controller(DifficultyLevels) {
+    function Controller($window, $state, DifficultyLevels) {
         var vm = this;
 
         vm.difficultyLevels = DifficultyLevels.getLevels();
@@ -25,6 +25,7 @@ define([], function() {
         vm.saveAction = saveAction;
         vm.deleteAction = deleteAction;
         vm.cancelAction = cancelAction;
+        vm.testSelectedActivity = testSelectedActivity;
         vm.doneAnswerOptions = doneAnswerOptions;
         vm.doneFile = doneFile;
         vm.removeFile = removeFile;
@@ -39,6 +40,12 @@ define([], function() {
 
         function cancelAction() {
             vm.selectedActivity = undefined;
+        }
+
+        function testSelectedActivity() {
+            var category = {activities: [vm.selectedActivity]};
+            var url = $state.href("game.play", {category: JSON.stringify(category)});
+            $window.open(url, '_blank');
         }
 
         function doneAnswerOptions(files, activity, answerType) {

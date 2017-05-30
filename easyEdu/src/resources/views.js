@@ -131,100 +131,106 @@ angular.module('resources.views', []).run(['$templateCache', function($templateC
 
   $templateCache.put('src/components/editor/layouts/answer-options/view/_answer-options.html',
     "<div class=\"row\">\n" +
-    "    <div class=\"col-md-8\">\n" +
-    "        <div class=\"form-group\" ng-if=\"vm.selectedActivity.type === 'LETTERS'\">\n" +
-    "            <label>Adicione uma imagem para a atividade</label>\n" +
-    "\n" +
-    "            <editor-insert-image model=\"vm.selectedActivity\" alt-image=\"Imagem da atividade\"></editor-insert-image>\n" +
-    "            <hr>\n" +
-    "        </div>\n" +
-    "        <div class=\"form-group\">\n" +
-    "            <label>Adicionar um áudio para a atividade</label>\n" +
-    "            <i>Permitir adicionar áudio</i>\n" +
-    "        </div>\n" +
-    "\n" +
-    "        <div ng-if=\"vm.selectedActivity.type === 'PICTURES'\">\n" +
-    "            <hr>\n" +
-    "            <div class=\"form-group\"\n" +
-    "                 ng-required=\"vm.selectedActivity.type === 'PICTURES'\">\n" +
-    "                <label>Adicionar as respostas corretas</label>\n" +
-    "                <editor-insert-image model=\"vm.selectedActivity\"\n" +
-    "                                     answer-type=\"CORRECT\"\n" +
-    "                                     alt-image=\"Opção de resposta correta\"\n" +
-    "                                     multiple-select=\"true\"></editor-insert-image>\n" +
-    "            </div>\n" +
-    "\n" +
-    "            <hr>\n" +
-    "            <div class=\"form-group\"\n" +
-    "                 ng-required=\"vm.selectedActivity.type === 'PICTURES'\">\n" +
-    "                <label>Adicionar as respostas incorretas</label>\n" +
-    "                <editor-insert-image model=\"vm.selectedActivity\"\n" +
-    "                                     answer-type=\"INCORRECT\"\n" +
-    "                                     alt-image=\"Opção de resposta incorreta\"\n" +
-    "                                     multiple-select=\"true\"></editor-insert-image>\n" +
-    "            </div>\n" +
-    "        </div>\n" +
-    "\n" +
-    "    </div>\n" +
-    "    <div class=\"col-md-4\">\n" +
-    "        <div class=\"form-group required\">\n" +
-    "            <label class=\"control-label\" for=\"activity.name\">Nome da atividade</label>\n" +
-    "            <input class=\"form-control input-circle\"\n" +
-    "                   type=\"text\"\n" +
-    "                   id=\"activity.name\"\n" +
-    "                   required\n" +
-    "                   placeholder=\"Informe um nome para a atividade\"\n" +
-    "                   ng-model=\"vm.selectedActivity.name\">\n" +
-    "        </div>\n" +
-    "        <div class=\"form-group required\" ng-if=\"vm.selectedActivity.type === 'LETTERS'\">\n" +
-    "            <label class=\"control-label\" for=\"activity.answer\">Resposta</label>\n" +
-    "            <input class=\"form-control input-circle\"\n" +
-    "                   type=\"text\"\n" +
-    "                   id=\"activity.answer\"\n" +
-    "                   placeholder=\"Informe a resposta da atividade\"\n" +
-    "                   required=\"vm.selectedActivity.type === 'LETTERS'\"\n" +
-    "                   ng-model=\"vm.selectedActivity.answer\">\n" +
-    "        </div>\n" +
-    "\n" +
-    "        <div class=\"form-group\">\n" +
-    "            <label for=\"activity.level\">Nível de dificuldade</label>\n" +
-    "            <select class=\"btn btn-default btn-circle\"\n" +
-    "                    required\n" +
-    "                    id=\"activity.level\"\n" +
-    "                    placeholder=\"Informe um nível de dificuldade\"\n" +
-    "                    ng-model=\"vm.selectedActivity.level\"\n" +
-    "                    ng-options=\"option.value as option.label for option in vm.difficultyLevels\">\n" +
-    "            </select>\n" +
-    "        </div>\n" +
-    "\n" +
-    "        <div class=\"form-group\" ng-class=\"{'required': vm.selectedActivity.type === 'PICTURES'}\">\n" +
-    "            <label for=\"activity.tip\">Dica</label>\n" +
-    "            <input class=\"form-control input-circle\"\n" +
-    "                   type=\"text\"\n" +
-    "                   id=\"activity.tip\"\n" +
-    "                   required=\"vm.selectedActivity.type === 'PICTURES'\"\n" +
-    "                   placeholder=\"Informe uma dica para a atividade\"\n" +
-    "                   ng-model=\"vm.selectedActivity.tip\">\n" +
-    "        </div>\n" +
-    "\n" +
-    "        <div class=\"form-group\">\n" +
-    "            <label for=\"activity.time\">Tempo para resolução (mm:ss)</label>\n" +
-    "            <input class=\"form-control input-circle\"\n" +
-    "                   type=\"datetime\"\n" +
-    "                   id=\"activity.time\"\n" +
-    "                   placeholder=\"59:59\"\n" +
-    "                   ng-model=\"vm.selectedActivity.time\">\n" +
-    "        </div>\n" +
-    "    </div>\n" +
-    "</div>\n" +
-    "<hr>\n" +
-    "<div class=\"row\">\n" +
     "    <div class=\"col-md-12\">\n" +
-    "        <button type=\"button\" class=\"btn btn-circle btn-primary\" ng-click=\"vm.saveAction()\">Salvar</button>\n" +
+    "        <button type=\"button\" class=\"btn btn-circle btn-success\" ng-click=\"vm.testSelectedActivity()\"\n" +
+    "                title=\"Clique para testar a atividade\">Testar atividade</button>\n" +
+    "        <button type=\"button\" class=\"btn btn-circle btn-primary\" ng-click=\"vm.answerOptionsForm.$valid && vm.saveAction()\"\n" +
+    "                ng-disabled=\"vm.answerOptionsForm.$invalid\">Salvar</button>\n" +
     "        <button type=\"button\" class=\"btn btn-circle btn-danger\" ng-click=\"vm.deleteAction()\" ng-if=\"vm.selectedActivity.id\">Excluir</button>\n" +
     "        <button type=\"button\" class=\"btn btn-link pull-right\" ng-click=\"vm.cancelAction()\">Cancelar</button>\n" +
     "    </div>\n" +
-    "</div>"
+    "</div>\n" +
+    "<hr>\n" +
+    "\n" +
+    "<form name=\"vm.answerOptionsForm\" novalidate angular-validator>\n" +
+    "    <div class=\"row\">\n" +
+    "        <div class=\"col-md-8\">\n" +
+    "            <div class=\"form-group\" ng-if=\"['LETTERS', 'PUZZLE'].indexOf(vm.selectedActivity.type) !== -1\">\n" +
+    "                <label>Adicione uma imagem para a atividade</label>\n" +
+    "\n" +
+    "                <editor-insert-image model=\"vm.selectedActivity\" alt-image=\"Imagem da atividade\"></editor-insert-image>\n" +
+    "                <hr>\n" +
+    "            </div>\n" +
+    "            <div class=\"form-group\">\n" +
+    "                <label>Adicionar um áudio para a atividade</label>\n" +
+    "                <i>Permitir adicionar áudio</i>\n" +
+    "            </div>\n" +
+    "\n" +
+    "            <div ng-if=\"vm.selectedActivity.type === 'PICTURES'\">\n" +
+    "                <hr>\n" +
+    "                <div class=\"form-group\"\n" +
+    "                     ng-required=\"vm.selectedActivity.type === 'PICTURES'\">\n" +
+    "                    <label>Adicionar as respostas corretas</label>\n" +
+    "                    <editor-insert-image model=\"vm.selectedActivity\"\n" +
+    "                                         answer-type=\"CORRECT\"\n" +
+    "                                         alt-image=\"Opção de resposta correta\"\n" +
+    "                                         multiple-select=\"true\"></editor-insert-image>\n" +
+    "                </div>\n" +
+    "\n" +
+    "                <hr>\n" +
+    "                <div class=\"form-group\"\n" +
+    "                     ng-required=\"vm.selectedActivity.type === 'PICTURES'\">\n" +
+    "                    <label>Adicionar as respostas incorretas</label>\n" +
+    "                    <editor-insert-image model=\"vm.selectedActivity\"\n" +
+    "                                         answer-type=\"INCORRECT\"\n" +
+    "                                         alt-image=\"Opção de resposta incorreta\"\n" +
+    "                                         multiple-select=\"true\"></editor-insert-image>\n" +
+    "                </div>\n" +
+    "            </div>\n" +
+    "\n" +
+    "        </div>\n" +
+    "        <div class=\"col-md-4\">\n" +
+    "            <div class=\"form-group required\">\n" +
+    "                <label class=\"control-label\" for=\"activity.name\">Nome da atividade</label>\n" +
+    "                <input class=\"form-control input-circle\"\n" +
+    "                       type=\"text\"\n" +
+    "                       id=\"activity.name\"\n" +
+    "                       required\n" +
+    "                       placeholder=\"Informe um nome para a atividade\"\n" +
+    "                       ng-model=\"vm.selectedActivity.name\">\n" +
+    "            </div>\n" +
+    "            <div class=\"form-group required\" ng-if=\"vm.selectedActivity.type === 'LETTERS'\">\n" +
+    "                <label class=\"control-label\" for=\"activity.answer\">Resposta</label>\n" +
+    "                <input class=\"form-control input-circle\"\n" +
+    "                       type=\"text\"\n" +
+    "                       id=\"activity.answer\"\n" +
+    "                       placeholder=\"Informe a resposta da atividade\"\n" +
+    "                       ng-required=\"vm.selectedActivity.type === 'LETTERS'\"\n" +
+    "                       ng-model=\"vm.selectedActivity.answer\">\n" +
+    "            </div>\n" +
+    "\n" +
+    "            <div class=\"form-group\">\n" +
+    "                <label class=\"control-label\" for=\"activity.level\">Nível de dificuldade</label>\n" +
+    "                <select class=\"form-control btn-circle\"\n" +
+    "                        required\n" +
+    "                        id=\"activity.level\"\n" +
+    "                        placeholder=\"Informe um nível de dificuldade\"\n" +
+    "                        ng-model=\"vm.selectedActivity.level\"\n" +
+    "                        ng-options=\"option.value as option.label for option in vm.difficultyLevels\">\n" +
+    "                </select>\n" +
+    "            </div>\n" +
+    "\n" +
+    "            <div class=\"form-group\" ng-class=\"{'required': vm.selectedActivity.type === 'PICTURES'}\">\n" +
+    "                <label for=\"activity.tip\">Dica</label>\n" +
+    "                <input class=\"form-control input-circle\"\n" +
+    "                       type=\"text\"\n" +
+    "                       id=\"activity.tip\"\n" +
+    "                       ng-required=\"vm.selectedActivity.type === 'PICTURES'\"\n" +
+    "                       placeholder=\"Informe uma dica para a atividade\"\n" +
+    "                       ng-model=\"vm.selectedActivity.tip\">\n" +
+    "            </div>\n" +
+    "\n" +
+    "            <div class=\"form-group\">\n" +
+    "                <label for=\"activity.time\">Tempo para resolução (mm:ss)</label>\n" +
+    "                <input class=\"form-control input-circle\"\n" +
+    "                       type=\"datetime\"\n" +
+    "                       id=\"activity.time\"\n" +
+    "                       placeholder=\"59:59\"\n" +
+    "                       ng-model=\"vm.selectedActivity.time\">\n" +
+    "            </div>\n" +
+    "        </div>\n" +
+    "    </div>\n" +
+    "</form>\n"
   );
 
 
@@ -734,7 +740,7 @@ angular.module('resources.views', []).run(['$templateCache', function($templateC
 
   $templateCache.put('src/modules/editor/category/views/edit.html',
     "<div class=\"row\">\n" +
-    "    <div class=\"col-sm-3\">\n" +
+    "    <div class=\"col-sm-4 col-md-3\">\n" +
     "\n" +
     "        <!--<editor-multiple-uploads done-callback=\"vm.doneFile(file, activity)\" on-remove-item=\"vm.removeFile(file, activity)\" options=\"{queueLimit: 1}\"></editor-multiple-uploads>-->\n" +
     "        <label for=\"category.name\" class=\"control-label\">Nome da categoria</label>\n" +
@@ -799,16 +805,17 @@ angular.module('resources.views', []).run(['$templateCache', function($templateC
     "            </div>\n" +
     "            <hr>\n" +
     "            <div class=\"row\">\n" +
-    "                <div class=\"col-sm-6\">\n" +
+    "                <div class=\"col-sm-7\">\n" +
     "                    <a class=\"pointer\"\n" +
     "                       title=\"Adicionar atividade\"\n" +
     "                       ng-disabled=\"vm.category.activities.length && vm.isActivityAnswerEmpty()\"\n" +
     "                       ng-click=\"vm.addActivity()\">\n" +
     "                        <i class=\"fa fa-plus\"></i>\n" +
+    "                        Adicionar atividade\n" +
     "                    </a>\n" +
     "                </div>\n" +
-    "                <div class=\"col-sm-6 pull-right\" ng-if=\"vm.category.activities.length\">\n" +
-    "                    <label>\n" +
+    "                <div class=\"col-sm-5\" ng-if=\"vm.category.activities.length\">\n" +
+    "                    <label class=\"pull-right\">\n" +
     "                        Marcar todas\n" +
     "                        <input type=\"checkbox\" ng-model=\"vm.isAllSelected\" ng-click=\"vm.toggleAll()\" bn-uniform\n" +
     "                               ng-model=\"activity.export\">\n" +
@@ -818,7 +825,8 @@ angular.module('resources.views', []).run(['$templateCache', function($templateC
     "            <editor-category-list-activities\n" +
     "                    activities=\"vm.category.activities\"\n" +
     "                    selected-activity=\"vm.selectedActivity\"\n" +
-    "                    option-toggled=\"vm.optionToggled()\">\n" +
+    "                    option-toggled=\"vm.optionToggled()\"\n" +
+    "                    ng-if=\"vm.category.activities.length\">\n" +
     "            </editor-category-list-activities>\n" +
     "        </div>\n" +
     "        <hr>\n" +
@@ -842,7 +850,7 @@ angular.module('resources.views', []).run(['$templateCache', function($templateC
     "            </div>\n" +
     "        </div>\n" +
     "    </div>\n" +
-    "    <div class=\"col-sm-9\">\n" +
+    "    <div class=\"col-sm-8 col-md-9 margin-top-25\">\n" +
     "        <div class=\"row\">\n" +
     "            <div class=\"col-md-12\">\n" +
     "                <qrcode data=\"{{vm.qrCodeData}}\" href=\"{{vm.qrCodeData}}\" ng-if=\"vm.qrCodeData\" size=\"200\"></qrcode>\n" +
@@ -853,14 +861,6 @@ angular.module('resources.views', []).run(['$templateCache', function($templateC
     "                ng-if=\"vm.selectedActivity && !vm.selectedActivity.type\"></editor-category-activity-type>\n" +
     "\n" +
     "        <div ng-if=\"vm.selectedActivity.type\">\n" +
-    "            <div class=\"row\">\n" +
-    "                <div class=\"col-md-12\">\n" +
-    "                    <button class=\"btn btn-circle btn-success\" type=\"button\"\n" +
-    "                            ng-click=\"vm.testSelectedActivity()\"\n" +
-    "                            title=\"Clique para testar a atividade\">Testar atividade</button>\n" +
-    "                </div>\n" +
-    "            </div>\n" +
-    "            <hr>\n" +
     "            <editor-answer-options\n" +
     "                    selected-activity=\"vm.selectedActivity\"\n" +
     "                    on-save-action=\"vm.saveActivity()\"\n" +
@@ -1182,14 +1182,14 @@ angular.module('resources.views', []).run(['$templateCache', function($templateC
     "        <div class=\"panel-body\">\n" +
     "            <div class=\"row text-center\">\n" +
     "                <div class=\"col-xs-6\">\n" +
-    "                    <button class=\"btn btn-default btn-game-mode\" type=\"button\"\n" +
+    "                    <button class=\"btn btn-default btn-circle btn-game-mode\" type=\"button\"\n" +
     "                            ng-click=\"vm.goToPlay('SINGLE_PLAYER')\">\n" +
     "                        <i class=\"fa fa-user fa-5x\"></i>\n" +
     "                        Single player\n" +
     "                    </button>\n" +
     "                </div>\n" +
     "                <div class=\"col-xs-6\">\n" +
-    "                    <button class=\"btn btn-default btn-game-mode\" type=\"button\"\n" +
+    "                    <button class=\"btn btn-default btn-circle btn-game-mode\" type=\"button\"\n" +
     "                            ng-click=\"vm.goToPlay('MULTIPLAYER')\">\n" +
     "                        <i class=\"fa fa-users fa-5x\"></i>\n" +
     "                        Multiplayer\n" +

@@ -128,8 +128,7 @@ define(function() {
 
                      // Handle the initial sign-in state.
                      updateSignInStatus(gapi.auth2.getAuthInstance().isSignedIn.get());*/
-                })
-                .catch(function() {
+                }, function() {
                     gApiClientFuture.reject("gapi client was not loaded");
                 });
         }

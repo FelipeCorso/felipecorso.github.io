@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="col-sm-3">
+    <div class="col-sm-4 col-md-3">
 
         <!--<editor-multiple-uploads done-callback="vm.doneFile(file, activity)" on-remove-item="vm.removeFile(file, activity)" options="{queueLimit: 1}"></editor-multiple-uploads>-->
         <label for="category.name" class="control-label">Nome da categoria</label>
@@ -64,16 +64,17 @@
             </div>
             <hr>
             <div class="row">
-                <div class="col-sm-6">
+                <div class="col-sm-7">
                     <a class="pointer"
                        title="Adicionar atividade"
                        ng-disabled="vm.category.activities.length && vm.isActivityAnswerEmpty()"
                        ng-click="vm.addActivity()">
                         <i class="fa fa-plus"></i>
+                        Adicionar atividade
                     </a>
                 </div>
-                <div class="col-sm-6 pull-right" ng-if="vm.category.activities.length">
-                    <label>
+                <div class="col-sm-5" ng-if="vm.category.activities.length">
+                    <label class="pull-right">
                         Marcar todas
                         <input type="checkbox" ng-model="vm.isAllSelected" ng-click="vm.toggleAll()" bn-uniform
                                ng-model="activity.export">
@@ -83,7 +84,8 @@
             <editor-category-list-activities
                     activities="vm.category.activities"
                     selected-activity="vm.selectedActivity"
-                    option-toggled="vm.optionToggled()">
+                    option-toggled="vm.optionToggled()"
+                    ng-if="vm.category.activities.length">
             </editor-category-list-activities>
         </div>
         <hr>
@@ -107,7 +109,7 @@
             </div>
         </div>
     </div>
-    <div class="col-sm-9">
+    <div class="col-sm-8 col-md-9 margin-top-25">
         <div class="row">
             <div class="col-md-12">
                 <qrcode data="{{vm.qrCodeData}}" href="{{vm.qrCodeData}}" ng-if="vm.qrCodeData" size="200"></qrcode>
@@ -118,14 +120,6 @@
                 ng-if="vm.selectedActivity && !vm.selectedActivity.type"></editor-category-activity-type>
 
         <div ng-if="vm.selectedActivity.type">
-            <div class="row">
-                <div class="col-md-12">
-                    <button class="btn btn-circle btn-success" type="button"
-                            ng-click="vm.testSelectedActivity()"
-                            title="Clique para testar a atividade">Testar atividade</button>
-                </div>
-            </div>
-            <hr>
             <editor-answer-options
                     selected-activity="vm.selectedActivity"
                     on-save-action="vm.saveActivity()"

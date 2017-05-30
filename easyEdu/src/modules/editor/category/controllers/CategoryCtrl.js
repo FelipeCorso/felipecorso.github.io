@@ -1,8 +1,8 @@
 define([], function() {
     'use strict';
-    Controller.$inject = ["$window", "$scope", "$state", "$stateParams", "moment", "CategoryData", "CategorySvc", "AuthorizationSvc"];
+    Controller.$inject = ["$scope", "$state", "$stateParams", "moment", "CategoryData", "CategorySvc", "AuthorizationSvc"];
     /*@ngInject*/
-    function Controller($window, $scope, $state, $stateParams, moment, CategoryData, CategorySvc, AuthorizationSvc) {
+    function Controller($scope, $state, $stateParams, moment, CategoryData, CategorySvc, AuthorizationSvc) {
         var vm = this;
 
         vm.isAllSelected = false;
@@ -25,7 +25,6 @@ define([], function() {
         vm.categoryImageSelected = categoryImageSelected;
         vm.categoryImageRemoved = categoryImageRemoved;
         vm.hasImage = hasImage;
-        vm.testSelectedActivity = testSelectedActivity;
 
         function optionToggled() {
             vm.isAllSelected = vm.category.activities.every(function(item) {
@@ -197,12 +196,6 @@ define([], function() {
 
         function hasImage() {
             return vm.category.image && vm.category.image.id;
-        }
-
-        function testSelectedActivity() {
-            var category = {activities: [vm.selectedActivity]};
-            var url = $state.href("game.play", {category: JSON.stringify(category)});
-            $window.open(url, '_blank');
         }
 
         function categoryImageRemoved() {
