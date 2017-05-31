@@ -36,7 +36,9 @@ define([], function() {
             bindToController: true,
             scope: {
                 activities: "=",
+                isAllSelected: "=allSelected",
                 selectedActivity: "=",
+                toggleAll: "&",
                 optionToggled: "&"
             }
         };

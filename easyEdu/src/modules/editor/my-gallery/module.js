@@ -15,7 +15,7 @@ define([
             RouterHelper.configureStates(moduleRoutes());
             PrimaryNavigation.add(
                 {
-                    title: "My gallery",
+                    title: "Meu álbum",
                     stateName: "editor.my-gallery",
                     order: 1,
                     icon: "fa-book"

@@ -2,12 +2,12 @@
     <div class="col-sm-4 col-md-3">
 
         <!--<editor-multiple-uploads done-callback="vm.doneFile(file, activity)" on-remove-item="vm.removeFile(file, activity)" options="{queueLimit: 1}"></editor-multiple-uploads>-->
-        <label for="category.name" class="control-label">Nome da categoria</label>
+        <label for="category.name" class="control-label">Assunto</label>
         <input class="form-control input-circle" type="text"
                id="category.name"
                ng-model="vm.categoryNewName"
                ng-value="vm.category.name"
-               placeholder="Dê um nome para a categoria">
+               placeholder="Informe uma breve descrição para o assunto">
 
         <hr>
 
@@ -64,7 +64,7 @@
             </div>
             <hr>
             <div class="row">
-                <div class="col-sm-7">
+                <div class="col-md-12">
                     <a class="pointer"
                        title="Adicionar atividade"
                        ng-disabled="vm.category.activities.length && vm.isActivityAnswerEmpty()"
@@ -73,17 +73,12 @@
                         Adicionar atividade
                     </a>
                 </div>
-                <div class="col-sm-5" ng-if="vm.category.activities.length">
-                    <label class="pull-right">
-                        Marcar todas
-                        <input type="checkbox" ng-model="vm.isAllSelected" ng-click="vm.toggleAll()" bn-uniform
-                               ng-model="activity.export">
-                    </label>
-                </div>
             </div>
             <editor-category-list-activities
                     activities="vm.category.activities"
+                    all-selected="vm.isAllSelected"
                     selected-activity="vm.selectedActivity"
+                    toggle-all="vm.toggleAll()"
                     option-toggled="vm.optionToggled()"
                     ng-if="vm.category.activities.length">
             </editor-category-list-activities>

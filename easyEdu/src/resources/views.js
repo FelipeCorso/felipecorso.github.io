@@ -37,11 +37,11 @@ angular.module('resources.views', []).run(['$templateCache', function($templateC
 
   $templateCache.put('src/components/editor/category/create-category/view/_create-category.html',
     "<div class=\"form-group\">\n" +
-    "    <label for=\"category.name\" class=\"control-label\">Nome da categoria</label>\n" +
+    "    <label for=\"category.name\" class=\"control-label\">Assunto</label>\n" +
     "    <input class=\"form-control input-circle\" type=\"text\"\n" +
     "           id=\"category.name\"\n" +
     "           ng-model=\"vm.category.name\"\n" +
-    "           placeholder=\"Dê um nome para a categoria\">\n" +
+    "           placeholder=\"Informe uma breve descrição para o assunto\">\n" +
     "</div>\n" +
     "\n" +
     "<button type=\"button\" class=\"btn btn-circle btn-primary\" ng-click=\"vm.saveCategory()\">\n" +
@@ -55,6 +55,7 @@ angular.module('resources.views', []).run(['$templateCache', function($templateC
     "<table class=\"table table-striped\">\n" +
     "    <thead>\n" +
     "    <tr>\n" +
+    "        <th><input type=\"checkbox\" ng-model=\"vm.isAllSelected\" ng-click=\"vm.toggleAll()\" bn-uniform></th>\n" +
     "        <th>Nome</th>\n" +
     "        <th>Tipo</th>\n" +
     "        <th></th>\n" +
@@ -62,6 +63,7 @@ angular.module('resources.views', []).run(['$templateCache', function($templateC
     "    </thead>\n" +
     "    <tbody>\n" +
     "        <tr ng-repeat=\"activity in vm.activities | orderBy:$index:true\">\n" +
+    "            <td><input type=\"checkbox\" bn-uniform ng-model=\"activity.export\" ng-change=\"vm.optionToggled()\"></td>\n" +
     "            <td>{{activity.name}}</td>\n" +
     "            <td>{{vm.getType(activity.type)}}</td>\n" +
     "            <td>\n" +
@@ -69,7 +71,6 @@ angular.module('resources.views', []).run(['$templateCache', function($templateC
     "                    <button type=\"button\" class=\"btn-link\" title=\"Clique para editar\" ng-click=\"vm.selectActivity(activity)\">\n" +
     "                        <i class=\"fa fa-pencil\"></i>\n" +
     "                    </button>\n" +
-    "                    <input type=\"checkbox\" bn-uniform ng-model=\"activity.export\" ng-change=\"vm.optionToggled()\">\n" +
     "                </div>\n" +
     "            </td>\n" +
     "        </tr>\n" +
@@ -151,13 +152,13 @@ angular.module('resources.views', []).run(['$templateCache', function($templateC
     "                <editor-insert-image model=\"vm.selectedActivity\" alt-image=\"Imagem da atividade\"></editor-insert-image>\n" +
     "                <hr>\n" +
     "            </div>\n" +
-    "            <div class=\"form-group\">\n" +
+    "            <div class=\"form-group hidden\">\n" +
     "                <label>Adicionar um áudio para a atividade</label>\n" +
     "                <i>Permitir adicionar áudio</i>\n" +
     "            </div>\n" +
     "\n" +
     "            <div ng-if=\"vm.selectedActivity.type === 'PICTURES'\">\n" +
-    "                <hr>\n" +
+    "                <hr class=\"hidden\">\n" +
     "                <div class=\"form-group\"\n" +
     "                     ng-required=\"vm.selectedActivity.type === 'PICTURES'\">\n" +
     "                    <label>Adicionar as respostas corretas</label>\n" +
@@ -731,7 +732,7 @@ angular.module('resources.views', []).run(['$templateCache', function($templateC
 
   $templateCache.put('src/modules/editor/category/views/add.html',
     "<div class=\"row\">\n" +
-    "    <div class=\"col-sm-3\">\n" +
+    "    <div class=\"col-sm-8 col-md-6 col-lg-4\">\n" +
     "        <editor-category-create-category category=\"vm.category\"></editor-category-create-category>\n" +
     "    </div>\n" +
     "</div>"
@@ -743,12 +744,12 @@ angular.module('resources.views', []).run(['$templateCache', function($templateC
     "    <div class=\"col-sm-4 col-md-3\">\n" +
     "\n" +
     "        <!--<editor-multiple-uploads done-callback=\"vm.doneFile(file, activity)\" on-remove-item=\"vm.removeFile(file, activity)\" options=\"{queueLimit: 1}\"></editor-multiple-uploads>-->\n" +
-    "        <label for=\"category.name\" class=\"control-label\">Nome da categoria</label>\n" +
+    "        <label for=\"category.name\" class=\"control-label\">Assunto</label>\n" +
     "        <input class=\"form-control input-circle\" type=\"text\"\n" +
     "               id=\"category.name\"\n" +
     "               ng-model=\"vm.categoryNewName\"\n" +
     "               ng-value=\"vm.category.name\"\n" +
-    "               placeholder=\"Dê um nome para a categoria\">\n" +
+    "               placeholder=\"Informe uma breve descrição para o assunto\">\n" +
     "\n" +
     "        <hr>\n" +
     "\n" +
@@ -805,7 +806,7 @@ angular.module('resources.views', []).run(['$templateCache', function($templateC
     "            </div>\n" +
     "            <hr>\n" +
     "            <div class=\"row\">\n" +
-    "                <div class=\"col-sm-7\">\n" +
+    "                <div class=\"col-md-12\">\n" +
     "                    <a class=\"pointer\"\n" +
     "                       title=\"Adicionar atividade\"\n" +
     "                       ng-disabled=\"vm.category.activities.length && vm.isActivityAnswerEmpty()\"\n" +
@@ -814,17 +815,12 @@ angular.module('resources.views', []).run(['$templateCache', function($templateC
     "                        Adicionar atividade\n" +
     "                    </a>\n" +
     "                </div>\n" +
-    "                <div class=\"col-sm-5\" ng-if=\"vm.category.activities.length\">\n" +
-    "                    <label class=\"pull-right\">\n" +
-    "                        Marcar todas\n" +
-    "                        <input type=\"checkbox\" ng-model=\"vm.isAllSelected\" ng-click=\"vm.toggleAll()\" bn-uniform\n" +
-    "                               ng-model=\"activity.export\">\n" +
-    "                    </label>\n" +
-    "                </div>\n" +
     "            </div>\n" +
     "            <editor-category-list-activities\n" +
     "                    activities=\"vm.category.activities\"\n" +
+    "                    all-selected=\"vm.isAllSelected\"\n" +
     "                    selected-activity=\"vm.selectedActivity\"\n" +
+    "                    toggle-all=\"vm.toggleAll()\"\n" +
     "                    option-toggled=\"vm.optionToggled()\"\n" +
     "                    ng-if=\"vm.category.activities.length\">\n" +
     "            </editor-category-list-activities>\n" +

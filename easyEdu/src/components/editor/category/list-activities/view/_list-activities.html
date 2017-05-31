@@ -1,6 +1,7 @@
 <table class="table table-striped">
     <thead>
     <tr>
+        <th><input type="checkbox" ng-model="vm.isAllSelected" ng-click="vm.toggleAll()" bn-uniform></th>
         <th>Nome</th>
         <th>Tipo</th>
         <th></th>
@@ -8,6 +9,7 @@
     </thead>
     <tbody>
         <tr ng-repeat="activity in vm.activities | orderBy:$index:true">
+            <td><input type="checkbox" bn-uniform ng-model="activity.export" ng-change="vm.optionToggled()"></td>
             <td>{{activity.name}}</td>
             <td>{{vm.getType(activity.type)}}</td>
             <td>
@@ -15,7 +17,6 @@
                     <button type="button" class="btn-link" title="Clique para editar" ng-click="vm.selectActivity(activity)">
                         <i class="fa fa-pencil"></i>
                     </button>
-                    <input type="checkbox" bn-uniform ng-model="activity.export" ng-change="vm.optionToggled()">
                 </div>
             </td>
         </tr>

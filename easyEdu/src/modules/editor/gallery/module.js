@@ -15,7 +15,7 @@ define([
             RouterHelper.configureStates(moduleRoutes);
             PrimaryNavigation.add(
                 {
-                    title: "Gallery",
+                    title: "Galeria",
                     stateName: "editor.gallery",
                     order: 0,
                     icon: "fa-picture-o"
