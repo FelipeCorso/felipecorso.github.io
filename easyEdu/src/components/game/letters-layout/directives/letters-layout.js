@@ -12,7 +12,7 @@ define([], function() {
                 activity: "=",
                 category: "=",
                 gameMode: "=",
-                hasMorePhases: "=",
+                areThereMorePhases: "=",
                 customClass: "@"
             }
         };
@@ -400,8 +400,8 @@ define([], function() {
             if (isWinMatch()) {
                 disableAlphabet();
                 // Verificar se tem mais fases, para exibir "Parabéns!\nVocê ganhou a partida", "Parabéns!\nVocê ganhou o jogo"
-                if (vm.hasMorePhases) {
-                    // if (hasMorePhases()) {
+                if (vm.areThereMorePhases) {
+                    // if (areThereMorePhases()) {
                     showTextWinMatch();
                     showButtonPlayAgain();
                     showButtonNextPhase();
@@ -426,7 +426,7 @@ define([], function() {
             return !filterDropZones.length;
         }
 
-        /*function hasMorePhases() {
+        /*function areThereMorePhases() {
          var nextLevel = getNextLevel();
          var nextPhaseActivities = vm.category.activities.filter(function(activity) {
          return activity.level === nextLevel;

@@ -1,8 +1,8 @@
-define(function() {
+define(function () {
     'use strict';
     function ModuleRoutes() {
         var partialPath = "src/modules/editor/views/";
-        var routes = [
+        return [
             {
                 state: 'editor',
                 config: {
@@ -17,38 +17,36 @@ define(function() {
                 }
             }
         ];
+    }
 
-        LoadGApi.$inject = ["AuthorizationSvc"];
-        /*@ngInject*/
-        function LoadGApi(AuthorizationSvc) {
-            return AuthorizationSvc.init()
-                .then(function(response) {
-                    console.log(response);
-                    return true;
+    LoadGApi.$inject = ["AuthorizationSvc"];
+    /*@ngInject*/
+    function LoadGApi(AuthorizationSvc) {
+        return AuthorizationSvc.init()
+            .then(function (response) {
+                console.log(response);
+                return true;
+            })
+            .catch(function (error) {
+                console.error(error);
+                return false;
+            });
+    }
+
+    UserInformationData.$inject = ["LoadGApi", "AuthorizationSvc"];
+    /*@ngInject*/
+    function UserInformationData(LoadGApi, AuthorizationSvc) {
+        if (LoadGApi && AuthorizationSvc.isSignedInGoogle()) {
+            return AuthorizationSvc.getUserInformation()
+                .then(function (response) {
+                    return response;
                 })
-                .catch(function(error) {
+                .catch(function (error) {
                     console.error(error);
-                    return false;
+                    return {};
                 });
         }
-
-        UserInformationData.$inject = ["LoadGApi", "AuthorizationSvc"];
-        /*@ngInject*/
-        function UserInformationData(LoadGApi, AuthorizationSvc) {
-            if (LoadGApi && AuthorizationSvc.isSignedInGoogle()) {
-                return AuthorizationSvc.getUserInformation()
-                    .then(function(response) {
-                        return response;
-                    })
-                    .catch(function(error) {
-                        console.error(error);
-                        return {};
-                    });
-            }
-            return {};
-        }
-
-        return routes;
+        return {};
     }
 
     return ModuleRoutes;

@@ -6,10 +6,10 @@ define([], function() {
         var vm = this;
         vm.categories = MyGalleryData;
 
-        $rootScope.$on("signedInGoogle", getMyGalleryData);
+        $rootScope.$on("signedInGoogle", loadMyGalleryData);
         $rootScope.$on("signedOutGoogle", cleanMyGalleryData);
 
-        function getMyGalleryData() {
+        function loadMyGalleryData() {
             if (($state.current.name === "editor.my-gallery") && AuthorizationSvc.isSignedInGoogle()) {
                 AuthorizationSvc.isExistRootFolder()
                     .then(function(rootFolder) {

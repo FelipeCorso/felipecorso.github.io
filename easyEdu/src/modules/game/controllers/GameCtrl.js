@@ -1,8 +1,8 @@
 define([], function() {
     'use strict';
-    Controller.$inject = ["$rootScope", "$scope", "$state", "$stateParams", "$http", "CategoriesData", "CategoryData", "GameSvc"];
+    Controller.$inject = ["$rootScope", "$scope", "$state", "$stateParams", "CategoriesData", "CategoryData"];
     /*@ngInject*/
-    function Controller($rootScope, $scope, $state, $stateParams, $http, CategoriesData, CategoryData, GameSvc) {
+    function Controller($rootScope, $scope, $state, $stateParams,  CategoriesData, CategoryData) {
 
         var difficultyLevels = ["EASY", "MEDIUM", "HARD", "IMPOSSIBLE"];
         var currentLevel;
@@ -22,7 +22,7 @@ define([], function() {
         vm.setGameMode = setGameMode;
         vm.play = play;
         vm.actionNextPhase = actionNextPhase;
-        vm.hasMorePhases = hasMorePhases;
+        vm.areThereMorePhases = areThereMorePhases;
         vm.handleJsonSelect = handleJsonSelect;
         vm.goToPlay = goToPlay;
 
@@ -105,7 +105,7 @@ define([], function() {
             }
         }
 
-        function hasMorePhases() {
+        function areThereMorePhases() {
             var nextLevel = getNextLevel();
             var nextPhaseActivities = vm.category.activities.filter(function(activity) {
                 return activity.level === nextLevel;

@@ -12,7 +12,7 @@ define([], function() {
                 activity: "=",
                 category: "=",
                 gameMode: "=",
-                hasMorePhases: "=",
+                areThereMorePhases: "=",
                 play: "&",
                 customClass: "@"
             }
@@ -316,14 +316,14 @@ define([], function() {
         function dndDragEnd() {
             vm.isWinMatch = vm.activity.answers && vm.activity.answers.length === vm.activity.correctAnswers;
             if (vm.isWinMatch) {
-                if (!vm.hasMorePhases) {
-                    // if (!hasMorePhases()) {
+                if (!vm.areThereMorePhases) {
+                    // if (!areThereMorePhases()) {
                     vm.isWinGame = true;
                 }
             }
         }
 
-        /*function hasMorePhases() {
+        /*function areThereMorePhases() {
          var nextLevel = getNextLevel();
          var nextPhaseActivities = vm.category.activities.filter(function(activity) {
          return activity.level === nextLevel;

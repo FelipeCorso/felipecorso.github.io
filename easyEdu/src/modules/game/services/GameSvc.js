@@ -3,11 +3,9 @@ define(function() {
     Service.$inject = ['$http', '$q', "$state", "AuthorizationSvc"];
     /*@ngInject*/
     function Service($http, $q, $state, AuthorizationSvc) {
-        var category = undefined;
 
         var service = {
             getCategory: getCategory,
-            setCategory: setCategory,
             getDefaultCategories: getDefaultCategories
         };
 
@@ -20,10 +18,6 @@ define(function() {
                 return future.promise;
             }
             return AuthorizationSvc.getQrCodeJson(categoryId);
-        }
-
-        function setCategory(categoriesParam) {
-            category = categoriesParam;
         }
 
         function getDefaultCategories() {

@@ -1,8 +1,31 @@
 .my-gallery-no-img {
   background-color: #E7E7E7;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  min-height: 127px;
   padding: 50px;
   text-align: center;
   > i {
     color: #222222;
+    position:relative;
+    top: calc(50% - 10px); /* 50% - 3/4 of icon height */
   }
+}
+
+.ellipsis {
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.3em;
+}
+
+img[alt="Imagem do assunto"] {
+  max-height: 127px;
+  min-width: 100%;
+}
+
+.answer-option-img {
+  height: 200px;
+  min-width: 100%;
 }

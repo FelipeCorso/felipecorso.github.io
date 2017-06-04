@@ -1,30 +1,21 @@
 define(function () {
     'use strict';
-    Service.$inject = ['$http', '$q'];
+    Service.$inject = ["AuthorizationSvc"];
     /*@ngInject*/
-    function Service($http, $q) {
+    function Service(AuthorizationSvc) {
 
-        var service = {
-            getAllContacts: getAllContacts
-        };
+        var service = {};
+        service.getMyGalleryData = getMyGalleryData;
+        service.searchMetadataRoot = searchMetadataRoot;
 
         return service;
 
+        function getMyGalleryData(metadataId) {
+            return AuthorizationSvc.getFile(metadataId);
+        }
 
-        function getAllContacts() {
-            var future = $q.defer();
-            $http.get('./src/modules/contactList/data/contacts.json')
-                .then(function (response) {
-                    future.resolve({
-                        items: response.data
-                    });
-                }).catch(function (data, status) {
-                    future.reject({
-                        data: data,
-                        status: status
-                    });
-                });
-            return future.promise;
+        function searchMetadataRoot(rootFolderId) {
+            return AuthorizationSvc.searchFile(rootFolderId, 'metadata.json');
         }
     }
 

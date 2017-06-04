@@ -4,25 +4,20 @@ define(function () {
     /*@ngInject*/
     function Service($http, $q) {
 
-        var service = {
-            getAllContacts: getAllContacts
-        };
+        var service = {};
+        service.getDefaultCategories = getDefaultCategories;
 
         return service;
 
-
-        function getAllContacts() {
+        function getDefaultCategories() {
             var future = $q.defer();
-            $http.get('./src/modules/contactList/data/contacts.json')
+            $http.get("src/data/categories-default.json")
                 .then(function (response) {
-                    future.resolve({
-                        items: response.data
-                    });
-                }).catch(function (data, status) {
-                    future.reject({
-                        data: data,
-                        status: status
-                    });
+                    future.resolve(response.data);
+                })
+                .catch(function (error) {
+                    future.reject(error);
+                    console.error(error);
                 });
             return future.promise;
         }

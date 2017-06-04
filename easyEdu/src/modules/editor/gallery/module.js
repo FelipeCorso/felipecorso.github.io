@@ -12,7 +12,7 @@ define([
         .controller('GalleryCtrl', GalleryCtrl)
         .factory('GallerySvc', GallerySvc)
         .run(['PrimaryNavigation', 'RouterHelper', function (PrimaryNavigation, RouterHelper) {
-            RouterHelper.configureStates(moduleRoutes);
+            RouterHelper.configureStates(moduleRoutes());
             PrimaryNavigation.add(
                 {
                     title: "Galeria",

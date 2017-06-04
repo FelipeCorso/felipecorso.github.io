@@ -40,12 +40,12 @@ define(function() {
             }
         ];
 
-        CategoryData.$inject = ["LoadGApi", "$state", "$stateParams", 'AuthorizationSvc'];
+        CategoryData.$inject = ["LoadGApi", "$state", "$stateParams", "CategorySvc", 'AuthorizationSvc'];
         /*@ngInject*/
-        function CategoryData(LoadGApi, $state, $stateParams, AuthorizationSvc) {
+        function CategoryData(LoadGApi, $state, $stateParams, CategorySvc, AuthorizationSvc) {
             if ($stateParams.id) {
                 AuthorizationSvc.isLoading = true;
-                return AuthorizationSvc.getFile($stateParams.id)
+                return CategorySvc.getCategory($stateParams.id)
                     .then(function(response) {
                         return response;
                     })

@@ -50,34 +50,34 @@ define(function() {
         var isSignedIn = false;
         var service = {};
 
-        service.isSignedInGoogle = isSignedInGoogle;
-        service.handleAuthClick = handleAuthClick;
-        service.handleSignOutClick = handleSignOutClick;
-        service.handleUploadClick = handleUploadClick;
-        service.handleCreateFolderClick = handleCreateFolderClick;
-        service.createPicker = createPicker;
-        service.init = init;
-        service.getFile = getFile;
-        service.getQrCodeJson = getQrCodeJson;
-        service.searchFolder = searchFolder;
-        service.searchFile = searchFile;
-        service.isExistRootFolder = isExistRootFolder;
-        service.createRootFolder = createRootFolder;
+        service.createFile = createFile;
         service.createFolder = createFolder;
         service.createImage = createImage;
         service.createJson = createJson;
+        service.createPicker = createPicker;
         service.createQrCodeJson = createQrCodeJson;
-        service.createFile = createFile;
-        service.updateJson = updateJson;
-        service.updateFile = updateFile;
+        service.createRootFolder = createRootFolder;
         service.deleteFile = deleteFile;
-        service.renameFile = renameFile;
+        service.getFile = getFile;
+        service.getQrCodeJson = getQrCodeJson;
         service.getUserInformation = getUserInformation;
+        service.handleAuthClick = handleAuthClick;
+        service.handleSignOutClick = handleSignOutClick;
+        service.init = init;
+        service.isExistRootFolder = isExistRootFolder;
+        service.isSignedInGoogle = isSignedInGoogle;
+        service.renameFile = renameFile;
+        service.searchFile = searchFile;
+        service.searchFolder = searchFolder;
+        service.updateFile = updateFile;
+        service.updateJson = updateJson;
 
         return service;
 
         /**
          *  On load, called to load the auth2 library and API client library.
+         *
+         * @returns {Promise}
          */
         function init() {
             var initialized = $q.defer();
@@ -246,18 +246,6 @@ define(function() {
                 });
         }
 
-        function handleUploadClick(event) {
-            createFile('aaa', function() {
-                alert('foi');
-            });
-        }
-
-        function handleCreateFolderClick(event) {
-            createFolder(folderNameInput.value, function() {
-                alert('Created folder');
-            });
-        }
-
         /**
          * Cria uma pasta e retorna o ID no callback
          */
@@ -313,6 +301,12 @@ define(function() {
             return createFile(fileName, JSON.stringify(fileData), folderId, APPLICATION_JSON);
         }
 
+        /**
+         * Cria o JSON que representa o QR Code e envia para um repositório público.
+         *
+         * @param {File} fileData File object to write data.
+         * @returns {*}
+         */
         function createQrCodeJson(fileData) {
             var future = $q.defer();
             $http.post(API_MYJSON, JSON.stringify(fileData),
@@ -443,7 +437,7 @@ define(function() {
             return future.promise;
         }
 
-        function searchFolder(name, parentId) {
+        function searchFolder(parentId, name) {
             return _searchFile(parentId, true, name);
         }
 
@@ -452,7 +446,7 @@ define(function() {
         }
 
         function isExistRootFolder() {
-            return _searchFile("root", true, GOOGLE_DRIVE_NAME_ROOT_FOLDER);
+            return searchFolder("root", GOOGLE_DRIVE_NAME_ROOT_FOLDER);
         }
 
         function createRootFolder() {

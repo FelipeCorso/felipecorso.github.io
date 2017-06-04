@@ -4,12 +4,13 @@ define([], function() {
     /*@ngInject*/
     function Controller($rootScope, LoadGApi, UserInformationData, AuthorizationSvc) {
         var vm = this;
+        vm.loadedGApi = LoadGApi;
         vm.userInformation = UserInformationData;
 
-        $rootScope.$on("signedInGoogle", getUserInformation);
+        $rootScope.$on("signedInGoogle", loadUserInformation);
         $rootScope.$on("signedOutGoogle", cleanUserInformation);
 
-        function getUserInformation() {
+        function loadUserInformation() {
             if (AuthorizationSvc.isSignedInGoogle()) {
                 return AuthorizationSvc.getUserInformation()
                     .then(function(response) {

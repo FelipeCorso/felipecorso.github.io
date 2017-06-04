@@ -1,7 +1,10 @@
 <table class="table table-striped">
     <thead>
     <tr>
-        <th><input type="checkbox" ng-model="vm.isAllSelected" ng-click="vm.toggleAll()" bn-uniform></th>
+        <th>
+            <input type="checkbox" title="Selecionar todas as atividades"
+                   ng-model="vm.isAllSelected" ng-click="vm.toggleAll()" bn-uniform>
+        </th>
         <th>Nome</th>
         <th>Tipo</th>
         <th></th>
@@ -14,7 +17,7 @@
             <td>{{vm.getType(activity.type)}}</td>
             <td>
                 <div class="pull-right">
-                    <button type="button" class="btn-link" title="Clique para editar" ng-click="vm.selectActivity(activity)">
+                    <button type="button" class="btn-link" title="Editar atividade" ng-click="vm.selectActivity(activity)">
                         <i class="fa fa-pencil"></i>
                     </button>
                 </div>

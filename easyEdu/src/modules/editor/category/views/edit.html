@@ -11,7 +11,7 @@
 
         <hr>
 
-        <editor-insert-image model="vm.category" alt-image="Imagem da categoria"></editor-insert-image>
+        <editor-insert-image model="vm.category" alt-image="Imagem do assunto"></editor-insert-image>
 
 <!--
         <div ng-if="vm.hasImage()">
@@ -44,20 +44,20 @@
                             type="button"
                             ng-disabled="!vm.category.activities.length || !vm.isEnabledBtnExport()"
                             ng-click="vm.exportJSON()">
-                        JSON
-                    </button>
-                    <button class="btn btn-circle btn-primary btn-sm margin-bottom-5"
-                            type="button"
-                            ng-disabled="!vm.category.activities.length || !vm.isEnabledBtnExport()"
-                            ng-click=""
-                            onclick="alert('Exportou a pasta compactada');">
-                        Modo offline
+                        Exportar
                     </button>
                     <button class="btn btn-circle btn-primary btn-sm margin-bottom-5"
                             type="button"
                             ng-disabled="!vm.category.activities.length || !vm.isEnabledBtnExport()"
                             ng-click="vm.generateQrCode()">
                         Gerar QR Code
+                    </button>
+                    <button class="btn btn-circle btn-primary btn-sm margin-bottom-5 disabled"
+                            type="button"
+                            ng-disabled="!vm.category.activities.length || !vm.isEnabledBtnExport()"
+                            ng-click=""
+                            onclick="alert('Exportou a pasta compactada');">
+                        Modo offline
                     </button>
                     <a id="downloadAnchorElem" style="display:none"></a>
                 </div>
@@ -76,7 +76,7 @@
             </div>
             <editor-category-list-activities
                     activities="vm.category.activities"
-                    all-selected="vm.isAllSelected"
+                    all-selected="vm.isAllActivitiesSelected"
                     selected-activity="vm.selectedActivity"
                     toggle-all="vm.toggleAll()"
                     option-toggled="vm.optionToggled()"

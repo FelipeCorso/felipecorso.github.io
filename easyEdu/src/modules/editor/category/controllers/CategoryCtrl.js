@@ -1,11 +1,11 @@
 define([], function() {
     'use strict';
-    Controller.$inject = ["$scope", "$state", "$stateParams", "moment", "CategoryData", "CategorySvc", "AuthorizationSvc"];
+    Controller.$inject = ["$scope", "$state", "$stateParams", "moment", "CategoryData", "CategorySvc"];
     /*@ngInject*/
-    function Controller($scope, $state, $stateParams, moment, CategoryData, CategorySvc, AuthorizationSvc) {
+    function Controller($scope, $state, $stateParams, moment, CategoryData, CategorySvc) {
         var vm = this;
 
-        vm.isAllSelected = false;
+        vm.isAllActivitiesSelected = false;
         vm.selectedActivity = undefined;
         vm.category = CategoryData;
         vm.categoryNewName = "";
@@ -27,14 +27,14 @@ define([], function() {
         vm.hasImage = hasImage;
 
         function optionToggled() {
-            vm.isAllSelected = vm.category.activities.every(function(item) {
+            vm.isAllActivitiesSelected = vm.category.activities.every(function(item) {
                 return item.export;
             });
         }
 
         function toggleAll() {
             angular.forEach(vm.category.activities, function(activity) {
-                activity.export = vm.isAllSelected;
+                activity.export = vm.isAllActivitiesSelected;
             });
         }
 
@@ -42,7 +42,7 @@ define([], function() {
             vm.selectedActivity = {
                 answers: [],
                 correctAnswers: 0,
-                export: vm.isAllSelected,
+                export: vm.isAllActivitiesSelected,
                 level: "EASY",
                 parent: vm.category.parent
             }
@@ -92,9 +92,9 @@ define([], function() {
             }
 
             vm.isLoading = true;
-            AuthorizationSvc.updateJson($stateParams.id, vm.category, vm.category.parent)
+            CategorySvc.updateCategory(vm.category)
                 .then(function() {
-                    return AuthorizationSvc.getFile(vm.category.metadataRoot.id);
+                    return CategorySvc.getMetadataRoot(vm.category.metadataRoot.id);
                 })
                 .then(function(metadata) {
                     angular.forEach(metadata, function(item) {
@@ -103,11 +103,11 @@ define([], function() {
                             item.name = vm.category.name;
                         }
                     });
-                    return AuthorizationSvc.updateJson(vm.category.metadataRoot.id, metadata);
+                    return CategorySvc.updateMetadataRoot(vm.category.metadataRoot.id, metadata);
                 })
                 .then(function() {
                     if (newName) {
-                        AuthorizationSvc.renameFile(vm.category.parent, vm.categoryNewName);
+                        CategorySvc.renameCategory(vm.category.parent, vm.categoryNewName);
                     }
                 })
                 .catch(function(error) {
@@ -119,12 +119,12 @@ define([], function() {
         }
 
         function deleteCategory() {
-            var result = confirm("Você tem certeza que deseja deletar a categoria?\nEssa ação não poderá ser desfeita!");
+            var result = confirm("Você tem certeza que deseja deletar esse assunto?\nEssa ação não poderá ser desfeita!");
             if (result) {
                 vm.isLoading = true;
-                AuthorizationSvc.deleteFile(vm.category.parent)
+                CategorySvc.deleteCategory(vm.category.parent)
                     .then(function() {
-                        return AuthorizationSvc.getFile(vm.category.metadataRoot.id);
+                        return CategorySvc.getMetadataRoot(vm.category.metadataRoot.id);
                     })
                     .then(function(metadata) {
                         angular.forEach(metadata, function(item, index) {
@@ -132,7 +132,7 @@ define([], function() {
                                 metadata.splice(index, 1);
                             }
                         });
-                        return AuthorizationSvc.updateJson(vm.category.metadataRoot.id, metadata);
+                        return CategorySvc.updateMetadataRoot(vm.category.metadataRoot.id, metadata);
                     })
                     .then(function() {
                         $state.go("editor.my-gallery");
@@ -194,12 +194,12 @@ define([], function() {
             }
         }
 
-        function hasImage() {
-            return vm.category.image && vm.category.image.id;
-        }
-
         function categoryImageRemoved() {
             vm.category.image = {};
+        }
+
+        function hasImage() {
+            return vm.category.image && vm.category.image.id;
         }
     }
 
