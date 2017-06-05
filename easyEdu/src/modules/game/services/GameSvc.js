@@ -22,7 +22,7 @@ define(function() {
 
         function getDefaultCategories() {
             var future = $q.defer();
-            $http.get("src/data/categories-default.json")
+            $http.get("src/data/default-categories.json")
                 .then(function(response) {
                     future.resolve(response.data);
                 })

@@ -4,10 +4,16 @@
         <a ui-sref="editor.category.add">
             <i class="fa fa-plus fa-3x"></i> Adicionar assunto
         </a>
-
-        <h3>Exemplo de álbum 1</h3>
-        <h3>Exemplo de álbum 2</h3>
-        <h3>Exemplo de álbum 3</h3>
-        <h3>Exemplo de álbum 4</h3>
+    </div>
+</div>
+<div class="row margin-top-20">
+    <div class="col-sm-4 col-md-3" style="max-height: 235px; height: 235px;" ng-repeat="category in vm.defaultCategories">
+        <a class="text-decoration-none">
+            <div class="img-responsive my-gallery-no-img"
+                 ng-style="category.image.id && {'background-image': 'url(https://drive.google.com/uc?export=view&id={{category.image.id}})'}">
+                <i class="fa fa-picture-o fa-3x" aria-hidden="true" ng-if="!category.image.id"></i>
+            </div>
+            <h4 class="text-center ellipsis">{{category.name}}</h4>
+        </a>
     </div>
 </div>

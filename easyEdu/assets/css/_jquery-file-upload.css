@@ -1,8 +1,12 @@
+/***
+jQuery File Upload
+***/
 
 .blueimp-gallery .close {
   background-image: url("../img/portlet-remove-icon-white.png") !important;
   margin-top: -2px;
 }
+
 .blueimp-gallery .prev,
 .blueimp-gallery .next {
   border-radius: 23px !important;
@@ -22,6 +26,8 @@
   direction: ltr;
   cursor: pointer;
 }
+
+/* Fixes for IE < 8 */
 @media screen\9 {
   .fileinput-button input {
     filter: alpha(opacity=0);
@@ -29,6 +35,7 @@
     height: 100%;
   }
 }
+
 .fileupload-buttonbar .btn,
 .fileupload-buttonbar .toggle {
   margin-bottom: 5px;
@@ -54,6 +61,7 @@
 .files video {
   max-width: 300px;
 }
+
 @media (max-width: 767px) {
   .fileupload-buttonbar .toggle,
   .files .toggle,

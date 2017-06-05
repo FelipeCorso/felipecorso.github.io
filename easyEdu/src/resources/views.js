@@ -806,7 +806,7 @@ angular.module('resources.views', []).run(['$templateCache', function($templateC
   );
 
 
-  $templateCache.put('src/components/game/pictures-layout/view/_pictures_layout.html',
+  $templateCache.put('src/components/game/pictures-layout/view/_pictures-layout.html',
     "<div class=\"panel-group\">\r" +
     "\n" +
     "    <div class=\"panel panel-default\">\r" +
@@ -1580,15 +1580,27 @@ angular.module('resources.views', []).run(['$templateCache', function($templateC
     "\n" +
     "        </a>\r" +
     "\n" +
-    "\r" +
+    "    </div>\r" +
     "\n" +
-    "        <h3>Exemplo de álbum 1</h3>\r" +
+    "</div>\r" +
     "\n" +
-    "        <h3>Exemplo de álbum 2</h3>\r" +
+    "<div class=\"row margin-top-20\">\r" +
     "\n" +
-    "        <h3>Exemplo de álbum 3</h3>\r" +
+    "    <div class=\"col-sm-4 col-md-3\" style=\"max-height: 235px; height: 235px;\" ng-repeat=\"category in vm.defaultCategories\">\r" +
     "\n" +
-    "        <h3>Exemplo de álbum 4</h3>\r" +
+    "        <a class=\"text-decoration-none\">\r" +
+    "\n" +
+    "            <div class=\"img-responsive my-gallery-no-img\"\r" +
+    "\n" +
+    "                 ng-style=\"category.image.id && {'background-image': 'url(https://drive.google.com/uc?export=view&id={{category.image.id}})'}\">\r" +
+    "\n" +
+    "                <i class=\"fa fa-picture-o fa-3x\" aria-hidden=\"true\" ng-if=\"!category.image.id\"></i>\r" +
+    "\n" +
+    "            </div>\r" +
+    "\n" +
+    "            <h4 class=\"text-center ellipsis\">{{category.name}}</h4>\r" +
+    "\n" +
+    "        </a>\r" +
     "\n" +
     "    </div>\r" +
     "\n" +
@@ -2125,17 +2137,19 @@ angular.module('resources.views', []).run(['$templateCache', function($templateC
     "\n" +
     "            <div class=\"row\">\r" +
     "\n" +
-    "                <div class=\"col-xs-6 col-sm-4 col-md-2\" style=\"max-height: 235px; height: 235px;\" ng-repeat=\"category in vm.getCategories()\">\r" +
+    "                <div class=\"col-sm-4 col-md-3\" style=\"max-height: 235px; height: 235px;\" ng-repeat=\"category in vm.categories\">\r" +
     "\n" +
-    "                    <a class=\"text-decoration-none\" ng-click=\"vm.setCategory(category)\" ui-sref=\"game.mode({category: category, categoryId: category.id, loaded: true})\">\r" +
+    "                    <a class=\"text-decoration-none\" ui-sref=\"game.mode({category: category, categoryId: category.id, loaded: true})\">\r" +
     "\n" +
-    "                        <div class=\"thumbnail\">\r" +
+    "                        <div class=\"img-responsive my-gallery-no-img\"\r" +
     "\n" +
-    "                            <img class=\"img-thumbnail\" ng-src=\"{{category.image.link}}\" ng-if=\"category.image.link\" alt=\"Imagem do assunto\">\r" +
+    "                             ng-style=\"category.image.id && {'background-image': 'url(https://drive.google.com/uc?export=view&id={{category.image.id}})'}\">\r" +
     "\n" +
-    "                            <span>{{category.name}}</span>\r" +
+    "                            <i class=\"fa fa-picture-o fa-3x\" aria-hidden=\"true\" ng-if=\"!category.image.id\"></i>\r" +
     "\n" +
     "                        </div>\r" +
+    "\n" +
+    "                        <h4 class=\"text-center ellipsis\">{{category.name}}</h4>\r" +
     "\n" +
     "                    </a>\r" +
     "\n" +
@@ -2174,29 +2188,15 @@ angular.module('resources.views', []).run(['$templateCache', function($templateC
     "\n" +
     "            <div class=\"row text-center\">\r" +
     "\n" +
-    "                <div class=\"col-xs-6\">\r" +
+    "                <div class=\"col-xs-6\" ng-repeat=\"gameMode in vm.gameModes | orderBy:$index\">\r" +
     "\n" +
     "                    <button class=\"btn btn-default btn-circle btn-lg btn-game-mode\" type=\"button\"\r" +
     "\n" +
-    "                            ng-click=\"vm.goToPlay('SINGLE_PLAYER')\">\r" +
+    "                            ng-click=\"vm.goToPlay(gameMode.type)\">\r" +
     "\n" +
-    "                        <i class=\"fa fa-user\"></i>\r" +
+    "                        <i class=\"fa \" ng-class=\"gameMode.icon\"></i>\r" +
     "\n" +
-    "                        Único jogador\r" +
-    "\n" +
-    "                    </button>\r" +
-    "\n" +
-    "                </div>\r" +
-    "\n" +
-    "                <div class=\"col-xs-6\">\r" +
-    "\n" +
-    "                    <button class=\"btn btn-default btn-circle btn-lg btn-game-mode\" type=\"button\"\r" +
-    "\n" +
-    "                            ng-click=\"vm.goToPlay('MULTIPLAYER')\">\r" +
-    "\n" +
-    "                        <i class=\"fa fa-users\"></i>\r" +
-    "\n" +
-    "                        Multijogador\r" +
+    "                        {{gameMode.label}}\r" +
     "\n" +
     "                    </button>\r" +
     "\n" +

@@ -3,7 +3,7 @@ define([], function() {
     function Component() {
         return {
             restrict: 'E',
-            templateUrl: 'src/components/game/pictures-layout/view/_pictures_layout.html',
+            templateUrl: 'src/components/game/pictures-layout/view/_pictures-layout.html',
             controller: Controller,
             controllerAs: 'vm',
             bindToController: true,

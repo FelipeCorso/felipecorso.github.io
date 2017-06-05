@@ -1,8 +1,8 @@
-define([], function() {
+define([], function () {
     'use strict';
     Controller.$inject = ["$rootScope", "$scope", "$state", "$stateParams", "CategoriesData", "CategoryData"];
     /*@ngInject*/
-    function Controller($rootScope, $scope, $state, $stateParams,  CategoriesData, CategoryData) {
+    function Controller($rootScope, $scope, $state, $stateParams, CategoriesData, CategoryData) {
 
         var difficultyLevels = ["EASY", "MEDIUM", "HARD", "IMPOSSIBLE"];
         var currentLevel;
@@ -15,10 +15,18 @@ define([], function() {
         vm.categoryBase64 = undefined;
         vm.selectedActivity = {};
         vm.gameMode = $stateParams.gameMode || "SINGLE_PLAYER";
+        vm.gameModes = [
+            {
+                icon: "fa-user",
+                label: "Único jogador",
+                type: "SINGLE_PLAYER"
+            },
+            {
+                icon: "fa-users",
+                label: "Multijogador",
+                type: "MULTIPLAYER"
+            }];
 
-        vm.getCategories = getCategories;
-        vm.setCategories = setCategories;
-        vm.setCategory = setCategory;
         vm.setGameMode = setGameMode;
         vm.play = play;
         vm.actionNextPhase = actionNextPhase;
@@ -26,25 +34,12 @@ define([], function() {
         vm.handleJsonSelect = handleJsonSelect;
         vm.goToPlay = goToPlay;
 
-        function getCategories() {
-            return vm.categories;
-        }
-
-        function setCategories(categories) {
-            vm.categories = categories;
-        }
-
-        function setCategory(category) {
-            vm.category = category;
-            //$state.go("game.game-mode");
-        }
-
         function setGameMode(gameMode) {
             vm.gameMode = gameMode;
         }
 
         function raffleActivity(category) {
-            var rafflesActivities = category.activities.filter(function(item) {
+            var rafflesActivities = category.activities.filter(function (item) {
                 return item.level === currentLevel;
             });
             if (rafflesActivities && rafflesActivities.length) {
@@ -107,14 +102,14 @@ define([], function() {
 
         function areThereMorePhases() {
             var nextLevel = getNextLevel();
-            var nextPhaseActivities = vm.category.activities.filter(function(activity) {
+            var nextPhaseActivities = vm.category.activities.filter(function (activity) {
                 return activity.level === nextLevel;
             });
             return nextPhaseActivities && nextPhaseActivities.length;
         }
 
         function handleJsonSelect() {
-            $scope.$watch('vm.categoryBase64', function() {
+            $scope.$watch('vm.categoryBase64', function () {
                 var unwantedText = "data:;base64,";
                 if (vm.categoryBase64 && vm.categoryBase64.startsWith(unwantedText)) {
                     vm.categoryBase64 = atob(vm.categoryBase64.replace(unwantedText, ""));
@@ -124,6 +119,13 @@ define([], function() {
             });
         }
 
+        /**
+         * O stringify é necessário para passar o assunto para a rota game.play.
+         * Nessa rota é feito o parse para um objeto novamente.
+         * 
+         * @param gameMode
+         * @returns {{category, gameMode: *}}
+         */
         function getPlayParams(gameMode) {
             return {category: JSON.stringify(vm.category), gameMode: gameMode};
         }
@@ -131,165 +133,6 @@ define([], function() {
         function goToPlay(gameMode) {
             $state.go("game.play", getPlayParams(gameMode))
         }
-
-        /*vm.categories = [
-         {
-         "name": "Figuras geométricas",
-         "alphabet": "",
-         "type": "PICTURES",
-         "image": {"link": "http://escolakids.uol.com.br/public/images/legenda/10c1181b437fed906146f859a4b9f898.jpg"},
-         "activities": [
-         {
-         "tip": "Arraste apenas as figuras que representam quadrados",
-         level: "EASY",
-         answers: [],
-         correctAnswers: 4,
-         answerOptions: [
-         {
-         "image": {
-         "link": "http://192.168.0.105:7070/uploads/bandeira Santa Catarina.jpg",
-         "name": "bandeira Santa Catarina.jpg"
-         },
-         type: 'correct'
-         },
-         {
-         "image": {
-         "link": "http://192.168.0.105:7070/uploads/bandeira-rio-grande-do-sul.jpg",
-         "name": "bandeira-rio-grande-do-sul.jpg"
-         },
-         type: 'incorrect'
-         },
-         {
-         "image": {
-         "link": "http://192.168.0.105:7070/uploads/bandeira_parana.jpg",
-         "name": "bandeira parana.jpg"
-         },
-         type: 'correct'
-         },
-         {
-         "image": {
-         "link": "http://192.168.0.105:7070/uploads/bandeira Santa Catarina.jpg",
-         "name": "bandeira Santa Catarina.jpg"
-         },
-         type: 'correct'
-         },
-         {
-         "image": {
-         "link": "http://192.168.0.105:7070/uploads/bandeira-rio-grande-do-sul.jpg",
-         "name": "bandeira-rio-grande-do-sul.jpg"
-         },
-         type: 'incorrect'
-         },
-         {
-         "image": {
-         "link": "http://192.168.0.105:7070/uploads/bandeira_parana.jpg",
-         "name": "bandeira parana.jpg"
-         },
-         type: 'correct'
-         }
-         ]
-         },
-         {
-         "tip": "Arraste apenas as figuras que representam retângulos",
-         level: "MEDIUM",
-         answers: [],
-         correctAnswers: 2,
-         answerOptions: [
-         {
-         "image": {
-         "link": "http://192.168.0.105:7070/uploads/bandeira Santa Catarina.jpg",
-         "name": "bandeira Santa Catarina.jpg"
-         },
-         type: 'correct'
-         },
-         {
-         "image": {
-         "link": "http://192.168.0.105:7070/uploads/bandeira-rio-grande-do-sul.jpg",
-         "name": "bandeira-rio-grande-do-sul.jpg"
-         },
-         type: 'incorrect'
-         },
-         {
-         "image": {
-         "link": "http://192.168.0.105:7070/uploads/bandeira_parana.jpg",
-         "name": "bandeira parana.jpg"
-         },
-         type: 'correct'
-         },
-         {
-         "image": {
-         "link": "http://192.168.0.105:7070/uploads/bandeira Santa Catarina.jpg",
-         "name": "bandeira Santa Catarina.jpg"
-         },
-         type: 'correct'
-         },
-         {
-         "image": {
-         "link": "http://192.168.0.105:7070/uploads/bandeira-rio-grande-do-sul.jpg",
-         "name": "bandeira-rio-grande-do-sul.jpg"
-         },
-         type: 'incorrect'
-         },
-         {
-         "image": {
-         "link": "http://192.168.0.105:7070/uploads/bandeira_parana.jpg",
-         "name": "bandeira parana.jpg"
-         },
-         type: 'correct'
-         }
-         ]
-         }
-         ]
-         },
-         {
-         "name": "Bandeiras estados do Sul",
-         "alphabet": "",
-         "type": "LETTERS",
-         "image": {"link": "https://upload.wikimedia.org/wikipedia/commons/0/09/Mapa_Regiao_Sul_do_Brasil_(somente).PNG"},
-         "activities": [
-         {
-         "answer": "Paraná",// "Paraná"
-         //"answer": "P",// "Paraná"
-         "level": "EASY",
-         "tip": "Estado sul brasileiro",
-         "time": "05:00",
-         "files": {
-         "image": {
-         "link": "http://192.168.0.105:7070/uploads/bandeira_parana.jpg",
-         "name": "bandeira parana.jpg"
-         }
-         }
-         },
-         {
-         "export": true,
-         "$$hashKey": "object:35",
-         "answer": "Santa Catarina",
-         "tip": "Estado sul brasileiro",
-         "time": "15:00",
-         "level": "MEDIUM",
-         "files": {
-         "image": {
-         "link": "http://192.168.0.105:7070/uploads/bandeira Santa Catarina.jpg",
-         "name": "bandeira Santa Catarina.jpg"
-         }
-         }
-         },
-         {
-         "export": true,
-         "$$hashKey": "object:70",
-         "answer": "Rio Grande do Sul",
-         "tip": "Estado sul brasileiro",
-         "time": "20:00",
-         "level": "HARD",
-         "files": {
-         "image": {
-         "link": "http://192.168.0.105:7070/uploads/bandeira-rio-grande-do-sul.jpg",
-         "name": "bandeira-rio-grande-do-sul.jpg"
-         }
-         }
-         }]
-         }];*/
-
     }
 
     return Controller;
