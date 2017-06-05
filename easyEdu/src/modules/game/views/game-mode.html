@@ -9,18 +9,11 @@
         </div>
         <div class="panel-body">
             <div class="row text-center">
-                <div class="col-xs-6">
+                <div class="col-xs-6" ng-repeat="gameMode in vm.gameModes | orderBy:$index">
                     <button class="btn btn-default btn-circle btn-lg btn-game-mode" type="button"
-                            ng-click="vm.goToPlay('SINGLE_PLAYER')">
-                        <i class="fa fa-user"></i>
-                        Único jogador
-                    </button>
-                </div>
-                <div class="col-xs-6">
-                    <button class="btn btn-default btn-circle btn-lg btn-game-mode" type="button"
-                            ng-click="vm.goToPlay('MULTIPLAYER')">
-                        <i class="fa fa-users"></i>
-                        Multijogador
+                            ng-click="vm.goToPlay(gameMode.type)">
+                        <i class="fa " ng-class="gameMode.icon"></i>
+                        {{gameMode.label}}
                     </button>
                 </div>
             </div>

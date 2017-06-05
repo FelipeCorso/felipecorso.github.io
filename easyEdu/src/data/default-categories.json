@@ -1,0 +1,351 @@
+[
+  {
+    "name": "Matemática - Figuras geométricas",
+    "parent": "0B1_Ihk-LLpk9aTV1QUU4bmJsTW8",
+    "id": "0",
+    "metadataRoot": {
+      "id": "0B1_Ihk-LLpk9V2pJTDduZHRndE0",
+      "parent": "0B1_Ihk-LLpk9WXBZY2pEaHZPTmM"
+    },
+    "image": {
+      "id": "0B1_Ihk-LLpk9cUhJaVF3YlBHZ2M",
+      "name": "Figuras-geometricas.jpg"
+    },
+    "activities": [
+      {
+        "answers": [],
+        "correctAnswers": 4,
+        "export": false,
+        "level": "MEDIUM",
+        "parent": "0B1_Ihk-LLpk9aTV1QUU4bmJsTW8",
+        "type": "PICTURES",
+        "answerOptions": [
+          {
+            "image": {
+              "id": "0B1_Ihk-LLpk9endfSWFHV2ZjUG8",
+              "name": "losango.jpg"
+            },
+            "type": "CORRECT"
+          },
+          {
+            "image": {
+              "id": "0B1_Ihk-LLpk9bjZWNlpqaFhmbkU",
+              "name": "paralelogramo.jpg"
+            },
+            "type": "CORRECT"
+          },
+          {
+            "image": {
+              "id": "0B1_Ihk-LLpk9Rnd4VW5tUmhwVEU",
+              "name": "quadrado.jpg"
+            },
+            "type": "CORRECT"
+          },
+          {
+            "image": {
+              "id": "0B1_Ihk-LLpk9SmltbE1CZzBYVEU",
+              "name": "trap_e_zio.jpg"
+            },
+            "type": "CORRECT"
+          },
+          {
+            "image": {
+              "id": "0B1_Ihk-LLpk9WVlVNTF3LWpaWDQ",
+              "name": "c_i_rculo.jpg"
+            },
+            "type": "INCORRECT"
+          },
+          {
+            "image": {
+              "id": "0B1_Ihk-LLpk9aW9NOXN0aThqREE",
+              "name": "elipse.jpg"
+            },
+            "type": "INCORRECT"
+          },
+          {
+            "image": {
+              "id": "0B1_Ihk-LLpk9MjZqSEtUODNETkE",
+              "name": "hex_a_gono.jpg"
+            },
+            "type": "INCORRECT"
+          },
+          {
+            "image": {
+              "id": "0B1_Ihk-LLpk9OVlrZWVnZnJZUVU",
+              "name": "pent_a_gono.jpg"
+            },
+            "type": "INCORRECT"
+          },
+          {
+            "image": {
+              "id": "0B1_Ihk-LLpk9dS1kRWs0aV9OQWs",
+              "name": "tri_a_ngulo.jpg"
+            },
+            "type": "INCORRECT"
+          }
+        ],
+        "name": "4 lados",
+        "tip": "Selecione as figuras que possuem 4 lados",
+        "time": "10:00",
+        "id": 1496627834516
+      },
+      {
+        "answers": [],
+        "correctAnswers": 0,
+        "export": false,
+        "level": "EASY",
+        "parent": "0B1_Ihk-LLpk9aTV1QUU4bmJsTW8",
+        "type": "LETTERS",
+        "image": {
+          "id": "0B1_Ihk-LLpk9aW9NOXN0aThqREE",
+          "name": "elipse.jpg"
+        },
+        "name": "Elipse",
+        "answer": "Elipse",
+        "time": "05:00",
+        "id": 1496627927286
+      },
+      {
+        "answers": [],
+        "correctAnswers": 0,
+        "export": false,
+        "level": "IMPOSSIBLE",
+        "parent": "0B1_Ihk-LLpk9aTV1QUU4bmJsTW8",
+        "type": "LETTERS",
+        "image": {
+          "id": "0B1_Ihk-LLpk9bjZWNlpqaFhmbkU",
+          "name": "paralelogramo.jpg"
+        },
+        "name": "Parale...",
+        "answer": "Paralelogramo",
+        "time": "30:00",
+        "id": 1496627972660
+      }
+    ]
+  },
+  {
+    "name": "Biologia - Mamíferos",
+    "parent": "0B1_Ihk-LLpk9X3R2bFJPY1YtdkE",
+    "id": "1",
+    "metadataRoot": {
+      "id": "0B1_Ihk-LLpk9V2pJTDduZHRndE0",
+      "parent": "0B1_Ihk-LLpk9WXBZY2pEaHZPTmM"
+    },
+    "image": {
+      "id": "0B1_Ihk-LLpk9bV9qMXFlTUxWZDQ",
+      "name": "capa.jpg"
+    },
+    "activities": [
+      {
+        "answers": [
+        ],
+        "correctAnswers": 0,
+        "export": false,
+        "level": "EASY",
+        "parent": "0B1_Ihk-LLpk9X3R2bFJPY1YtdkE",
+        "type": "LETTERS",
+        "image": {
+          "id": "0B1_Ihk-LLpk9a29tQm5rYko5Wk0",
+          "name": "gato.jpeg"
+        },
+        "name": "Gato",
+        "answer": "Gato",
+        "tip": "Felíno",
+        "time": "05:00",
+        "id": 1496625056963
+      },
+      {
+        "answers": [
+        ],
+        "correctAnswers": 4,
+        "export": false,
+        "level": "HARD",
+        "parent": "0B1_Ihk-LLpk9X3R2bFJPY1YtdkE",
+        "type": "PICTURES",
+        "answerOptions": [
+          {
+            "image": {
+              "id": "0B1_Ihk-LLpk9bkR5dkxWRFB6UGc",
+              "name": "camelo.jpg"
+            },
+            "type": "CORRECT"
+          },
+          {
+            "image": {
+              "id": "0B1_Ihk-LLpk9ZlRYSG15X2hZSms",
+              "name": "menino.jpg"
+            },
+            "type": "CORRECT"
+          },
+          {
+            "image": {
+              "id": "0B1_Ihk-LLpk9MEdrVGpEMW4xbm8",
+              "name": "morcego.jpg"
+            },
+            "type": "CORRECT"
+          },
+          {
+            "image": {
+              "id": "0B1_Ihk-LLpk9c3VZS0N1WW1PaTg",
+              "name": "orca.jpg"
+            },
+            "type": "CORRECT"
+          },
+          {
+            "image": {
+              "id": "0B1_Ihk-LLpk9eHEteEEzNlpWTGM",
+              "name": "águia.jpg"
+            },
+            "type": "INCORRECT"
+          },
+          {
+            "image": {
+              "id": "0B1_Ihk-LLpk9YTZvRGZZWWFDVnM",
+              "name": "tartaruga.jpg"
+            },
+            "type": "INCORRECT"
+          },
+          {
+            "image": {
+              "id": "0B1_Ihk-LLpk9aDlMT3lMQVNERkU",
+              "name": "galo.jpg"
+            },
+            "type": "INCORRECT"
+          },
+          {
+            "image": {
+              "id": "0B1_Ihk-LLpk9VWNmaklSVEh4Yjg",
+              "name": "grilo.jpg"
+            },
+            "type": "INCORRECT"
+          }
+        ],
+        "name": "Mamíferos",
+        "tip": "Selecione apenas os mamíferos",
+        "time": "15:00",
+        "id": 1496625410095
+      },
+      {
+        "answers": [
+        ],
+        "correctAnswers": 0,
+        "export": false,
+        "level": "MEDIUM",
+        "parent": "0B1_Ihk-LLpk9X3R2bFJPY1YtdkE",
+        "type": "LETTERS",
+        "image": {
+          "id": "0B1_Ihk-LLpk9WXl0bXYtWkFyOGc",
+          "name": "cachorros.jpg"
+        },
+        "name": "Cachorro",
+        "answer": "Cachorro",
+        "tip": "Late",
+        "time": "10:00",
+        "id": 1496625613367
+      }
+    ]
+  },
+  {
+    "name": "Geografia - Estados brasileiros",
+    "parent": "0B1_Ihk-LLpk9VHFTVW11NFBwYnM",
+    "id": "2",
+    "metadataRoot": {
+      "id": "0B1_Ihk-LLpk9V2pJTDduZHRndE0",
+      "parent": "0B1_Ihk-LLpk9WXBZY2pEaHZPTmM"
+    },
+    "image": {
+      "id": "0B1_Ihk-LLpk9eVVkcUhBTHFCTVU",
+      "name": "brasil.jpg"
+    },
+    "activities": [
+      {
+        "answers": [],
+        "correctAnswers": 3,
+        "export": false,
+        "level": "EASY",
+        "parent": "0B1_Ihk-LLpk9VHFTVW11NFBwYnM",
+        "type": "PICTURES",
+        "answerOptions": [
+          {
+            "image": {
+              "id": "0B1_Ihk-LLpk9akdKVFVQQ3JNM2s",
+              "name": "parana.jpg"
+            },
+            "type": "CORRECT"
+          },
+          {
+            "image": {
+              "id": "0B1_Ihk-LLpk9YndoUWVIak91MHc",
+              "name": "rio_grande_do_sul.jpg"
+            },
+            "type": "CORRECT"
+          },
+          {
+            "image": {
+              "id": "0B1_Ihk-LLpk9aEFQaFVfc3R6c0E",
+              "name": "santa_catarina.jpg"
+            },
+            "type": "CORRECT"
+          },
+          {
+            "image": {
+              "id": "0B1_Ihk-LLpk9eUVLN1ExV1Btb1k",
+              "name": "amazonas.jpg"
+            },
+            "type": "INCORRECT"
+          },
+          {
+            "image": {
+              "id": "0B1_Ihk-LLpk9NkVCcU9yNnVZRFE",
+              "name": "minas_gerais.jpg"
+            },
+            "type": "INCORRECT"
+          },
+          {
+            "image": {
+              "id": "0B1_Ihk-LLpk9akE5Q0Jpc0JBNUk",
+              "name": "sao_paulo.jpg"
+            },
+            "type": "INCORRECT"
+          }
+        ],
+        "name": "Sul",
+        "tip": "Bandeiras estados do sul",
+        "time": "05:00",
+        "id": 1496195100387
+      },
+      {
+        "answers": [],
+        "correctAnswers": 0,
+        "export": false,
+        "level": "MEDIUM",
+        "parent": "0B1_Ihk-LLpk9VHFTVW11NFBwYnM",
+        "type": "LETTERS",
+        "image": {
+          "id": "0B1_Ihk-LLpk9eUVLN1ExV1Btb1k",
+          "name": "amazonas.jpg"
+        },
+        "name": "Amazonas",
+        "answer": "Amazonas",
+        "tip": "Norte do Brasil",
+        "time": "10:00",
+        "id": 1496195665479
+      },
+      {
+        "answers": [],
+        "correctAnswers": 0,
+        "export": false,
+        "level": "HARD",
+        "parent": "0B1_Ihk-LLpk9VHFTVW11NFBwYnM",
+        "type": "PUZZLE",
+        "image": {
+          "id": "0B1_Ihk-LLpk9NkVCcU9yNnVZRFE",
+          "name": "minas_gerais.jpg"
+        },
+        "name": "Minas",
+        "time": "15:00",
+        "id": 1496196594458
+      }
+    ]
+  }
+]
