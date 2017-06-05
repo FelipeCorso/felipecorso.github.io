@@ -89,16 +89,7 @@ define(function () {
                             return [];
                         },
                         CategoryData: function ($stateParams) {
-                            if ($stateParams.category) {
-                                return JSON.parse($stateParams.category, function (key, value) {
-                                    if (key === "activities") {
-                                        return JSON.parse(value);
-                                    }
-                                    return value;
-                                });
-                            }
-
-                            return undefined;
+                            return $stateParams.category ? JSON.parse($stateParams.category) : undefined;
                         }
                     },
                     url: "/play?gameMode?category",
