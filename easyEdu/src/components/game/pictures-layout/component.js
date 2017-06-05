@@ -1,9 +1,8 @@
 define([
     '../../../config/namespace',
-    './directives/pictures-layout',
-    'dndLists'
+    './directives/pictures-layout'
 ], function(namespace, picturesLayout) {
     'use strict';
-    angular.module(namespace + '.components.game.pictures-layout', [namespace + '.game', 'dndLists'])
+    angular.module(namespace + '.components.game.pictures-layout', [namespace + '.game'])
         .directive('gamePicturesLayout', picturesLayout);
 });

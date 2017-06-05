@@ -13,7 +13,7 @@
     },
     "activities": [
       {
-        "answers": [],
+        "answers": 0,
         "correctAnswers": 4,
         "export": false,
         "level": "MEDIUM",
@@ -90,7 +90,7 @@
         "id": 1496627834516
       },
       {
-        "answers": [],
+        "answers": 0,
         "correctAnswers": 0,
         "export": false,
         "level": "EASY",
@@ -106,7 +106,7 @@
         "id": 1496627927286
       },
       {
-        "answers": [],
+        "answers": 0,
         "correctAnswers": 0,
         "export": false,
         "level": "IMPOSSIBLE",
@@ -259,7 +259,7 @@
     },
     "activities": [
       {
-        "answers": [],
+        "answers": 0,
         "correctAnswers": 3,
         "export": false,
         "level": "EASY",
@@ -315,7 +315,7 @@
         "id": 1496195100387
       },
       {
-        "answers": [],
+        "answers": 0,
         "correctAnswers": 0,
         "export": false,
         "level": "MEDIUM",
@@ -332,7 +332,7 @@
         "id": 1496195665479
       },
       {
-        "answers": [],
+        "answers": 0,
         "correctAnswers": 0,
         "export": false,
         "level": "HARD",

@@ -3,12 +3,11 @@ define([
     'angular-route',
     'lodash',
     'angular-moment',
-    'dndLists',
-    "DragDropTouch",
     "qrcode",
     "qrcode-utf8",
     "monospaced.qrcode",
-    "phaser"
+    "phaser",
+    "Hammer"
 ], function() {
     'use strict';
 });

@@ -9,15 +9,14 @@ requirejs.config({
         moment: 'vendor/moment/min/moment.min',
         'angular-moment': 'vendor/angular-moment/angular-moment.min',
         lodash: 'vendor/lodash/dist/lodash.min',
-        dndLists: 'vendor/angular-drag-and-drop-lists/angular-drag-and-drop-lists.min',
         DragDropTouch: 'src/components/game/pictures-layout/vendor/DragDropTouch',
         qrcode: 'vendor/qrcode-generator/js/qrcode',
         'qrcode-utf8': 'vendor/qrcode-generator/js/qrcode_UTF8',
         'monospaced.qrcode': 'vendor/angular-qrcode/angular-qrcode',
         phaser: 'vendor/phaser/build/phaser.min',
-        'angular-drag-and-drop-lists': 'vendor/angular-drag-and-drop-lists/angular-drag-and-drop-lists.min',
         'angular-qrcode': 'vendor/angular-qrcode/angular-qrcode',
-        qrcode_UTF8: 'vendor/qrcode-generator/js/qrcode_UTF8'
+        qrcode_UTF8: 'vendor/qrcode-generator/js/qrcode_UTF8',
+        Hammer: "vendor/hammerjs/hammer.min"
     },
     packages: [
 

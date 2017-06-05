@@ -1,4 +1,4 @@
-define(function () {
+define(function() {
     'use strict';
 
     function ModuleRoutes() {
@@ -18,15 +18,15 @@ define(function () {
                     controller: "GameCtrl",
                     controllerAs: "vm",
                     resolve: {
-                        CategoriesData: function () {
+                        CategoriesData: function() {
                             return [];
                         },
-                        CategoryData: function () {
+                        CategoryData: function() {
                             return {};
                         }
                     },
                     templateUrl: partialPath + "start.html",
-                    onEnter: ["$state", "$stateParams", function ($state, $stateParams) {
+                    onEnter: ["$state", "$stateParams", function($state, $stateParams) {
                         if ($stateParams.categoryId) {
                             $state.go("game.mode", {categoryId: $stateParams.categoryId});
                         }
@@ -41,12 +41,12 @@ define(function () {
                     controllerAs: "vm",
                     resolve: {
                         CategoriesData: CategoriesData,
-                        CategoryData: function () {
+                        CategoryData: function() {
                             return {};
                         }
                     },
                     templateUrl: partialPath + "category.html",
-                    onEnter: ["$state", "$stateParams", function ($state, $stateParams) {
+                    onEnter: ["$state", "$stateParams", function($state, $stateParams) {
                         if ($stateParams.categoryId) {
                             $state.go("game.mode", {categoryId: $stateParams.categoryId});
                         }
@@ -57,7 +57,7 @@ define(function () {
                 state: 'game.mode',
                 config: {
                     resolve: {
-                        CategoriesData: function () {
+                        CategoriesData: function() {
                             return [];
                         },
                         CategoryData: CategoryData
@@ -69,7 +69,7 @@ define(function () {
                     templateUrl: partialPath + "game-mode.html",
                     controller: "GameCtrl",
                     controllerAs: "vm",
-                    onEnter: ["$state", "$stateParams", function ($state, $stateParams) {
+                    onEnter: ["$state", "$stateParams", function($state, $stateParams) {
                         if (!$stateParams.categoryId) {
                             $state.go("game.start", {}, {reload: true});
                         }
@@ -85,27 +85,18 @@ define(function () {
                 state: 'game.play',
                 config: {
                     resolve: {
-                        CategoriesData: function () {
+                        CategoriesData: function() {
                             return [];
                         },
-                        CategoryData: function ($stateParams) {
-                            if ($stateParams.category) {
-                                return JSON.parse($stateParams.category, function (key, value) {
-                                    if (key === "activities") {
-                                        return JSON.parse(value);
-                                    }
-                                    return value;
-                                });
-                            }
-
-                            return undefined;
+                        CategoryData: function($stateParams) {
+                            return $stateParams.category ? JSON.parse($stateParams.category) : undefined;
                         }
                     },
                     url: "/play?gameMode?category",
                     templateUrl: partialPath + "play.html",
                     controller: "GameCtrl",
                     controllerAs: "vm",
-                    onEnter: ["$state", "$stateParams", function ($state, $stateParams) {
+                    onEnter: ["$state", "$stateParams", function($state, $stateParams) {
                         if (!$stateParams.category) {
                             $state.go("game.start", {}, {reload: true});
                         }
@@ -119,10 +110,10 @@ define(function () {
         function CategoriesData($state, $stateParams, GameSvc) {
             if (!$stateParams.categoryId) {
                 return GameSvc.getDefaultCategories()
-                    .then(function (response) {
+                    .then(function(response) {
                         return response;
                     })
-                    .catch(function (error) {
+                    .catch(function(error) {
                         console.error(error);
                         return $state.go("error.404", {}, {reload: true});
                     });
@@ -135,10 +126,10 @@ define(function () {
         function CategoryData($state, $stateParams, GameSvc) {
             if (!$stateParams.loaded) {
                 return GameSvc.getCategory($stateParams.categoryId)
-                    .then(function (response) {
+                    .then(function(response) {
                         return response;
                     })
-                    .catch(function (error) {
+                    .catch(function(error) {
                         console.error(error);
                         return $state.go("error.404", {}, {reload: true});
                     });

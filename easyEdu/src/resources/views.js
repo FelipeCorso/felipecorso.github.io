@@ -813,17 +813,17 @@ angular.module('resources.views', []).run(['$templateCache', function($templateC
     "\n" +
     "        <div class=\"panel-heading text-center\">\r" +
     "\n" +
-    "            <div ng-if=\"vm.isWinMatch || vm.isWinGame || vm.isGameOver\">\r" +
+    "            <div ng-if=\"vm.isWonMatch || vm.isWonGame || vm.isGameOver\">\r" +
     "\n" +
     "                <div class=\"row\">\r" +
     "\n" +
     "                    <div class=\"col-md-12 game-result-text\">\r" +
     "\n" +
-    "                        <div ng-if=\"vm.isWinMatch || vm.isWinGame\">\r" +
+    "                        <div ng-if=\"vm.isWonMatch || vm.isWonGame\">\r" +
     "\n" +
     "                            <h1>Parabéns!</h1>\r" +
     "\n" +
-    "                            <h3>Você ganhou {{vm.isWinMatch ? \"a partida\" : \"o jogo\"}}</h3>\r" +
+    "                            <h3>Você ganhou {{vm.isWonMatch ? \"a partida\" : \"o jogo\"}}</h3>\r" +
     "\n" +
     "                            <h4>O seu tempo foi de {{vm.getTimeResult() | date:\"mm:ss\"}}</h4>\r" +
     "\n" +
@@ -857,7 +857,7 @@ angular.module('resources.views', []).run(['$templateCache', function($templateC
     "\n" +
     "                                ng-click=\"vm.actionNextPhase()\"\r" +
     "\n" +
-    "                                ng-if=\"!vm.isWinGame && !vm.isGameOver\">Próxima fase</button>\r" +
+    "                                ng-if=\"!vm.isWonGame && !vm.isGameOver\">Próxima fase</button>\r" +
     "\n" +
     "                    </div>\r" +
     "\n" +
@@ -875,47 +875,15 @@ angular.module('resources.views', []).run(['$templateCache', function($templateC
     "\n" +
     "            <div class=\"row\">\r" +
     "\n" +
-    "                <!-- The dnd-list directive allows to drop elements into it.\r" +
+    "                <div class=\"col-md-12 text-center\">\r" +
     "\n" +
-    "                 The dropped data will be added to the referenced list -->\r" +
-    "\n" +
-    "                <div class=\"pictures-layout-answer-painel text-center\"\r" +
-    "\n" +
-    "                     dnd-list=\"vm.activity.answers\"\r" +
-    "\n" +
-    "                     dnd-horizontal-list=\"true\"\r" +
-    "\n" +
-    "                     dnd-allowed-types=\"['correct']\"\r" +
-    "\n" +
-    "                     dnd-disable-if=\"vm.isWinMatch || vm.isWinGame || vm.isGameOver\">\r" +
-    "\n" +
-    "                    <!-- The dnd-draggable directive makes an element draggable and will\r" +
-    "\n" +
-    "                         transfer the object that was assigned to it. If an element was\r" +
-    "\n" +
-    "                         dragged away, you have to remove it from the original list\r" +
-    "\n" +
-    "                         yourself using the dnd-moved attribute -->\r" +
-    "\n" +
-    "                    <div ng-repeat=\"item in vm.activity.answers\"\r" +
-    "\n" +
-    "                         class=\"col-xs-4 col-sm-2\"\r" +
-    "\n" +
-    "                         dnd-draggable=\"item\"\r" +
-    "\n" +
-    "                         dnd-type=\"item.type\"\r" +
-    "\n" +
-    "                         dnd-moved=\"vm.activity.answers.splice($index, 1)\"\r" +
-    "\n" +
-    "                         dnd-effect-allowed=\"move\">\r" +
-    "\n" +
-    "                        <img class=\"img-thumbnail\" ng-src=\"https://drive.google.com/uc?export=view&id={{item.image.id}}\" alt=\"{{item.image.name}}\">\r" +
-    "\n" +
-    "                    </div>\r" +
-    "\n" +
-    "                    <h3 ng-if=\"vm.activity.answers && !vm.activity.answers.length\">{{vm.activity.tip}}</h3>\r" +
+    "                    <h4>{{vm.activity.tip}}</h4>\r" +
     "\n" +
     "                </div>\r" +
+    "\n" +
+    "            </div>\r" +
+    "\n" +
+    "            <div class=\"row pictures-layout-answer-panel\" id=\"answers\" ng-init=\"vm.init()\">\r" +
     "\n" +
     "            </div>\r" +
     "\n" +
@@ -923,285 +891,9 @@ angular.module('resources.views', []).run(['$templateCache', function($templateC
     "\n" +
     "        <div class=\"panel-footer\">\r" +
     "\n" +
-    "            <div class=\"row\">\r" +
-    "\n" +
-    "                <!-- The dnd-list directive allows to drop elements into it.\r" +
-    "\n" +
-    "                 The dropped data will be added to the referenced list -->\r" +
-    "\n" +
-    "                <div dnd-list=\"vm.activity.answerOptions\"\r" +
-    "\n" +
-    "                     dnd-horizontal-list=\"true\"\r" +
-    "\n" +
-    "                     dnd-disable-if=\"vm.isWinMatch || vm.isWinGame || vm.isGameOver\">\r" +
-    "\n" +
-    "                    <!-- The dnd-draggable directive makes an element draggable and will\r" +
-    "\n" +
-    "                         transfer the object that was assigned to it. If an element was\r" +
-    "\n" +
-    "                         dragged away, you have to remove it from the original list\r" +
-    "\n" +
-    "                         yourself using the dnd-moved attribute -->\r" +
-    "\n" +
-    "                    <div ng-repeat=\"item in vm.activity.answerOptions\"\r" +
-    "\n" +
-    "                         class=\"col-xs-4 col-sm-2\"\r" +
-    "\n" +
-    "                         dnd-draggable=\"item\"\r" +
-    "\n" +
-    "                         dnd-type=\"item.type\"\r" +
-    "\n" +
-    "                         dnd-moved=\"vm.activity.answerOptions.splice($index, 1)\"\r" +
-    "\n" +
-    "                         dnd-effect-allowed=\"move\"\r" +
-    "\n" +
-    "                         dnd-selected=\"models.selected = item\"\r" +
-    "\n" +
-    "                         dnd-dragend=\"vm.logEvent('Drag operation ended. Drop effect: ' + dropEffect); vm.dndDragEnd();\">\r" +
-    "\n" +
-    "                        <img class=\"img-thumbnail\" ng-src=\"https://drive.google.com/uc?export=view&id={{item.image.id}}\" alt=\"{{item.image.name}}\">\r" +
-    "\n" +
-    "                    </div>\r" +
-    "\n" +
-    "                </div>\r" +
+    "            <div class=\"row\" id=\"answerOptions\">\r" +
     "\n" +
     "            </div>\r" +
-    "\n" +
-    "        </div>\r" +
-    "\n" +
-    "    </div>\r" +
-    "\n" +
-    "</div>\r" +
-    "\n" +
-    "\r" +
-    "\n" +
-    "<div class=\"typesDemo row hidden\">\r" +
-    "\n" +
-    "    <div ng-repeat=\"list in vm.lists\" class=\"col-md-4\">\r" +
-    "\n" +
-    "        <div class=\"panel panel-info\">\r" +
-    "\n" +
-    "            <div class=\"panel-heading\">\r" +
-    "\n" +
-    "                <h3 class=\"panel-title ng-binding\">List of {{list.label}} (max. {{list.max}})</h3>\r" +
-    "\n" +
-    "            </div>\r" +
-    "\n" +
-    "            <div class=\"panel-body\">\r" +
-    "\n" +
-    "                <ul dnd-list=\"list.people\"\r" +
-    "\n" +
-    "                    dnd-horizontal-list=\"true\"\r" +
-    "\n" +
-    "                    dnd-allowed-types=\"list.allowedTypes\"\r" +
-    "\n" +
-    "                    dnd-disable-if=\"list.people.length >= list.max\">\r" +
-    "\n" +
-    "\r" +
-    "\n" +
-    "                    <li ng-repeat=\"person in list.people\"\r" +
-    "\n" +
-    "                        dnd-draggable=\"person\"\r" +
-    "\n" +
-    "                        dnd-type=\"person.type\"\r" +
-    "\n" +
-    "                        dnd-disable-if=\"person.type == 'unknown'\"\r" +
-    "\n" +
-    "                        dnd-moved=\"list.people.splice($index, 1)\"\r" +
-    "\n" +
-    "                        class=\"background-{{person.type}}\"\r" +
-    "\n" +
-    "                    >\r" +
-    "\n" +
-    "                        <dnd-nodrag>\r" +
-    "\n" +
-    "                            <div dnd-handle class=\"handle\">:::</div>\r" +
-    "\n" +
-    "                            <div class=\"name\">\r" +
-    "\n" +
-    "                                <input type=\"text\" ng-model=\"person.name\"\r" +
-    "\n" +
-    "                                       class=\"background-{{person.type}} form-control input-sm\">\r" +
-    "\n" +
-    "                            </div>\r" +
-    "\n" +
-    "                        </dnd-nodrag>\r" +
-    "\n" +
-    "                    </li>\r" +
-    "\n" +
-    "\r" +
-    "\n" +
-    "                    <li class=\"dndPlaceholder\">\r" +
-    "\n" +
-    "                        Drop any <strong>{{list.allowedTypes.join(' or ')}}</strong> here\r" +
-    "\n" +
-    "                    </li>\r" +
-    "\n" +
-    "                </ul>\r" +
-    "\n" +
-    "            </div>\r" +
-    "\n" +
-    "        </div>\r" +
-    "\n" +
-    "    </div>\r" +
-    "\n" +
-    "</div>\r" +
-    "\n" +
-    "\r" +
-    "\n" +
-    "<div class=\"typesDemo row hidden\">\r" +
-    "\n" +
-    "    <div ng-repeat=\"list in vm.lists\" class=\"col-md-4\">\r" +
-    "\n" +
-    "        <div class=\"panel panel-info\">\r" +
-    "\n" +
-    "            <div class=\"panel-heading\">\r" +
-    "\n" +
-    "                <h3 class=\"panel-title ng-binding\">List of {{list.label}} (max. {{list.max}})</h3>\r" +
-    "\n" +
-    "            </div>\r" +
-    "\n" +
-    "            <div class=\"panel-body\">\r" +
-    "\n" +
-    "                <ul dnd-list=\"list.people\"\r" +
-    "\n" +
-    "                    dnd-horizontal-list=\"true\"\r" +
-    "\n" +
-    "                    dnd-allowed-types=\"list.allowedTypes\"\r" +
-    "\n" +
-    "                    dnd-disable-if=\"list.people.length >= list.max\">\r" +
-    "\n" +
-    "\r" +
-    "\n" +
-    "                    <li ng-repeat=\"person in list.people\"\r" +
-    "\n" +
-    "                        dnd-draggable=\"person\"\r" +
-    "\n" +
-    "                        dnd-type=\"person.type\"\r" +
-    "\n" +
-    "                        dnd-disable-if=\"person.type == 'unknown'\"\r" +
-    "\n" +
-    "                        dnd-moved=\"list.people.splice($index, 1)\"\r" +
-    "\n" +
-    "                        class=\"background-{{person.type}}\"\r" +
-    "\n" +
-    "                    >\r" +
-    "\n" +
-    "                        <dnd-nodrag>\r" +
-    "\n" +
-    "                            <div dnd-handle class=\"handle\">:::</div>\r" +
-    "\n" +
-    "                            <div class=\"name\">\r" +
-    "\n" +
-    "                                <input type=\"text\" ng-model=\"person.name\"\r" +
-    "\n" +
-    "                                       class=\"background-{{person.type}} form-control input-sm\">\r" +
-    "\n" +
-    "                            </div>\r" +
-    "\n" +
-    "                        </dnd-nodrag>\r" +
-    "\n" +
-    "                    </li>\r" +
-    "\n" +
-    "\r" +
-    "\n" +
-    "                    <li class=\"dndPlaceholder\">\r" +
-    "\n" +
-    "                        Drop any <strong>{{list.allowedTypes.join(' or ')}}</strong> here\r" +
-    "\n" +
-    "                    </li>\r" +
-    "\n" +
-    "                </ul>\r" +
-    "\n" +
-    "            </div>\r" +
-    "\n" +
-    "        </div>\r" +
-    "\n" +
-    "    </div>\r" +
-    "\n" +
-    "</div>\r" +
-    "\n" +
-    "\r" +
-    "\n" +
-    "<div class=\"advancedDemo row hidden\">\r" +
-    "\n" +
-    "    <div ng-repeat=\"containers in vm.containers\" class=\"col-md-6\">\r" +
-    "\n" +
-    "        <div class=\"dropzone box box-yellow\">\r" +
-    "\n" +
-    "            <h3>Dropzone {{$index + 1}}</h3>\r" +
-    "\n" +
-    "            <ul dnd-list=\"containers\"\r" +
-    "\n" +
-    "                dnd-allowed-types=\"['container']\"\r" +
-    "\n" +
-    "                dnd-external-sources=\"true\"\r" +
-    "\n" +
-    "                dnd-dragover=\"vm.dragoverCallback(index, external, type, callback)\"\r" +
-    "\n" +
-    "                dnd-drop=\"vm.dropCallback(index, item, external, type)\">\r" +
-    "\n" +
-    "                <li ng-repeat=\"container in containers\"\r" +
-    "\n" +
-    "                    dnd-draggable=\"container\"\r" +
-    "\n" +
-    "                    dnd-type=\"'container'\"\r" +
-    "\n" +
-    "                    dnd-effect-allowed=\"copyMove\"\r" +
-    "\n" +
-    "                    dnd-moved=\"containers.splice($index, 1)\"\r" +
-    "\n" +
-    "                    dnd-callback=\"container.items.length\">\r" +
-    "\n" +
-    "                    <div class=\"container-element box box-blue\">\r" +
-    "\n" +
-    "                        <h3>Container (effects allowed: {{container.effectAllowed}})</h3>\r" +
-    "\n" +
-    "                        <ul dnd-list=\"container.items\"\r" +
-    "\n" +
-    "                            dnd-allowed-types=\"['item']\"\r" +
-    "\n" +
-    "                            dnd-horizontal-list=\"true\"\r" +
-    "\n" +
-    "                            dnd-external-sources=\"true\"\r" +
-    "\n" +
-    "                            dnd-effect-allowed=\"{{container.effectAllowed}}\"\r" +
-    "\n" +
-    "                            dnd-dragover=\"vm.dragoverCallback(index, external, type)\"\r" +
-    "\n" +
-    "                            dnd-drop=\"vm.dropCallback(index, item, external, type)\"\r" +
-    "\n" +
-    "                            dnd-inserted=\"vm.logListEvent('inserted at', index, external, type)\"\r" +
-    "\n" +
-    "                            class=\"itemlist\">\r" +
-    "\n" +
-    "                            <li ng-repeat=\"item in container.items\"\r" +
-    "\n" +
-    "                                dnd-draggable=\"item\"\r" +
-    "\n" +
-    "                                dnd-type=\"'item'\"\r" +
-    "\n" +
-    "                                dnd-effect-allowed=\"{{item.effectAllowed}}\"\r" +
-    "\n" +
-    "                                dnd-dragstart=\"vm.logEvent('Started to drag an item')\"\r" +
-    "\n" +
-    "                                dnd-moved=\"container.items.splice($index, 1)\"\r" +
-    "\n" +
-    "                                dnd-dragend=\"vm.logEvent('Drag operation ended. Drop effect: ' + dropEffect)\">\r" +
-    "\n" +
-    "                                {{item.label}}\r" +
-    "\n" +
-    "                            </li>\r" +
-    "\n" +
-    "                        </ul>\r" +
-    "\n" +
-    "                        <div class=\"clearfix\"></div>\r" +
-    "\n" +
-    "                    </div>\r" +
-    "\n" +
-    "                </li>\r" +
-    "\n" +
-    "            </ul>\r" +
     "\n" +
     "        </div>\r" +
     "\n" +
