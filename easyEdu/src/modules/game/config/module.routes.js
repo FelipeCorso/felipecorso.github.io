@@ -88,7 +88,7 @@ define(function() {
                         CategoriesData: function() {
                             return [];
                         },
-                        CategoryData: function($stateParams) {
+                        CategoryData: function ($stateParams) {
                             return $stateParams.category ? JSON.parse($stateParams.category) : undefined;
                         }
                     },
