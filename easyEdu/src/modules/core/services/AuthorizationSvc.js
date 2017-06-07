@@ -246,6 +246,19 @@ define(function() {
                 });
         }
 
+        /*
+         function insertPermission(file){
+         return gapi.client.drive.permissions.insert({
+         'fileId': file.id,
+         'resource': {
+         "withLink": true,
+         "role": "reader",
+         "type": "anyone"
+         }
+         })
+         }
+         */
+
         /**
          * Cria uma pasta e retorna o ID no callback
          */
