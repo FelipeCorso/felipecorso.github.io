@@ -40,7 +40,7 @@ define([], function() {
 
         function addActivity() {
             vm.selectedActivity = {
-                answers: [],
+                answers: 0,
                 correctAnswers: 0,
                 export: vm.isAllActivitiesSelected,
                 level: "EASY",
