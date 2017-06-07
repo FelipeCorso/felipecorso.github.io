@@ -1,4 +1,4 @@
-define([], function() {
+define([], function () {
     'use strict';
     Controller.$inject = ["$scope", "$state", "$stateParams", "moment", "CategoryData", "CategorySvc"];
     /*@ngInject*/
@@ -27,14 +27,18 @@ define([], function() {
         vm.hasImage = hasImage;
 
         function optionToggled() {
-            vm.isAllActivitiesSelected = vm.category.activities.every(function(item) {
+            vm.isAllActivitiesSelected = vm.category.activities.every(function (item) {
                 return item.export;
             });
         }
 
         function toggleAll() {
-            angular.forEach(vm.category.activities, function(activity) {
-                activity.export = vm.isAllActivitiesSelected;
+            changeExportStatus(vm.category.activities, vm.isAllActivitiesSelected);
+        }
+
+        function changeExportStatus(activities, selected) {
+            angular.forEach(activities, function (activity) {
+                activity.export = selected;
             });
         }
 
@@ -49,13 +53,13 @@ define([], function() {
         }
 
         function isEnabledBtnExport() {
-            return vm.category.activities ? vm.category.activities.filter(function(activity) {
+            return vm.category.activities ? vm.category.activities.filter(function (activity) {
                 return activity.export;
             }).length : 0;
         }
 
         function getActivitiesToExport() {
-            var selectedActivities = vm.category.activities.filter(function(activity) {
+            var selectedActivities = vm.category.activities.filter(function (activity) {
                 return activity.export;
             });
 
@@ -77,7 +81,7 @@ define([], function() {
         function generateQrCode() {
             var category = getActivitiesToExport();
             CategorySvc.createQrCodeJson(category)
-                .then(function(categoryId) {
+                .then(function (categoryId) {
                     vm.qrCodeData = window.location.origin + window.location.pathname + "#/game/start?categoryId=" + categoryId;
                 });
         }
@@ -91,13 +95,15 @@ define([], function() {
                 vm.categoryNewName = vm.category.name;// Nome não pode ser ""
             }
 
+            var category = angular.copy(vm.category);
+            changeExportStatus(category.activities, false);
             vm.isLoading = true;
-            CategorySvc.updateCategory(vm.category)
-                .then(function() {
+            CategorySvc.updateCategory(category)
+                .then(function () {
                     return CategorySvc.getMetadataRoot(vm.category.metadataRoot.id);
                 })
-                .then(function(metadata) {
-                    angular.forEach(metadata, function(item) {
+                .then(function (metadata) {
+                    angular.forEach(metadata, function (item) {
                         if (item.id === vm.category.id) {
                             item.image = vm.category.image;
                             item.name = vm.category.name;
@@ -105,15 +111,15 @@ define([], function() {
                     });
                     return CategorySvc.updateMetadataRoot(vm.category.metadataRoot.id, metadata);
                 })
-                .then(function() {
+                .then(function () {
                     if (newName) {
                         CategorySvc.renameCategory(vm.category.parent, vm.categoryNewName);
                     }
                 })
-                .catch(function(error) {
+                .catch(function (error) {
                     console.log(error);
                 })
-                .finally(function() {
+                .finally(function () {
                     vm.isLoading = false;
                 });
         }
@@ -123,24 +129,24 @@ define([], function() {
             if (result) {
                 vm.isLoading = true;
                 CategorySvc.deleteCategory(vm.category.parent)
-                    .then(function() {
+                    .then(function () {
                         return CategorySvc.getMetadataRoot(vm.category.metadataRoot.id);
                     })
-                    .then(function(metadata) {
-                        angular.forEach(metadata, function(item, index) {
+                    .then(function (metadata) {
+                        angular.forEach(metadata, function (item, index) {
                             if (item.id === vm.category.id) {
                                 metadata.splice(index, 1);
                             }
                         });
                         return CategorySvc.updateMetadataRoot(vm.category.metadataRoot.id, metadata);
                     })
-                    .then(function() {
+                    .then(function () {
                         $state.go("editor.my-gallery");
                     })
-                    .catch(function(error) {
+                    .catch(function (error) {
                         console.error(error);
                     })
-                    .finally(function() {
+                    .finally(function () {
                         vm.isLoading = false;
                     });
             }
