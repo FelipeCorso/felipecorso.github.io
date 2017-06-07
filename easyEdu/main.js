@@ -5,7 +5,6 @@ requirejs.config({
         angular: 'vendor/angular/angular.min',
         'angular-route': 'vendor/angular-route/angular-route.min',
         'angular-ui-router': 'vendor/angular-ui-router/release/angular-ui-router.min',
-        'angular-file-upload': 'vendor/angular-file-upload/dist/angular-file-upload.min',
         moment: 'vendor/moment/min/moment.min',
         'angular-moment': 'vendor/angular-moment/angular-moment.min',
         lodash: 'vendor/lodash/dist/lodash.min',
