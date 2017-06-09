@@ -1,56 +1,29 @@
 <div ng-init="vm.play()"></div>
-<div class="row" ng-if="vm.gameMode !== 'MULTIPLAYER'">
+<div class="row" ng-if="vm.gameMode === 'SINGLE_PLAYER'">
     <div class="col-md-12 text-center">
         <game-letters-layout
                 action-next-phase="vm.actionNextPhase()"
                 activity="vm.selectedActivity"
-                category="vm.category"
                 game-mode="vm.gameMode"
                 are-there-more-phases="vm.areThereMorePhases()"
+                play="vm.play()"
+                won-match="vm.isWonMatch"
+                won-game="vm.isWonGame"
+                game-over="vm.isGameOver"
                 ng-if="vm.selectedActivity.type === 'LETTERS'"></game-letters-layout>
         <game-pictures-layout
                 action-next-phase="vm.actionNextPhase()"
                 activity="vm.selectedActivity"
-                category="vm.category"
                 game-mode="vm.gameMode"
                 are-there-more-phases="vm.areThereMorePhases()"
                 play="vm.play()"
+                won-match="vm.isWonMatch"
+                won-game="vm.isWonGame"
+                game-over="vm.isGameOver"
                 ng-if="vm.selectedActivity.type === 'PICTURES'"></game-pictures-layout>
     </div>
 </div>
-<div class="row" ng-if="vm.gameMode === 'MULTIPLAYER'">
-    <div class="col-md-6 rotate-left">
-        <game-letters-layout
-                action-next-phase="vm.actionNextPhase()"
-                activity="vm.selectedActivity"
-                category="vm.category"
-                game-mode="vm.gameMode"
-                are-there-more-phases="vm.areThereMorePhases()"
-                ng-if="vm.selectedActivity.type === 'LETTERS'"></game-letters-layout>
-        <game-pictures-layout
-                action-next-phase="vm.actionNextPhase()"
-                activity="vm.selectedActivity"
-                category="vm.category"
-                game-mode="vm.gameMode"
-                are-there-more-phases="vm.areThereMorePhases()"
-                play="vm.play()"
-                ng-if="vm.selectedActivity.type === 'PICTURES'"></game-pictures-layout>
-    </div>
-    <div class="col-md-6 rotate-right">
-        <game-letters-layout
-                action-next-phase="vm.actionNextPhase()"
-                activity="vm.selectedActivity"
-                category="vm.category"
-                game-mode="vm.gameMode"
-                are-there-more-phases="vm.areThereMorePhases()"
-                ng-if="vm.selectedActivity.type === 'LETTERS'"></game-letters-layout>
-        <game-pictures-layout
-                action-next-phase="vm.actionNextPhase()"
-                activity="vm.selectedActivity"
-                category="vm.category"
-                game-mode="vm.gameMode"
-                are-there-more-phases="vm.areThereMorePhases()"
-                play="vm.play()"
-                ng-if="vm.selectedActivity.type === 'PICTURES'"></game-pictures-layout>
-    </div>
+
+<div class="row" ng-if="vm.gameMode === 'MULTIPLAYER'" ng-init="vm.godFunction()">
+    <div ng-include="'src/modules/game/views/_multiplayer.html'"></div>
 </div>

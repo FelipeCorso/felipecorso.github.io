@@ -6,7 +6,7 @@
                     <div class="col-md-12 game-result-text">
                         <div ng-if="vm.isWonMatch || vm.isWonGame">
                             <h1>Parabéns!</h1>
-                            <h3>Você ganhou {{vm.isWonMatch ? "a partida" : "o jogo"}}</h3>
+                            <h3>Você ganhou {{vm.isWonGame ? "o jogo" : "a partida"}}</h3>
                             <h4>O seu tempo foi de {{vm.getTimeResult() | date:"mm:ss"}}</h4>
                         </div>
                         <div ng-if="vm.isGameOver">
@@ -19,6 +19,11 @@
                     <div class="col-md-12">
                         <button class="btn btn-warning"
                                 type="button"
+                                ng-if="vm.gameMode === 'MULTIPLAYER' && vm.isWonGame"
+                                ng-click="vm.actionPlayAgain()">Jogar novamente</button>
+                        <button class="btn btn-warning"
+                                type="button"
+                                ng-if="vm.gameMode === 'SINGLE_PLAYER'"
                                 ng-click="vm.actionPlayAgain()">{{vm.isGameOver ? "Tentar novamente" : "Jogar novamente"}}</button>
                         <button class="btn btn-success"
                                 type="button"
@@ -32,15 +37,26 @@
         </div>
         <div class="panel-body">
             <div class="row">
-                <div class="col-md-12 text-center">
-                    <h4>{{vm.activity.tip}}</h4>
+                <div class="col-sm-4">
+                </div>
+                <div class="col-sm-4 text-center">
+                    <h4 ng-if="vm.activity.tip">Dica: {{vm.activity.tip}}</h4>
+                </div>
+                <div class="col-sm-4">
+                    <button type="button" class="btn btn-link text-decoration-none pull-right"
+                            ng-click="vm.playSong()">
+                        Reproduzir áudio
+                        <i class="fa fa-play-circle-o fa-2x"></i>
+                    </button>
+                    <audio id="audio_{{vm.customClass}}"
+                           src="src/components/editor/layouts/letters-layout/GALINHA.mp3"></audio>
                 </div>
             </div>
-            <div class="row pictures-layout-answer-panel" id="answers" ng-init="vm.init()">
+            <div class="row pictures-layout-answer-panel" id="answers_{{vm.customClass}}">
             </div>
         </div>
         <div class="panel-footer">
-            <div class="row" id="answerOptions">
+            <div class="row" id="answerOptions_{{vm.customClass}}">
             </div>
         </div>
     </div>

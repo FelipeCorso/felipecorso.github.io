@@ -1,20 +1,20 @@
-<div class="panel-group">
-    <div class="panel panel-default">
-        <div class="panel-heading text-center">
-            <div class="row">
-                <div class="col-md-12">
-                    <h2>Escolha o modo de jogo</h2>
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet light bordered">
+            <div class="portlet-title">
+                <div class="caption">
+                    <span class="caption-subject bold uppercase font-dark">Escolha o modo de jogo</span>
                 </div>
             </div>
-        </div>
-        <div class="panel-body">
-            <div class="row text-center">
-                <div class="col-xs-6" ng-repeat="gameMode in vm.gameModes | orderBy:$index">
-                    <button class="btn btn-default btn-circle btn-lg btn-game-mode" type="button"
-                            ng-click="vm.goToPlay(gameMode.type)">
-                        <i class="fa " ng-class="gameMode.icon"></i>
-                        {{gameMode.label}}
-                    </button>
+            <div class="portlet-body text-center">
+                <div class="row text-center">
+                    <div class="col-sm-6" ng-class="{'margin-bottom-10': $index === 0}" ng-repeat="gameMode in vm.gameModes | orderBy:$index">
+                        <button class="btn btn-default btn-circle btn-lg btn-game-mode" type="button"
+                                ng-click="vm.goToPlay(gameMode.type)">
+                            <i class="fa " ng-class="gameMode.icon"></i>
+                            {{gameMode.label}}
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>

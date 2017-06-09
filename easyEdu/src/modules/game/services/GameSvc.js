@@ -29,7 +29,6 @@ define(function() {
                 .catch(function(error) {
                     future.reject(error);
                     console.error(error);
-                    $state.go("game.start", {}, {reload: true});
                 });
             return future.promise;
         }

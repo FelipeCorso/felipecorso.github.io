@@ -1,19 +1,41 @@
 <div class="row">
     <div class="col-md-12">
-
-        <a ui-sref="editor.category.add">
-            <i class="fa fa-plus fa-3x"></i> Adicionar assunto
-        </a>
-    </div>
-</div>
-<div class="row margin-top-20">
-    <div class="col-sm-4 col-md-3" style="max-height: 235px; height: 235px;" ng-repeat="category in vm.defaultCategories">
-        <a class="text-decoration-none">
-            <div class="img-responsive my-gallery-no-img"
-                 ng-style="category.image.id && {'background-image': 'url(https://drive.google.com/uc?export=view&id={{category.image.id}})'}">
-                <i class="fa fa-picture-o fa-3x" aria-hidden="true" ng-if="!category.image.id"></i>
+        <div class="portlet light bordered">
+            <div class="portlet-title">
+                <div class="caption">
+                    <span class="caption-subject bold uppercase font-dark">Galeria de assuntos padrão</span>
+                </div>
             </div>
-            <h4 class="text-center ellipsis">{{category.name}}</h4>
-        </a>
+            <div class="portlet-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="alert alert-info">
+                            Aqui são apresentados os assuntos padrão. Você pode escolher um deles e customizá-lo sem compromisso ;)
+                            <br>
+                            Se preferir, você pode acessar com sua conta Google. Clicar no botão "Adicionar assunto" e personalizar o assunto como quiser.
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4 col-md-3" ng-if="app.auth.isSignedInGoogle()">
+                        <a class="text-decoration-none" ui-sref="editor.category.add">
+                            <div class="my-gallery-add-category">
+                                <i class="fa fa-plus fa-3x" aria-hidden="true"></i>
+                            </div>
+                            <h4 class="text-center ellipsis">Adicionar assunto</h4>
+                        </a>
+                    </div>
+                    <div class="col-sm-4 col-md-3" style="max-height: 235px; height: 235px;" ng-repeat="category in vm.defaultCategories">
+                        <a class="text-decoration-none">
+                            <div class="img-responsive my-gallery-no-img"
+                                 ng-style="category.image.id && {'background-image': 'url(https://drive.google.com/uc?export=view&id={{category.image.id}})'}">
+                                <i class="fa fa-picture-o fa-3x" aria-hidden="true" ng-if="!category.image.id"></i>
+                            </div>
+                            <h4 class="text-center ellipsis">{{category.name}}</h4>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

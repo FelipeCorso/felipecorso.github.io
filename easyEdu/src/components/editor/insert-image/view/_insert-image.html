@@ -1,49 +1,76 @@
 <div class="row" ng-if="vm.multipleSelect">
     <div class="col-sm-6" ng-repeat="answerOption in vm.model.answerOptions | filter:{type:vm.answerType}:true">
-        <div class="pull-right">
-            <i class="fa fa-times" aria-hidden="true"
-               title="Clique para remover a imagem"
-               ng-click="vm.removeImage(answerOption)"></i>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="pull-right">
+                    <i class="fa fa-info-circle" aria-hidden="true"
+                       title="Escolha uma imagem que a largura seja maior que a altura"></i>
+                    <i class="fa fa-times" aria-hidden="true"
+                       title="Clique para remover a imagem"
+                       ng-click="vm.removeImage(answerOption)"></i>
+                </div>
+            </div>
         </div>
-        <a href="https://drive.google.com/uc?export=view&id={{answerOption.image.id}}" target="_blank">
-            <img class="img-thumbnail answer-option-img"
-                 ng-src="https://drive.google.com/uc?export=view&id={{answerOption.image.id}}"
-                 alt="{{vm.altImage}}"
-                 title="Clique para abrir a imagem em tamanho real." />
-        </a>
+        <div class="row">
+            <div class="col-md-12">
+                <a href="https://drive.google.com/uc?export=view&id={{answerOption.image.id}}" target="_blank">
+                    <img class="img-thumbnail answer-option-img"
+                         ng-src="https://drive.google.com/uc?export=view&id={{answerOption.image.id}}"
+                         alt="{{vm.altImage}}"
+                         title="Clique para abrir a imagem em tamanho real." />
+                </a>
+            </div>
+        </div>
     </div>
     <div class="col-sm-6">
-        <div class="img-responsive my-gallery-no-img margin-top-20 pointer" style="height: 200px"
-             title="Clique para adicionar uma imagem"
-             ng-click="vm.authSvc.createPicker(vm.model.parent, vm.imageSelected, vm.multipleSelect)">
-            <i class="fa fa-picture-o fa-3x" aria-hidden="true"></i>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="pull-right">
+                    <i class="fa fa-info-circle" aria-hidden="true"
+                       title="Escolha uma imagem que a largura seja maior que a altura"></i>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="img-responsive my-gallery-no-img pointer" style="height: 200px"
+                     title="Clique para adicionar uma imagem"
+                     ng-click="vm.authSvc.createPicker(vm.model.parent, vm.imageSelected, vm.multipleSelect)">
+                    <i class="fa fa-picture-o fa-3x" aria-hidden="true"></i>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 
-<div class="row" ng-if="!vm.multipleSelect">
-    <div class="col-md-12">
-        <div ng-if="vm.hasImage()">
+<div ng-if="!vm.multipleSelect">
+    <div class="row">
+        <div class="col-md-12">
             <div class="pull-right">
                 <i class="fa fa-info-circle" aria-hidden="true"
                    title="Escolha uma imagem que a largura seja maior que a altura"></i>
-                <i class="fa fa-times" aria-hidden="true"
-                   title="Clique para remover a imagem"
-                   ng-click="vm.imageRemoved()"></i>
+                <i class="fa fa-times" aria-hidden="true" title="Clique para remover a imagem"
+                   ng-if="vm.hasImage()" ng-click="vm.imageRemoved()"></i>
             </div>
-            <a href="https://drive.google.com/uc?export=view&id={{vm.model.image.id}}" target="_blank">
-                <img class="img-thumbnail"
-                     ng-src="https://drive.google.com/uc?export=view&id={{vm.model.image.id}}"
-                     alt="{{vm.altImage}}"
-                     title="Clique para abrir a imagem em tamanho real." />
-            </a>
         </div>
-
-        <div class="img-responsive my-gallery-no-img pointer"
-             title="Clique para adicionar uma imagem"
-             ng-if="!vm.hasImage()"
-             ng-click="vm.authSvc.createPicker(vm.model.parent, vm.imageSelected, vm.multipleSelect)">
-            <i class="fa fa-picture-o fa-3x" aria-hidden="true"></i>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div ng-if="vm.hasImage()">
+                <a href="https://drive.google.com/uc?export=view&id={{vm.model.image.id}}" target="_blank">
+                    <img class="img-thumbnail"
+                         ng-src="https://drive.google.com/uc?export=view&id={{vm.model.image.id}}"
+                         alt="{{vm.altImage}}"
+                         title="Clique para abrir a imagem em tamanho real." />
+                </a>
+            </div>
+            <div ng-if="!vm.hasImage()">
+                <div class="img-responsive my-gallery-no-img pointer"
+                     title="Clique para adicionar uma imagem"
+                     ng-click="vm.authSvc.createPicker(vm.model.parent, vm.imageSelected, vm.multipleSelect)">
+                    <i class="fa fa-picture-o fa-3x" aria-hidden="true"></i>
+                </div>
+            </div>
         </div>
     </div>
 </div>

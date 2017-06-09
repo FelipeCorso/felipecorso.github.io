@@ -26,6 +26,17 @@ define([], function () {
                 label: "Multijogador",
                 type: "MULTIPLAYER"
             }];
+        vm.isWonMatch = false;
+        vm.isWonGame = false;
+        vm.isGameOver = false;
+        vm.isLeftWonMatch = false;
+        vm.isLeftWonGame = false;
+        vm.isLeftGameOver = false;
+        vm.isRightWonMatch = false;
+        vm.isRightWonGame = false;
+        vm.isRightGameOver = false;
+        var collectionLeft = ["vm.isLeftWonMatch", "vm.isLeftWonGame"];
+        var collectionRight = ["vm.isRightWonMatch", "vm.isRightWonGame"];
 
         vm.setGameMode = setGameMode;
         vm.play = play;
@@ -75,12 +86,19 @@ define([], function () {
         }
 
         function selectActivity() {
-            vm.selectedActivity = raffleActivity(vm.category);
+            if (vm.gameMode && vm.gameMode === "MULTIPLAYER") {
+                vm.selectedActivityLeft = raffleActivity(vm.category);
+                vm.selectedActivityRight = raffleActivity(vm.category);
+            } else {
+                vm.selectedActivity = raffleActivity(vm.category);
+            }
         }
 
         function play() {
             initLevel();
             selectActivity();
+            cleanGameStatus();
+            watchGameOver();
         }
 
         function actionNextPhase() {
@@ -89,15 +107,40 @@ define([], function () {
                 selectActivity();
                 if (!vm.selectedActivity) {
                     actionNextPhase();
+                } else {
+                    if (vm.gameMode && vm.gameMode === "MULTIPLAYER") {
+                        cleanGameStatus();
+                    }
                 }
-                // createTimer(); // pictures
-                /*if (vm.activity) {
-                 game.state.restart(); // letters
-                 vm.isWinMatch = false; // pictures
-                 } else {
-                 actionNextPhase();
-                 }*/
             }
+        }
+
+        function watchGameOver() {
+            createWatchGroup(collectionLeft, vm.isRightGameOver);
+            createWatchGroup(collectionRight, vm.isLeftGameOver);
+        }
+
+        function createWatchGroup(collection, variable) {
+            $scope.$watchGroup(collection, function (newValues) {
+                variable = newValues[0] || newValues[1];
+            });
+        }
+
+        function cleanWatchGroup(collection) {
+            $scope.$watchGroup(collection, function () {
+            });
+        }
+
+        $scope.$on("$destroy", function () {
+            cleanWatchGroup(collectionLeft);
+            cleanWatchGroup(collectionRight);
+        });
+
+        function cleanGameStatus() {
+            vm.isLeftWonMatch = false;
+            vm.isLeftWonGame = false;
+            vm.isRightWonMatch = false;
+            vm.isRightWonGame = false;
         }
 
         function areThereMorePhases() {
@@ -122,7 +165,7 @@ define([], function () {
         /**
          * O stringify é necessário para passar o assunto para a rota game.play.
          * Nessa rota é feito o parse para um objeto novamente.
-         * 
+         *
          * @param gameMode
          * @returns {{category, gameMode: *}}
          */
@@ -131,7 +174,7 @@ define([], function () {
         }
 
         function goToPlay(gameMode) {
-            $state.go("game.play", getPlayParams(gameMode))
+            $state.go("game.play", getPlayParams(gameMode));
         }
     }
 

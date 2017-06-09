@@ -153,39 +153,83 @@ angular.module('resources.views', []).run(['$templateCache', function($templateC
     "\n" +
     "    <div class=\"col-sm-6\" ng-repeat=\"answerOption in vm.model.answerOptions | filter:{type:vm.answerType}:true\">\r" +
     "\n" +
-    "        <div class=\"pull-right\">\r" +
+    "        <div class=\"row\">\r" +
     "\n" +
-    "            <i class=\"fa fa-times\" aria-hidden=\"true\"\r" +
+    "            <div class=\"col-md-12\">\r" +
     "\n" +
-    "               title=\"Clique para remover a imagem\"\r" +
+    "                <div class=\"pull-right\">\r" +
     "\n" +
-    "               ng-click=\"vm.removeImage(answerOption)\"></i>\r" +
+    "                    <i class=\"fa fa-info-circle\" aria-hidden=\"true\"\r" +
+    "\n" +
+    "                       title=\"Escolha uma imagem que a largura seja maior que a altura\"></i>\r" +
+    "\n" +
+    "                    <i class=\"fa fa-times\" aria-hidden=\"true\"\r" +
+    "\n" +
+    "                       title=\"Clique para remover a imagem\"\r" +
+    "\n" +
+    "                       ng-click=\"vm.removeImage(answerOption)\"></i>\r" +
+    "\n" +
+    "                </div>\r" +
+    "\n" +
+    "            </div>\r" +
     "\n" +
     "        </div>\r" +
     "\n" +
-    "        <a href=\"https://drive.google.com/uc?export=view&id={{answerOption.image.id}}\" target=\"_blank\">\r" +
+    "        <div class=\"row\">\r" +
     "\n" +
-    "            <img class=\"img-thumbnail answer-option-img\"\r" +
+    "            <div class=\"col-md-12\">\r" +
     "\n" +
-    "                 ng-src=\"https://drive.google.com/uc?export=view&id={{answerOption.image.id}}\"\r" +
+    "                <a href=\"https://drive.google.com/uc?export=view&id={{answerOption.image.id}}\" target=\"_blank\">\r" +
     "\n" +
-    "                 alt=\"{{vm.altImage}}\"\r" +
+    "                    <img class=\"img-thumbnail answer-option-img\"\r" +
     "\n" +
-    "                 title=\"Clique para abrir a imagem em tamanho real.\" />\r" +
+    "                         ng-src=\"https://drive.google.com/uc?export=view&id={{answerOption.image.id}}\"\r" +
     "\n" +
-    "        </a>\r" +
+    "                         alt=\"{{vm.altImage}}\"\r" +
+    "\n" +
+    "                         title=\"Clique para abrir a imagem em tamanho real.\" />\r" +
+    "\n" +
+    "                </a>\r" +
+    "\n" +
+    "            </div>\r" +
+    "\n" +
+    "        </div>\r" +
     "\n" +
     "    </div>\r" +
     "\n" +
     "    <div class=\"col-sm-6\">\r" +
     "\n" +
-    "        <div class=\"img-responsive my-gallery-no-img margin-top-20 pointer\" style=\"height: 200px\"\r" +
+    "        <div class=\"row\">\r" +
     "\n" +
-    "             title=\"Clique para adicionar uma imagem\"\r" +
+    "            <div class=\"col-md-12\">\r" +
     "\n" +
-    "             ng-click=\"vm.authSvc.createPicker(vm.model.parent, vm.imageSelected, vm.multipleSelect)\">\r" +
+    "                <div class=\"pull-right\">\r" +
     "\n" +
-    "            <i class=\"fa fa-picture-o fa-3x\" aria-hidden=\"true\"></i>\r" +
+    "                    <i class=\"fa fa-info-circle\" aria-hidden=\"true\"\r" +
+    "\n" +
+    "                       title=\"Escolha uma imagem que a largura seja maior que a altura\"></i>\r" +
+    "\n" +
+    "                </div>\r" +
+    "\n" +
+    "            </div>\r" +
+    "\n" +
+    "        </div>\r" +
+    "\n" +
+    "        <div class=\"row\">\r" +
+    "\n" +
+    "            <div class=\"col-md-12\">\r" +
+    "\n" +
+    "                <div class=\"img-responsive my-gallery-no-img pointer\" style=\"height: 200px\"\r" +
+    "\n" +
+    "                     title=\"Clique para adicionar uma imagem\"\r" +
+    "\n" +
+    "                     ng-click=\"vm.authSvc.createPicker(vm.model.parent, vm.imageSelected, vm.multipleSelect)\">\r" +
+    "\n" +
+    "                    <i class=\"fa fa-picture-o fa-3x\" aria-hidden=\"true\"></i>\r" +
+    "\n" +
+    "                </div>\r" +
+    "\n" +
+    "            </div>\r" +
     "\n" +
     "        </div>\r" +
     "\n" +
@@ -195,11 +239,11 @@ angular.module('resources.views', []).run(['$templateCache', function($templateC
     "\n" +
     "\r" +
     "\n" +
-    "<div class=\"row\" ng-if=\"!vm.multipleSelect\">\r" +
+    "<div ng-if=\"!vm.multipleSelect\">\r" +
     "\n" +
-    "    <div class=\"col-md-12\">\r" +
+    "    <div class=\"row\">\r" +
     "\n" +
-    "        <div ng-if=\"vm.hasImage()\">\r" +
+    "        <div class=\"col-md-12\">\r" +
     "\n" +
     "            <div class=\"pull-right\">\r" +
     "\n" +
@@ -207,39 +251,49 @@ angular.module('resources.views', []).run(['$templateCache', function($templateC
     "\n" +
     "                   title=\"Escolha uma imagem que a largura seja maior que a altura\"></i>\r" +
     "\n" +
-    "                <i class=\"fa fa-times\" aria-hidden=\"true\"\r" +
+    "                <i class=\"fa fa-times\" aria-hidden=\"true\" title=\"Clique para remover a imagem\"\r" +
     "\n" +
-    "                   title=\"Clique para remover a imagem\"\r" +
-    "\n" +
-    "                   ng-click=\"vm.imageRemoved()\"></i>\r" +
+    "                   ng-if=\"vm.hasImage()\" ng-click=\"vm.imageRemoved()\"></i>\r" +
     "\n" +
     "            </div>\r" +
     "\n" +
-    "            <a href=\"https://drive.google.com/uc?export=view&id={{vm.model.image.id}}\" target=\"_blank\">\r" +
-    "\n" +
-    "                <img class=\"img-thumbnail\"\r" +
-    "\n" +
-    "                     ng-src=\"https://drive.google.com/uc?export=view&id={{vm.model.image.id}}\"\r" +
-    "\n" +
-    "                     alt=\"{{vm.altImage}}\"\r" +
-    "\n" +
-    "                     title=\"Clique para abrir a imagem em tamanho real.\" />\r" +
-    "\n" +
-    "            </a>\r" +
-    "\n" +
     "        </div>\r" +
     "\n" +
-    "\r" +
+    "    </div>\r" +
     "\n" +
-    "        <div class=\"img-responsive my-gallery-no-img pointer\"\r" +
+    "    <div class=\"row\">\r" +
     "\n" +
-    "             title=\"Clique para adicionar uma imagem\"\r" +
+    "        <div class=\"col-md-12\">\r" +
     "\n" +
-    "             ng-if=\"!vm.hasImage()\"\r" +
+    "            <div ng-if=\"vm.hasImage()\">\r" +
     "\n" +
-    "             ng-click=\"vm.authSvc.createPicker(vm.model.parent, vm.imageSelected, vm.multipleSelect)\">\r" +
+    "                <a href=\"https://drive.google.com/uc?export=view&id={{vm.model.image.id}}\" target=\"_blank\">\r" +
     "\n" +
-    "            <i class=\"fa fa-picture-o fa-3x\" aria-hidden=\"true\"></i>\r" +
+    "                    <img class=\"img-thumbnail\"\r" +
+    "\n" +
+    "                         ng-src=\"https://drive.google.com/uc?export=view&id={{vm.model.image.id}}\"\r" +
+    "\n" +
+    "                         alt=\"{{vm.altImage}}\"\r" +
+    "\n" +
+    "                         title=\"Clique para abrir a imagem em tamanho real.\" />\r" +
+    "\n" +
+    "                </a>\r" +
+    "\n" +
+    "            </div>\r" +
+    "\n" +
+    "            <div ng-if=\"!vm.hasImage()\">\r" +
+    "\n" +
+    "                <div class=\"img-responsive my-gallery-no-img pointer\"\r" +
+    "\n" +
+    "                     title=\"Clique para adicionar uma imagem\"\r" +
+    "\n" +
+    "                     ng-click=\"vm.authSvc.createPicker(vm.model.parent, vm.imageSelected, vm.multipleSelect)\">\r" +
+    "\n" +
+    "                    <i class=\"fa fa-picture-o fa-3x\" aria-hidden=\"true\"></i>\r" +
+    "\n" +
+    "                </div>\r" +
+    "\n" +
+    "            </div>\r" +
     "\n" +
     "        </div>\r" +
     "\n" +
@@ -562,27 +616,6 @@ angular.module('resources.views', []).run(['$templateCache', function($templateC
 
 
   $templateCache.put('src/components/game/letters-layout/view/_letters-layout.html',
-    "<!--ng-class=\"vm.customClass\"-->\r" +
-    "\n" +
-    "<!--\r" +
-    "\n" +
-    "<div class=\"row\" style=\"margin-bottom: 20px; margin-top: 20px;\">\r" +
-    "\n" +
-    "    <div class=\"col-md-12\">\r" +
-    "\n" +
-    "        <div class=\"canvas-center\" id=\"gameCanvas_{{vm.customClass}}\"></div>\r" +
-    "\n" +
-    "    </div>\r" +
-    "\n" +
-    "</div>-->\r" +
-    "\n" +
-    "\r" +
-    "\n" +
-    "<div class=\"canvas-center\" id=\"gameCanvas_{{vm.customClass}}\"></div>"
-  );
-
-
-  $templateCache.put('src/components/game/pictures-layout/view/_pictures-layout.html',
     "<div class=\"panel-group\">\r" +
     "\n" +
     "    <div class=\"panel panel-default\">\r" +
@@ -599,7 +632,7 @@ angular.module('resources.views', []).run(['$templateCache', function($templateC
     "\n" +
     "                            <h1>Parabéns!</h1>\r" +
     "\n" +
-    "                            <h3>Você ganhou {{vm.isWonMatch ? \"a partida\" : \"o jogo\"}}</h3>\r" +
+    "                            <h3>Você ganhou {{vm.isWonGame ? \"o jogo\" : \"a partida\"}}</h3>\r" +
     "\n" +
     "                            <h4>O seu tempo foi de {{vm.getTimeResult() | date:\"mm:ss\"}}</h4>\r" +
     "\n" +
@@ -624,6 +657,16 @@ angular.module('resources.views', []).run(['$templateCache', function($templateC
     "                        <button class=\"btn btn-warning\"\r" +
     "\n" +
     "                                type=\"button\"\r" +
+    "\n" +
+    "                                ng-if=\"vm.gameMode === 'MULTIPLAYER' && vm.isWonGame\"\r" +
+    "\n" +
+    "                                ng-click=\"vm.actionPlayAgain()\">Jogar novamente</button>\r" +
+    "\n" +
+    "                        <button class=\"btn btn-warning\"\r" +
+    "\n" +
+    "                                type=\"button\"\r" +
+    "\n" +
+    "                                ng-if=\"vm.gameMode === 'SINGLE_PLAYER'\"\r" +
     "\n" +
     "                                ng-click=\"vm.actionPlayAgain()\">{{vm.isGameOver ? \"Tentar novamente\" : \"Jogar novamente\"}}</button>\r" +
     "\n" +
@@ -651,15 +694,61 @@ angular.module('resources.views', []).run(['$templateCache', function($templateC
     "\n" +
     "            <div class=\"row\">\r" +
     "\n" +
-    "                <div class=\"col-md-12 text-center\">\r" +
+    "                <div class=\"col-sm-4\">\r" +
     "\n" +
-    "                    <h4>{{vm.activity.tip}}</h4>\r" +
+    "                    <button type=\"button\" class=\"btn btn-link text-decoration-none pull-left\"\r" +
+    "\n" +
+    "                            ng-if=\"vm.activity.image.id\"\r" +
+    "\n" +
+    "                            ng-init=\"vm.showImage = false;\" ng-click=\"vm.showImage = !vm.showImage;\">\r" +
+    "\n" +
+    "                        <i class=\"fa fa-picture-o fa-2x\"></i>\r" +
+    "\n" +
+    "                        {{vm.showImage ? \"Ocultar\" : \"Exibir\"}} imagem\r" +
+    "\n" +
+    "                    </button>\r" +
+    "\n" +
+    "                </div>\r" +
+    "\n" +
+    "                <div class=\"col-sm-4 text-center\">\r" +
+    "\n" +
+    "                    <h4 ng-if=\"vm.activity.tip\">Dica: {{vm.activity.tip}}</h4>\r" +
+    "\n" +
+    "                </div>\r" +
+    "\n" +
+    "                <div class=\"col-sm-4\">\r" +
+    "\n" +
+    "                    <button type=\"button\" class=\"btn btn-link text-decoration-none pull-right\"\r" +
+    "\n" +
+    "                            ng-click=\"vm.playSong()\">\r" +
+    "\n" +
+    "                        Reproduzir áudio\r" +
+    "\n" +
+    "                        <i class=\"fa fa-play-circle-o fa-2x\"></i>\r" +
+    "\n" +
+    "                    </button>\r" +
+    "\n" +
+    "                    <audio id=\"audio_{{vm.customClass}}\" src=\"src/components/editor/layouts/letters-layout/GALINHA.mp3\"></audio>\r" +
     "\n" +
     "                </div>\r" +
     "\n" +
     "            </div>\r" +
     "\n" +
-    "            <div class=\"row pictures-layout-answer-panel\" id=\"answers\" ng-init=\"vm.init()\">\r" +
+    "            <div class=\"row pictures-layout-answer-panel\">\r" +
+    "\n" +
+    "                <div class=\"col-md-12\"\r" +
+    "\n" +
+    "                     ng-if=\"vm.showImage && vm.activity.image.id\">\r" +
+    "\n" +
+    "                    <img ng-src=\"https://drive.google.com/uc?export=view&id={{vm.activity.image.id}}\" alt=\"vm.activity.image.name\">\r" +
+    "\n" +
+    "                </div>\r" +
+    "\n" +
+    "                <div class=\"col-md-12 text-center\">\r" +
+    "\n" +
+    "                    <ul class=\"list-inline letter-layout-answer\" id=\"answers_{{vm.customClass}}\"></ul>\r" +
+    "\n" +
+    "                </div>\r" +
     "\n" +
     "            </div>\r" +
     "\n" +
@@ -667,7 +756,143 @@ angular.module('resources.views', []).run(['$templateCache', function($templateC
     "\n" +
     "        <div class=\"panel-footer\">\r" +
     "\n" +
-    "            <div class=\"row\" id=\"answerOptions\">\r" +
+    "            <div class=\"row\">\r" +
+    "\n" +
+    "                <div class=\"col-md-12 text-center\">\r" +
+    "\n" +
+    "                    <ul class=\"list-inline\" id=\"answerOptions_{{vm.customClass}}\"></ul>\r" +
+    "\n" +
+    "                </div>\r" +
+    "\n" +
+    "            </div>\r" +
+    "\n" +
+    "        </div>\r" +
+    "\n" +
+    "    </div>\r" +
+    "\n" +
+    "</div>\r" +
+    "\n"
+  );
+
+
+  $templateCache.put('src/components/game/pictures-layout/view/_pictures-layout.html',
+    "<div class=\"panel-group\">\r" +
+    "\n" +
+    "    <div class=\"panel panel-default\">\r" +
+    "\n" +
+    "        <div class=\"panel-heading text-center\">\r" +
+    "\n" +
+    "            <div ng-if=\"vm.isWonMatch || vm.isWonGame || vm.isGameOver\">\r" +
+    "\n" +
+    "                <div class=\"row\">\r" +
+    "\n" +
+    "                    <div class=\"col-md-12 game-result-text\">\r" +
+    "\n" +
+    "                        <div ng-if=\"vm.isWonMatch || vm.isWonGame\">\r" +
+    "\n" +
+    "                            <h1>Parabéns!</h1>\r" +
+    "\n" +
+    "                            <h3>Você ganhou {{vm.isWonGame ? \"o jogo\" : \"a partida\"}}</h3>\r" +
+    "\n" +
+    "                            <h4>O seu tempo foi de {{vm.getTimeResult() | date:\"mm:ss\"}}</h4>\r" +
+    "\n" +
+    "                        </div>\r" +
+    "\n" +
+    "                        <div ng-if=\"vm.isGameOver\">\r" +
+    "\n" +
+    "                            <h1>Que pena!</h1>\r" +
+    "\n" +
+    "                            <h3>Você perdeu o jogo</h3>\r" +
+    "\n" +
+    "                        </div>\r" +
+    "\n" +
+    "                    </div>\r" +
+    "\n" +
+    "                </div>\r" +
+    "\n" +
+    "                <div class=\"row\">\r" +
+    "\n" +
+    "                    <div class=\"col-md-12\">\r" +
+    "\n" +
+    "                        <button class=\"btn btn-warning\"\r" +
+    "\n" +
+    "                                type=\"button\"\r" +
+    "\n" +
+    "                                ng-if=\"vm.gameMode === 'MULTIPLAYER' && vm.isWonGame\"\r" +
+    "\n" +
+    "                                ng-click=\"vm.actionPlayAgain()\">Jogar novamente</button>\r" +
+    "\n" +
+    "                        <button class=\"btn btn-warning\"\r" +
+    "\n" +
+    "                                type=\"button\"\r" +
+    "\n" +
+    "                                ng-if=\"vm.gameMode === 'SINGLE_PLAYER'\"\r" +
+    "\n" +
+    "                                ng-click=\"vm.actionPlayAgain()\">{{vm.isGameOver ? \"Tentar novamente\" : \"Jogar novamente\"}}</button>\r" +
+    "\n" +
+    "                        <button class=\"btn btn-success\"\r" +
+    "\n" +
+    "                                type=\"button\"\r" +
+    "\n" +
+    "                                ng-click=\"vm.actionNextPhase()\"\r" +
+    "\n" +
+    "                                ng-if=\"!vm.isWonGame && !vm.isGameOver\">Próxima fase</button>\r" +
+    "\n" +
+    "                    </div>\r" +
+    "\n" +
+    "                </div>\r" +
+    "\n" +
+    "                <hr>\r" +
+    "\n" +
+    "            </div>\r" +
+    "\n" +
+    "            {{vm.timer | amDateFormat:\"mm:ss\"}}\r" +
+    "\n" +
+    "        </div>\r" +
+    "\n" +
+    "        <div class=\"panel-body\">\r" +
+    "\n" +
+    "            <div class=\"row\">\r" +
+    "\n" +
+    "                <div class=\"col-sm-4\">\r" +
+    "\n" +
+    "                </div>\r" +
+    "\n" +
+    "                <div class=\"col-sm-4 text-center\">\r" +
+    "\n" +
+    "                    <h4 ng-if=\"vm.activity.tip\">Dica: {{vm.activity.tip}}</h4>\r" +
+    "\n" +
+    "                </div>\r" +
+    "\n" +
+    "                <div class=\"col-sm-4\">\r" +
+    "\n" +
+    "                    <button type=\"button\" class=\"btn btn-link text-decoration-none pull-right\"\r" +
+    "\n" +
+    "                            ng-click=\"vm.playSong()\">\r" +
+    "\n" +
+    "                        Reproduzir áudio\r" +
+    "\n" +
+    "                        <i class=\"fa fa-play-circle-o fa-2x\"></i>\r" +
+    "\n" +
+    "                    </button>\r" +
+    "\n" +
+    "                    <audio id=\"audio_{{vm.customClass}}\"\r" +
+    "\n" +
+    "                           src=\"src/components/editor/layouts/letters-layout/GALINHA.mp3\"></audio>\r" +
+    "\n" +
+    "                </div>\r" +
+    "\n" +
+    "            </div>\r" +
+    "\n" +
+    "            <div class=\"row pictures-layout-answer-panel\" id=\"answers_{{vm.customClass}}\">\r" +
+    "\n" +
+    "            </div>\r" +
+    "\n" +
+    "        </div>\r" +
+    "\n" +
+    "        <div class=\"panel-footer\">\r" +
+    "\n" +
+    "            <div class=\"row\" id=\"answerOptions_{{vm.customClass}}\">\r" +
     "\n" +
     "            </div>\r" +
     "\n" +
@@ -1040,35 +1265,79 @@ angular.module('resources.views', []).run(['$templateCache', function($templateC
     "\n" +
     "    <div class=\"col-md-12\">\r" +
     "\n" +
-    "\r" +
+    "        <div class=\"portlet light bordered\">\r" +
     "\n" +
-    "        <a ui-sref=\"editor.category.add\">\r" +
+    "            <div class=\"portlet-title\">\r" +
     "\n" +
-    "            <i class=\"fa fa-plus fa-3x\"></i> Adicionar assunto\r" +
+    "                <div class=\"caption\">\r" +
     "\n" +
-    "        </a>\r" +
+    "                    <span class=\"caption-subject bold uppercase font-dark\">Galeria de assuntos padrão</span>\r" +
     "\n" +
-    "    </div>\r" +
-    "\n" +
-    "</div>\r" +
-    "\n" +
-    "<div class=\"row margin-top-20\">\r" +
-    "\n" +
-    "    <div class=\"col-sm-4 col-md-3\" style=\"max-height: 235px; height: 235px;\" ng-repeat=\"category in vm.defaultCategories\">\r" +
-    "\n" +
-    "        <a class=\"text-decoration-none\">\r" +
-    "\n" +
-    "            <div class=\"img-responsive my-gallery-no-img\"\r" +
-    "\n" +
-    "                 ng-style=\"category.image.id && {'background-image': 'url(https://drive.google.com/uc?export=view&id={{category.image.id}})'}\">\r" +
-    "\n" +
-    "                <i class=\"fa fa-picture-o fa-3x\" aria-hidden=\"true\" ng-if=\"!category.image.id\"></i>\r" +
+    "                </div>\r" +
     "\n" +
     "            </div>\r" +
     "\n" +
-    "            <h4 class=\"text-center ellipsis\">{{category.name}}</h4>\r" +
+    "            <div class=\"portlet-body\">\r" +
     "\n" +
-    "        </a>\r" +
+    "                <div class=\"row\">\r" +
+    "\n" +
+    "                    <div class=\"col-md-12\">\r" +
+    "\n" +
+    "                        <div class=\"alert alert-info\">\r" +
+    "\n" +
+    "                            Aqui são apresentados os assuntos padrão. Você pode escolher um deles e customizá-lo sem compromisso ;)\r" +
+    "\n" +
+    "                            <br>\r" +
+    "\n" +
+    "                            Se preferir, você pode acessar com sua conta Google. Clicar no botão \"Adicionar assunto\" e personalizar o assunto como quiser.\r" +
+    "\n" +
+    "                        </div>\r" +
+    "\n" +
+    "                    </div>\r" +
+    "\n" +
+    "                </div>\r" +
+    "\n" +
+    "                <div class=\"row\">\r" +
+    "\n" +
+    "                    <div class=\"col-sm-4 col-md-3\" ng-if=\"app.auth.isSignedInGoogle()\">\r" +
+    "\n" +
+    "                        <a class=\"text-decoration-none\" ui-sref=\"editor.category.add\">\r" +
+    "\n" +
+    "                            <div class=\"my-gallery-add-category\">\r" +
+    "\n" +
+    "                                <i class=\"fa fa-plus fa-3x\" aria-hidden=\"true\"></i>\r" +
+    "\n" +
+    "                            </div>\r" +
+    "\n" +
+    "                            <h4 class=\"text-center ellipsis\">Adicionar assunto</h4>\r" +
+    "\n" +
+    "                        </a>\r" +
+    "\n" +
+    "                    </div>\r" +
+    "\n" +
+    "                    <div class=\"col-sm-4 col-md-3\" style=\"max-height: 235px; height: 235px;\" ng-repeat=\"category in vm.defaultCategories\">\r" +
+    "\n" +
+    "                        <a class=\"text-decoration-none\">\r" +
+    "\n" +
+    "                            <div class=\"img-responsive my-gallery-no-img\"\r" +
+    "\n" +
+    "                                 ng-style=\"category.image.id && {'background-image': 'url(https://drive.google.com/uc?export=view&id={{category.image.id}})'}\">\r" +
+    "\n" +
+    "                                <i class=\"fa fa-picture-o fa-3x\" aria-hidden=\"true\" ng-if=\"!category.image.id\"></i>\r" +
+    "\n" +
+    "                            </div>\r" +
+    "\n" +
+    "                            <h4 class=\"text-center ellipsis\">{{category.name}}</h4>\r" +
+    "\n" +
+    "                        </a>\r" +
+    "\n" +
+    "                    </div>\r" +
+    "\n" +
+    "                </div>\r" +
+    "\n" +
+    "            </div>\r" +
+    "\n" +
+    "        </div>\r" +
     "\n" +
     "    </div>\r" +
     "\n" +
@@ -1077,51 +1346,91 @@ angular.module('resources.views', []).run(['$templateCache', function($templateC
 
 
   $templateCache.put('src/modules/editor/my-gallery/view/index.html',
-    "<div ng-if=\"app.authSvc.isSignedInGoogle()\">\r" +
-    "\n" +
-    "    <div class=\"row\">\r" +
-    "\n" +
-    "        <div class=\"col-sm-3 text-center\" ng-repeat=\"category in vm.categories\">\r" +
-    "\n" +
-    "            <a href=\"#\" ui-sref=\"editor.category.edit({id: category.id})\">\r" +
-    "\n" +
-    "                <div class=\"img-responsive my-gallery-no-img\"\r" +
-    "\n" +
-    "                     ng-style=\"category.image.id && {'background-image': 'url(https://drive.google.com/uc?export=view&id={{category.image.id}})'}\">\r" +
-    "\n" +
-    "                    <i class=\"fa fa-picture-o fa-3x\" aria-hidden=\"true\" ng-if=\"!category.image.id\"></i>\r" +
-    "\n" +
-    "                </div>\r" +
-    "\n" +
-    "                <h4 class=\"text-center ellipsis\">{{category.name}}</h4>\r" +
-    "\n" +
-    "            </a>\r" +
-    "\n" +
-    "        </div>\r" +
-    "\n" +
-    "    </div>\r" +
-    "\n" +
-    "\r" +
-    "\n" +
-    "    <div class=\"row\" ng-if=\"!vm.categories.length\">\r" +
-    "\n" +
-    "        <div class=\"col-md-12\">\r" +
-    "\n" +
-    "            <div class=\"alert alert-info\">Você não possui assuntos em seu álbum. :(</div>\r" +
-    "\n" +
-    "        </div>\r" +
-    "\n" +
-    "    </div>\r" +
-    "\n" +
-    "</div>\r" +
-    "\n" +
-    "\r" +
-    "\n" +
-    "<div class=\"row\" ng-if=\"!app.authSvc.isSignedInGoogle()\">\r" +
+    "<div class=\"row\">\r" +
     "\n" +
     "    <div class=\"col-md-12\">\r" +
     "\n" +
-    "        <div class=\"alert alert-warning\">Para consultar o seu álbum é necessário estar conectado com o Google.</div>\r" +
+    "        <div class=\"portlet light bordered\">\r" +
+    "\n" +
+    "            <div class=\"portlet-title\">\r" +
+    "\n" +
+    "                <div class=\"caption\">\r" +
+    "\n" +
+    "                    <span class=\"caption-subject bold uppercase font-dark\">Meu álbum de assuntos</span>\r" +
+    "\n" +
+    "                </div>\r" +
+    "\n" +
+    "            </div>\r" +
+    "\n" +
+    "            <div class=\"portlet-body\">\r" +
+    "\n" +
+    "                <div class=\"row\">\r" +
+    "\n" +
+    "                    <div class=\"col-md-12\">\r" +
+    "\n" +
+    "                        <div class=\"alert alert-info\">\r" +
+    "\n" +
+    "                            Aqui são apresentados os assuntos já criados. Você pode editá-los quando quiser.\r" +
+    "\n" +
+    "                        </div>\r" +
+    "\n" +
+    "                    </div>\r" +
+    "\n" +
+    "                </div>\r" +
+    "\n" +
+    "                <div ng-if=\"app.authSvc.isSignedInGoogle()\">\r" +
+    "\n" +
+    "                    <div class=\"row\">\r" +
+    "\n" +
+    "                        <div class=\"col-sm-3 text-center\" ng-repeat=\"category in vm.categories\">\r" +
+    "\n" +
+    "                            <a class=\"text-decoration-none\" href=\"#\" ui-sref=\"editor.category.edit({id: category.id})\">\r" +
+    "\n" +
+    "                                <div class=\"img-responsive my-gallery-no-img\"\r" +
+    "\n" +
+    "                                     ng-style=\"category.image.id && {'background-image': 'url(https://drive.google.com/uc?export=view&id={{category.image.id}})'}\">\r" +
+    "\n" +
+    "                                    <i class=\"fa fa-picture-o fa-3x\" aria-hidden=\"true\" ng-if=\"!category.image.id\"></i>\r" +
+    "\n" +
+    "                                </div>\r" +
+    "\n" +
+    "                                <h4 class=\"text-center ellipsis\">{{category.name}}</h4>\r" +
+    "\n" +
+    "                            </a>\r" +
+    "\n" +
+    "                        </div>\r" +
+    "\n" +
+    "                    </div>\r" +
+    "\n" +
+    "\r" +
+    "\n" +
+    "                    <div class=\"row\" ng-if=\"!vm.categories.length\">\r" +
+    "\n" +
+    "                        <div class=\"col-md-12\">\r" +
+    "\n" +
+    "                            <div class=\"alert alert-info\">Você não possui assuntos em seu álbum. :(</div>\r" +
+    "\n" +
+    "                        </div>\r" +
+    "\n" +
+    "                    </div>\r" +
+    "\n" +
+    "                </div>\r" +
+    "\n" +
+    "\r" +
+    "\n" +
+    "                <div class=\"row\" ng-if=\"!app.authSvc.isSignedInGoogle()\">\r" +
+    "\n" +
+    "                    <div class=\"col-md-12\">\r" +
+    "\n" +
+    "                        <div class=\"alert alert-warning\">Para consultar o seu álbum é necessário estar conectado com o Google.</div>\r" +
+    "\n" +
+    "                    </div>\r" +
+    "\n" +
+    "                </div>\r" +
+    "\n" +
+    "            </div>\r" +
+    "\n" +
+    "        </div>\r" +
     "\n" +
     "    </div>\r" +
     "\n" +
@@ -1129,497 +1438,165 @@ angular.module('resources.views', []).run(['$templateCache', function($templateC
   );
 
 
-  $templateCache.put('src/modules/editor/views/index.html',
-    "<div class=\"page-container-bg-solid page-header-fixed page-sidebar-closed-hide-logo\">\r" +
+  $templateCache.put('src/modules/game/views/_multiplayer.html',
+    "<div class=\"col-md-6\" id=\"player1\">\r" +
     "\n" +
-    "\r" +
+    "    <game-letters-layout\r" +
     "\n" +
-    "    <div class=\"page-header navbar navbar-fixed-top\">\r" +
+    "            action-next-phase=\"vm.actionNextPhase()\"\r" +
     "\n" +
-    "        <!-- BEGIN HEADER INNER -->\r" +
+    "            activity=\"vm.selectedActivityLeft\"\r" +
     "\n" +
-    "        <div class=\"page-header-inner \">\r" +
+    "            custom-class=\"left\"\r" +
     "\n" +
-    "            <!-- BEGIN LOGO -->\r" +
+    "            game-mode=\"vm.gameMode\"\r" +
     "\n" +
-    "            <div class=\"page-logo\">\r" +
+    "            are-there-more-phases=\"vm.areThereMorePhases()\"\r" +
     "\n" +
-    "                <!--<a href=\"index.html\">\r" +
+    "            play=\"vm.play()\"\r" +
     "\n" +
-    "                    <img src=\"../assets/layouts/layout4/img/logo-light.png\" alt=\"logo\" class=\"logo-default\">\r" +
+    "            won-match=\"vm.isLeftWonMatch\"\r" +
     "\n" +
-    "                </a>-->\r" +
+    "            won-game=\"vm.isLeftWonGame\"\r" +
     "\n" +
-    "                <h1 class=\"brand-name\">EasyEdu</h1>\r" +
+    "            game-over=\"vm.isLeftGameOver\"\r" +
     "\n" +
-    "                <div class=\"menu-toggler sidebar-toggler hide\">\r" +
+    "            ng-if=\"vm.selectedActivityLeft.type === 'LETTERS'\"></game-letters-layout>\r" +
     "\n" +
-    "                    <!-- DOC: Remove the above \"hide\" to enable the sidebar toggler button on header -->\r" +
+    "    <game-pictures-layout\r" +
     "\n" +
-    "                </div>\r" +
+    "            action-next-phase=\"vm.actionNextPhase()\"\r" +
     "\n" +
-    "            </div>\r" +
+    "            activity=\"vm.selectedActivityLeft\"\r" +
     "\n" +
-    "            <!-- END LOGO -->\r" +
+    "            custom-class=\"left\"\r" +
     "\n" +
-    "            <!-- BEGIN RESPONSIVE MENU TOGGLER -->\r" +
+    "            game-mode=\"vm.gameMode\"\r" +
     "\n" +
-    "            <a href=\"javascript:;\" class=\"menu-toggler responsive-toggler\" data-toggle=\"collapse\" data-target=\".navbar-collapse\"> </a>\r" +
+    "            are-there-more-phases=\"vm.areThereMorePhases()\"\r" +
     "\n" +
-    "            <!-- END RESPONSIVE MENU TOGGLER -->\r" +
+    "            play=\"vm.play()\"\r" +
     "\n" +
-    "            <!-- BEGIN PAGE ACTIONS -->\r" +
+    "            won-match=\"vm.isLeftWonMatch\"\r" +
     "\n" +
-    "            <!-- DOC: Remove \"hide\" class to enable the page header actions -->\r" +
+    "            won-game=\"vm.isLeftWonGame\"\r" +
     "\n" +
-    "\r" +
+    "            game-over=\"vm.isLeftGameOver\"\r" +
     "\n" +
-    "            <!-- END PAGE ACTIONS -->\r" +
-    "\n" +
-    "            <!-- BEGIN PAGE TOP -->\r" +
-    "\n" +
-    "            <div class=\"page-top\">\r" +
-    "\n" +
-    "                <!-- BEGIN HEADER SEARCH BOX -->\r" +
-    "\n" +
-    "                <!-- DOC: Apply \"search-form-expanded\" right after the \"search-form\" class to have half expanded search box -->\r" +
-    "\n" +
-    "\r" +
-    "\n" +
-    "                <!-- END HEADER SEARCH BOX -->\r" +
-    "\n" +
-    "                <!-- BEGIN TOP NAVIGATION MENU -->\r" +
-    "\n" +
-    "                <div class=\"top-menu\">\r" +
-    "\n" +
-    "                    <ul class=\"nav navbar-nav pull-right\">\r" +
-    "\n" +
-    "\r" +
-    "\n" +
-    "                        <!-- BEGIN NOTIFICATION DROPDOWN -->\r" +
-    "\n" +
-    "                        <!-- DOC: Apply \"dropdown-dark\" class after below \"dropdown-extended\" to change the dropdown styte -->\r" +
-    "\n" +
-    "                        <!-- DOC: Apply \"dropdown-hoverable\" class after \"dropdown\" and remove data-toggle=\"dropdown\" data-hover=\"dropdown\" data-close-others=\"true\" attributes to enable hover dropdown mode -->\r" +
-    "\n" +
-    "                        <!-- DOC: Remove \"dropdown-hoverable\" and add data-toggle=\"dropdown\" data-hover=\"dropdown\" data-close-others=\"true\" attributes to the below A element with dropdown-toggle class -->\r" +
-    "\n" +
-    "\r" +
-    "\n" +
-    "                        <!-- END NOTIFICATION DROPDOWN -->\r" +
-    "\n" +
-    "\r" +
-    "\n" +
-    "                        <!-- BEGIN INBOX DROPDOWN -->\r" +
-    "\n" +
-    "                        <!-- DOC: Apply \"dropdown-dark\" class after below \"dropdown-extended\" to change the dropdown styte -->\r" +
-    "\n" +
-    "\r" +
-    "\n" +
-    "                        <!-- END INBOX DROPDOWN -->\r" +
-    "\n" +
-    "\r" +
-    "\n" +
-    "                        <!-- BEGIN TODO DROPDOWN -->\r" +
-    "\n" +
-    "                        <!-- DOC: Apply \"dropdown-dark\" class after below \"dropdown-extended\" to change the dropdown styte -->\r" +
-    "\n" +
-    "\r" +
-    "\n" +
-    "                        <!-- END TODO DROPDOWN -->\r" +
-    "\n" +
-    "                        <!-- BEGIN USER LOGIN DROPDOWN -->\r" +
-    "\n" +
-    "                        <!-- DOC: Apply \"dropdown-dark\" class after below \"dropdown-extended\" to change the dropdown styte -->\r" +
-    "\n" +
-    "                        <li class=\"dropdown dropdown-user dropdown-dark\" ng-if=\"app.authSvc.isSignedInGoogle()\">\r" +
-    "\n" +
-    "                            <a href=\"javascript:;\" class=\"dropdown-toggle\" id=\"dLabel\" data-toggle=\"dropdown\" data-hover=\"dropdown\" data-close-others=\"true\" aria-expanded=\"false\">\r" +
-    "\n" +
-    "                                <span class=\"username username-hide-on-mobile\"> {{vm.userInformation.name}} </span>\r" +
-    "\n" +
-    "                                <!-- DOC: Do not remove below empty space(&nbsp;) as its purposely used -->\r" +
-    "\n" +
-    "                                <img class=\"img-circle\" alt=\"User photo\" ng-src=\"{{vm.userInformation.urlPhoto}}\">\r" +
-    "\n" +
-    "                            </a>\r" +
-    "\n" +
-    "                            <ul class=\"dropdown-menu dropdown-menu-default\" aria-labelledby=\"dLabel\">\r" +
-    "\n" +
-    "                                <li>\r" +
-    "\n" +
-    "                                    <a href=\"javascript:;\" ng-click=\"app.authSvc.handleSignOutClick($event)\">\r" +
-    "\n" +
-    "                                        <i class=\"fa fa-sign-out\" aria-hidden=\"true\"></i> Sair\r" +
-    "\n" +
-    "                                    </a>\r" +
-    "\n" +
-    "                                </li>\r" +
-    "\n" +
-    "                            </ul>\r" +
-    "\n" +
-    "                        </li>\r" +
-    "\n" +
-    "\r" +
-    "\n" +
-    "                        <li class=\"dropdown dropdown-user dropdown-dark\" ng-if=\"!app.authSvc.isSignedInGoogle()\">\r" +
-    "\n" +
-    "                            <a href=\"javascript:;\" class=\"dropdown-toggle\"\r" +
-    "\n" +
-    "                               ng-click=\"app.authSvc.handleAuthClick($event)\"\r" +
-    "\n" +
-    "                               data-toggle=\"dropdown\" data-hover=\"dropdown\" data-close-others=\"true\" aria-expanded=\"false\">\r" +
-    "\n" +
-    "                                <span class=\"username username-hide-on-mobile vertical-align-middle\"> Acessar com o Google </span>\r" +
-    "\n" +
-    "                                <div class=\"login-option social-icon-position googleplus-icon\"></div>\r" +
-    "\n" +
-    "                            </a>\r" +
-    "\n" +
-    "                        </li>\r" +
-    "\n" +
-    "\r" +
-    "\n" +
-    "\r" +
-    "\n" +
-    "\r" +
-    "\n" +
-    "\r" +
-    "\n" +
-    "\r" +
-    "\n" +
-    "                        <!-- <a class=\"btn btn-social-icon btn-sm btn-google\"\r" +
-    "\n" +
-    "                            ng-click=\"app.authSvc.handleAuthClick($event)\"\r" +
-    "\n" +
-    "                            ng-if=\"!app.authSvc.isSignedInGoogle()\"\r" +
-    "\n" +
-    "                            title=\"Acessar com o Google\">\r" +
-    "\n" +
-    "                             <i class=\"fa fa-google\"></i>\r" +
-    "\n" +
-    "                         </a>\r" +
-    "\n" +
-    "                         <div ng-if=\"app.authSvc.isSignedInGoogle()\">\r" +
-    "\n" +
-    "                             {{vm.userInformation.name}}\r" +
-    "\n" +
-    "                             <img class=\"img-circle\" alt=\"User photo\"\r" +
-    "\n" +
-    "                                  ng-src=\"{{vm.userInformation.urlPhoto}}\">\r" +
-    "\n" +
-    "                             <button type=\"button\" class=\"btn btn-link btn-social-icon btn-sm\"\r" +
-    "\n" +
-    "                                     ng-click=\"app.authSvc.handleSignOutClick($event)\"\r" +
-    "\n" +
-    "                                     title=\"Sair\">\r" +
-    "\n" +
-    "                                 <i class=\"fa fa-sign-out\" aria-hidden=\"true\"></i>\r" +
-    "\n" +
-    "                             </button>\r" +
-    "\n" +
-    "                         </div>-->\r" +
-    "\n" +
-    "                        <!-- END USER LOGIN DROPDOWN -->\r" +
-    "\n" +
-    "\r" +
-    "\n" +
-    "                        <!-- BEGIN QUICK SIDEBAR TOGGLER -->\r" +
-    "\n" +
-    "\r" +
-    "\n" +
-    "                        <!-- END QUICK SIDEBAR TOGGLER -->\r" +
-    "\n" +
-    "                    </ul>\r" +
-    "\n" +
-    "                </div>\r" +
-    "\n" +
-    "                <!-- END TOP NAVIGATION MENU -->\r" +
-    "\n" +
-    "            </div>\r" +
-    "\n" +
-    "            <!-- END PAGE TOP -->\r" +
-    "\n" +
-    "        </div>\r" +
-    "\n" +
-    "        <!-- END HEADER INNER -->\r" +
-    "\n" +
-    "    </div>\r" +
-    "\n" +
-    "\r" +
-    "\n" +
-    "    <div class=\"clearfix\"></div>\r" +
-    "\n" +
-    "\r" +
-    "\n" +
-    "    <!-- BEGIN PAGE SPINNER -->\r" +
-    "\n" +
-    "    <div ng-spinner-bar class=\"page-spinner-bar\" ng-if=\"app.authSvc.isLoading\">\r" +
-    "\n" +
-    "        <div class=\"bounce1\"></div>\r" +
-    "\n" +
-    "        <div class=\"bounce2\"></div>\r" +
-    "\n" +
-    "        <div class=\"bounce3\"></div>\r" +
-    "\n" +
-    "    </div>\r" +
-    "\n" +
-    "    <!-- END PAGE SPINNER -->\r" +
-    "\n" +
-    "\r" +
-    "\n" +
-    "    <div class=\"page-container\" ng-if=\"!app.authSvc.isLoading\">\r" +
-    "\n" +
-    "\r" +
-    "\n" +
-    "        <div class=\"page-sidebar-wrapper\">\r" +
-    "\n" +
-    "            <!-- BEGIN SIDEBAR -->\r" +
-    "\n" +
-    "            <!-- DOC: Set data-auto-scroll=\"false\" to disable the sidebar from auto scrolling/focusing -->\r" +
-    "\n" +
-    "            <!-- DOC: Change data-auto-speed=\"200\" to adjust the sub menu slide up/down speed -->\r" +
-    "\n" +
-    "            <div class=\"page-sidebar navbar-collapse collapse\">\r" +
-    "\n" +
-    "                <!-- BEGIN SIDEBAR MENU -->\r" +
-    "\n" +
-    "                <!-- DOC: Apply \"page-sidebar-menu-light\" class right after \"page-sidebar-menu\" to enable light sidebar menu style(without borders) -->\r" +
-    "\n" +
-    "                <!-- DOC: Apply \"page-sidebar-menu-hover-submenu\" class right after \"page-sidebar-menu\" to enable hoverable(hover vs accordion) sub menu mode -->\r" +
-    "\n" +
-    "                <!-- DOC: Apply \"page-sidebar-menu-closed\" class right after \"page-sidebar-menu\" to collapse(\"page-sidebar-closed\" class must be applied to the body element) the sidebar sub menu mode -->\r" +
-    "\n" +
-    "                <!-- DOC: Set data-auto-scroll=\"false\" to disable the sidebar from auto scrolling/focusing -->\r" +
-    "\n" +
-    "                <!-- DOC: Set data-keep-expand=\"true\" to keep the submenues expanded -->\r" +
-    "\n" +
-    "                <!-- DOC: Set data-auto-speed=\"200\" to adjust the sub menu slide up/down speed -->\r" +
-    "\n" +
-    "                <ul class=\"page-sidebar-menu\" data-keep-expanded=\"false\" data-auto-scroll=\"true\" data-slide-speed=\"200\">\r" +
-    "\n" +
-    "                    <li class=\"nav-item\" ng-repeat=\"item in app.primaryNavigation | orderBy: 'order'\" ui-sref-active=\"active\">\r" +
-    "\n" +
-    "                        <a class=\"nav-link nav-toggle\" ui-sref=\"{{item.stateName}}\">\r" +
-    "\n" +
-    "                            <i class=\"fa\" ng-class=\"item.icon\" aria-hidden=\"true\"></i>\r" +
-    "\n" +
-    "                            <span class=\"title\">{{item.title}}</span>\r" +
-    "\n" +
-    "                        </a>\r" +
-    "\n" +
-    "                    </li>\r" +
-    "\n" +
-    "                    <li class=\"nav-item\">\r" +
-    "\n" +
-    "                        <a class=\"nav-link nav-toggle\" ui-sref=\"game.start\">\r" +
-    "\n" +
-    "                            <i class=\"fa fa-gamepad\" aria-hidden=\"true\"></i>\r" +
-    "\n" +
-    "                            <span class=\"title\">Jogo</span>\r" +
-    "\n" +
-    "                        </a>\r" +
-    "\n" +
-    "                    </li>\r" +
-    "\n" +
-    "                </ul>\r" +
-    "\n" +
-    "                <!-- END SIDEBAR MENU -->\r" +
-    "\n" +
-    "            </div>\r" +
-    "\n" +
-    "            <!-- END SIDEBAR -->\r" +
-    "\n" +
-    "        </div>\r" +
-    "\n" +
-    "\r" +
-    "\n" +
-    "        <div class=\"page-content-wrapper\">\r" +
-    "\n" +
-    "            <div class=\"page-content\">\r" +
-    "\n" +
-    "                <div class=\"portlet light bordered\">\r" +
-    "\n" +
-    "                    <div class=\"portlet-body\">\r" +
-    "\n" +
-    "                        <div ui-view></div>\r" +
-    "\n" +
-    "                    </div>\r" +
-    "\n" +
-    "                </div>\r" +
-    "\n" +
-    "            </div>\r" +
-    "\n" +
-    "        </div>\r" +
-    "\n" +
-    "    </div>\r" +
-    "\n" +
-    "\r" +
-    "\n" +
-    "    <div class=\"page-footer\">\r" +
-    "\n" +
-    "        <div class=\"page-footer-inner\">\r" +
-    "\n" +
-    "            <p class=\"text-center\">Made by Felipe Corso</p>\r" +
-    "\n" +
-    "        </div>\r" +
-    "\n" +
-    "    </div>\r" +
-    "\n" +
-    "\r" +
+    "            ng-if=\"vm.selectedActivityLeft.type === 'PICTURES'\"></game-pictures-layout>\r" +
     "\n" +
     "</div>\r" +
     "\n" +
-    "\r" +
+    "<div class=\"col-md-6\" id=\"player2\">\r" +
     "\n" +
-    "\r" +
+    "    <game-letters-layout\r" +
     "\n" +
-    "\r" +
+    "            action-next-phase=\"vm.actionNextPhase()\"\r" +
     "\n" +
-    "\r" +
+    "            activity=\"vm.selectedActivityRight\"\r" +
     "\n" +
-    "\r" +
+    "            custom-class=\"right\"\r" +
     "\n" +
-    "\r" +
+    "            game-mode=\"vm.gameMode\"\r" +
     "\n" +
-    "<nav class=\"navbar navbar-default navbar-static-top hidden\">\r" +
+    "            are-there-more-phases=\"vm.areThereMorePhases()\"\r" +
     "\n" +
-    "    <div class=\"container\">\r" +
+    "            play=\"vm.play()\"\r" +
     "\n" +
-    "        <div class=\"navbar-header\">\r" +
+    "            won-match=\"vm.isRightWonMatch\"\r" +
     "\n" +
-    "            <button type=\"button\" class=\"navbar-toggle collapsed\" data-toggle=\"collapse\" data-target=\"#navbar\"\r" +
+    "            won-game=\"vm.isRightWonGame\"\r" +
     "\n" +
-    "                    aria-expanded=\"false\" aria-controls=\"navbar\">\r" +
+    "            game-over=\"vm.isRightGameOver\"\r" +
     "\n" +
-    "                <span class=\"sr-only\">Toggle navigation</span>\r" +
+    "            ng-if=\"vm.selectedActivityRight.type === 'LETTERS'\"></game-letters-layout>\r" +
     "\n" +
-    "                <span class=\"icon-bar\"></span>\r" +
+    "    <game-pictures-layout\r" +
     "\n" +
-    "                <span class=\"icon-bar\"></span>\r" +
+    "            action-next-phase=\"vm.actionNextPhase()\"\r" +
     "\n" +
-    "                <span class=\"icon-bar\"></span>\r" +
+    "            activity=\"vm.selectedActivityRight\"\r" +
     "\n" +
-    "            </button>\r" +
+    "            custom-class=\"right\"\r" +
     "\n" +
-    "            <a class=\"navbar-brand\" ui-sref=\"editor\">EasyEdu</a>\r" +
+    "            game-mode=\"vm.gameMode\"\r" +
     "\n" +
-    "        </div>\r" +
+    "            are-there-more-phases=\"vm.areThereMorePhases()\"\r" +
     "\n" +
-    "        <div id=\"navbar\" class=\"navbar-collapse collapse\">\r" +
+    "            play=\"vm.play()\"\r" +
     "\n" +
-    "            <ul class=\"nav navbar-nav\" ng-if=\"app.primaryNavigation.length > 0\">\r" +
+    "            won-match=\"vm.isRightWonMatch\"\r" +
     "\n" +
-    "                <li ng-repeat=\"item in app.primaryNavigation | orderBy: 'order'\" ui-sref-active=\"active\">\r" +
+    "            won-game=\"vm.isRightWonGame\"\r" +
     "\n" +
-    "                    <a ui-sref=\"{{item.stateName}}\" ng-bind=\"item.title\"></a>\r" +
+    "            game-over=\"vm.isRightGameOver\"\r" +
     "\n" +
-    "                </li>\r" +
-    "\n" +
-    "            </ul>\r" +
-    "\n" +
-    "            <ul class=\"nav navbar-nav navbar-right\">\r" +
-    "\n" +
-    "                <li>\r" +
-    "\n" +
-    "                    <div>\r" +
-    "\n" +
-    "                        <a class=\"btn btn-social-icon btn-sm btn-google\"\r" +
-    "\n" +
-    "                           ng-click=\"app.authSvc.handleAuthClick($event)\"\r" +
-    "\n" +
-    "                           ng-if=\"!app.authSvc.isSignedInGoogle()\"\r" +
-    "\n" +
-    "                           title=\"Acessar com o Google\">\r" +
-    "\n" +
-    "                            <i class=\"fa fa-google\"></i>\r" +
-    "\n" +
-    "                        </a>\r" +
-    "\n" +
-    "                        <div ng-if=\"app.authSvc.isSignedInGoogle()\">\r" +
-    "\n" +
-    "                            {{vm.userInformation.name}}\r" +
-    "\n" +
-    "                            <img class=\"img-circle\" alt=\"User photo\"\r" +
-    "\n" +
-    "                                 ng-src=\"{{vm.userInformation.urlPhoto}}\">\r" +
-    "\n" +
-    "                            <button type=\"button\" class=\"btn btn-link btn-social-icon btn-sm\"\r" +
-    "\n" +
-    "                               ng-click=\"app.authSvc.handleSignOutClick($event)\"\r" +
-    "\n" +
-    "                               title=\"Sair\">\r" +
-    "\n" +
-    "                                <i class=\"fa fa-sign-out\" aria-hidden=\"true\"></i>\r" +
-    "\n" +
-    "                            </button>\r" +
-    "\n" +
-    "                        </div>\r" +
-    "\n" +
-    "                    </div>\r" +
-    "\n" +
-    "                </li>\r" +
-    "\n" +
-    "            </ul>\r" +
-    "\n" +
-    "        </div>\r" +
-    "\n" +
-    "        <!--/.nav-collapse -->\r" +
-    "\n" +
-    "    </div>\r" +
-    "\n" +
-    "</nav>\r" +
-    "\n" +
-    "<div class=\"container hidden\">\r" +
-    "\n" +
-    "    <footer class=\"footer\">\r" +
-    "\n" +
-    "        <hr/>\r" +
-    "\n" +
-    "    </footer>\r" +
+    "            ng-if=\"vm.selectedActivityRight.type === 'PICTURES'\"></game-pictures-layout>\r" +
     "\n" +
     "</div>"
   );
 
 
   $templateCache.put('src/modules/game/views/category.html',
-    "<div class=\"panel-group\">\r" +
+    "<div class=\"row\">\r" +
     "\n" +
-    "    <div class=\"panel panel-default\">\r" +
+    "    <div class=\"col-md-12\">\r" +
     "\n" +
-    "        <div class=\"panel-heading text-center\">\r" +
+    "        <div class=\"portlet light bordered\">\r" +
     "\n" +
-    "            <div class=\"row\">\r" +
+    "            <div class=\"portlet-title\">\r" +
     "\n" +
-    "                <div class=\"col-md-12\">\r" +
+    "                <div class=\"caption\">\r" +
     "\n" +
-    "                    <h2>Escolha um assunto</h2>\r" +
+    "                    <span class=\"caption-subject bold uppercase font-dark\">Escolha um assunto</span>\r" +
+    "\n" +
+    "                </div>\r" +
+    "\n" +
+    "                <div class=\"actions\">\r" +
+    "\n" +
+    "                    <label class=\"btn btn-link pull-right\" for=\"JSON_upload\" ng-click=\"vm.handleJsonSelect()\">Importar assunto</label>\r" +
+    "\n" +
+    "                    <input type=\"file\"\r" +
+    "\n" +
+    "                           style=\"display: none\"\r" +
+    "\n" +
+    "                           id=\"JSON_upload\"\r" +
+    "\n" +
+    "                           name=\"JSON_upload\"\r" +
+    "\n" +
+    "                           ng-model=\"vm.categoryBase64\"\r" +
+    "\n" +
+    "                           accept=\"application/json\" game-file-reader/>\r" +
     "\n" +
     "                </div>\r" +
     "\n" +
     "            </div>\r" +
     "\n" +
-    "        </div>\r" +
+    "            <div class=\"portlet-body text-center\">\r" +
     "\n" +
-    "        <div class=\"panel-body text-center\">\r" +
+    "                <div class=\"row\">\r" +
     "\n" +
-    "            <div class=\"row\">\r" +
+    "                    <div class=\"col-md-12\">\r" +
     "\n" +
-    "                <div class=\"col-sm-4 col-md-3\" style=\"max-height: 235px; height: 235px;\" ng-repeat=\"category in vm.categories\">\r" +
+    "                        <div class=\"col-sm-4 col-md-3\" style=\"max-height: 235px; height: 235px;\" ng-repeat=\"category in vm.categories\">\r" +
     "\n" +
-    "                    <a class=\"text-decoration-none\" ui-sref=\"game.mode({category: category, categoryId: category.id, loaded: true})\">\r" +
+    "                            <a class=\"text-decoration-none\" ui-sref=\"game.mode({category: category, categoryId: category.id, loaded: true})\">\r" +
     "\n" +
-    "                        <div class=\"img-responsive my-gallery-no-img\"\r" +
+    "                                <div class=\"img-responsive my-gallery-no-img\"\r" +
     "\n" +
-    "                             ng-style=\"category.image.id && {'background-image': 'url(https://drive.google.com/uc?export=view&id={{category.image.id}})'}\">\r" +
+    "                                     ng-style=\"category.image.id && {'background-image': 'url(https://drive.google.com/uc?export=view&id={{category.image.id}})'}\">\r" +
     "\n" +
-    "                            <i class=\"fa fa-picture-o fa-3x\" aria-hidden=\"true\" ng-if=\"!category.image.id\"></i>\r" +
+    "                                    <i class=\"fa fa-picture-o fa-3x\" aria-hidden=\"true\" ng-if=\"!category.image.id\"></i>\r" +
+    "\n" +
+    "                                </div>\r" +
+    "\n" +
+    "                                <h4 class=\"text-center ellipsis\">{{category.name}}</h4>\r" +
+    "\n" +
+    "                            </a>\r" +
     "\n" +
     "                        </div>\r" +
     "\n" +
-    "                        <h4 class=\"text-center ellipsis\">{{category.name}}</h4>\r" +
-    "\n" +
-    "                    </a>\r" +
+    "                    </div>\r" +
     "\n" +
     "                </div>\r" +
     "\n" +
@@ -1634,39 +1611,39 @@ angular.module('resources.views', []).run(['$templateCache', function($templateC
 
 
   $templateCache.put('src/modules/game/views/game-mode.html',
-    "<div class=\"panel-group\">\r" +
+    "<div class=\"row\">\r" +
     "\n" +
-    "    <div class=\"panel panel-default\">\r" +
+    "    <div class=\"col-md-12\">\r" +
     "\n" +
-    "        <div class=\"panel-heading text-center\">\r" +
+    "        <div class=\"portlet light bordered\">\r" +
     "\n" +
-    "            <div class=\"row\">\r" +
+    "            <div class=\"portlet-title\">\r" +
     "\n" +
-    "                <div class=\"col-md-12\">\r" +
+    "                <div class=\"caption\">\r" +
     "\n" +
-    "                    <h2>Escolha o modo de jogo</h2>\r" +
+    "                    <span class=\"caption-subject bold uppercase font-dark\">Escolha o modo de jogo</span>\r" +
     "\n" +
     "                </div>\r" +
     "\n" +
     "            </div>\r" +
     "\n" +
-    "        </div>\r" +
+    "            <div class=\"portlet-body text-center\">\r" +
     "\n" +
-    "        <div class=\"panel-body\">\r" +
+    "                <div class=\"row text-center\">\r" +
     "\n" +
-    "            <div class=\"row text-center\">\r" +
+    "                    <div class=\"col-sm-6\" ng-class=\"{'margin-bottom-10': $index === 0}\" ng-repeat=\"gameMode in vm.gameModes | orderBy:$index\">\r" +
     "\n" +
-    "                <div class=\"col-xs-6\" ng-repeat=\"gameMode in vm.gameModes | orderBy:$index\">\r" +
+    "                        <button class=\"btn btn-default btn-circle btn-lg btn-game-mode\" type=\"button\"\r" +
     "\n" +
-    "                    <button class=\"btn btn-default btn-circle btn-lg btn-game-mode\" type=\"button\"\r" +
+    "                                ng-click=\"vm.goToPlay(gameMode.type)\">\r" +
     "\n" +
-    "                            ng-click=\"vm.goToPlay(gameMode.type)\">\r" +
+    "                            <i class=\"fa \" ng-class=\"gameMode.icon\"></i>\r" +
     "\n" +
-    "                        <i class=\"fa \" ng-class=\"gameMode.icon\"></i>\r" +
+    "                            {{gameMode.label}}\r" +
     "\n" +
-    "                        {{gameMode.label}}\r" +
+    "                        </button>\r" +
     "\n" +
-    "                    </button>\r" +
+    "                    </div>\r" +
     "\n" +
     "                </div>\r" +
     "\n" +
@@ -1683,7 +1660,7 @@ angular.module('resources.views', []).run(['$templateCache', function($templateC
   $templateCache.put('src/modules/game/views/play.html',
     "<div ng-init=\"vm.play()\"></div>\r" +
     "\n" +
-    "<div class=\"row\" ng-if=\"vm.gameMode !== 'MULTIPLAYER'\">\r" +
+    "<div class=\"row\" ng-if=\"vm.gameMode === 'SINGLE_PLAYER'\">\r" +
     "\n" +
     "    <div class=\"col-md-12 text-center\">\r" +
     "\n" +
@@ -1693,11 +1670,17 @@ angular.module('resources.views', []).run(['$templateCache', function($templateC
     "\n" +
     "                activity=\"vm.selectedActivity\"\r" +
     "\n" +
-    "                category=\"vm.category\"\r" +
-    "\n" +
     "                game-mode=\"vm.gameMode\"\r" +
     "\n" +
     "                are-there-more-phases=\"vm.areThereMorePhases()\"\r" +
+    "\n" +
+    "                play=\"vm.play()\"\r" +
+    "\n" +
+    "                won-match=\"vm.isWonMatch\"\r" +
+    "\n" +
+    "                won-game=\"vm.isWonGame\"\r" +
+    "\n" +
+    "                game-over=\"vm.isGameOver\"\r" +
     "\n" +
     "                ng-if=\"vm.selectedActivity.type === 'LETTERS'\"></game-letters-layout>\r" +
     "\n" +
@@ -1707,13 +1690,17 @@ angular.module('resources.views', []).run(['$templateCache', function($templateC
     "\n" +
     "                activity=\"vm.selectedActivity\"\r" +
     "\n" +
-    "                category=\"vm.category\"\r" +
-    "\n" +
     "                game-mode=\"vm.gameMode\"\r" +
     "\n" +
     "                are-there-more-phases=\"vm.areThereMorePhases()\"\r" +
     "\n" +
     "                play=\"vm.play()\"\r" +
+    "\n" +
+    "                won-match=\"vm.isWonMatch\"\r" +
+    "\n" +
+    "                won-game=\"vm.isWonGame\"\r" +
+    "\n" +
+    "                game-over=\"vm.isGameOver\"\r" +
     "\n" +
     "                ng-if=\"vm.selectedActivity.type === 'PICTURES'\"></game-pictures-layout>\r" +
     "\n" +
@@ -1721,75 +1708,11 @@ angular.module('resources.views', []).run(['$templateCache', function($templateC
     "\n" +
     "</div>\r" +
     "\n" +
-    "<div class=\"row\" ng-if=\"vm.gameMode === 'MULTIPLAYER'\">\r" +
+    "\r" +
     "\n" +
-    "    <div class=\"col-md-6 rotate-left\">\r" +
+    "<div class=\"row\" ng-if=\"vm.gameMode === 'MULTIPLAYER'\" ng-init=\"vm.godFunction()\">\r" +
     "\n" +
-    "        <game-letters-layout\r" +
-    "\n" +
-    "                action-next-phase=\"vm.actionNextPhase()\"\r" +
-    "\n" +
-    "                activity=\"vm.selectedActivity\"\r" +
-    "\n" +
-    "                category=\"vm.category\"\r" +
-    "\n" +
-    "                game-mode=\"vm.gameMode\"\r" +
-    "\n" +
-    "                are-there-more-phases=\"vm.areThereMorePhases()\"\r" +
-    "\n" +
-    "                ng-if=\"vm.selectedActivity.type === 'LETTERS'\"></game-letters-layout>\r" +
-    "\n" +
-    "        <game-pictures-layout\r" +
-    "\n" +
-    "                action-next-phase=\"vm.actionNextPhase()\"\r" +
-    "\n" +
-    "                activity=\"vm.selectedActivity\"\r" +
-    "\n" +
-    "                category=\"vm.category\"\r" +
-    "\n" +
-    "                game-mode=\"vm.gameMode\"\r" +
-    "\n" +
-    "                are-there-more-phases=\"vm.areThereMorePhases()\"\r" +
-    "\n" +
-    "                play=\"vm.play()\"\r" +
-    "\n" +
-    "                ng-if=\"vm.selectedActivity.type === 'PICTURES'\"></game-pictures-layout>\r" +
-    "\n" +
-    "    </div>\r" +
-    "\n" +
-    "    <div class=\"col-md-6 rotate-right\">\r" +
-    "\n" +
-    "        <game-letters-layout\r" +
-    "\n" +
-    "                action-next-phase=\"vm.actionNextPhase()\"\r" +
-    "\n" +
-    "                activity=\"vm.selectedActivity\"\r" +
-    "\n" +
-    "                category=\"vm.category\"\r" +
-    "\n" +
-    "                game-mode=\"vm.gameMode\"\r" +
-    "\n" +
-    "                are-there-more-phases=\"vm.areThereMorePhases()\"\r" +
-    "\n" +
-    "                ng-if=\"vm.selectedActivity.type === 'LETTERS'\"></game-letters-layout>\r" +
-    "\n" +
-    "        <game-pictures-layout\r" +
-    "\n" +
-    "                action-next-phase=\"vm.actionNextPhase()\"\r" +
-    "\n" +
-    "                activity=\"vm.selectedActivity\"\r" +
-    "\n" +
-    "                category=\"vm.category\"\r" +
-    "\n" +
-    "                game-mode=\"vm.gameMode\"\r" +
-    "\n" +
-    "                are-there-more-phases=\"vm.areThereMorePhases()\"\r" +
-    "\n" +
-    "                play=\"vm.play()\"\r" +
-    "\n" +
-    "                ng-if=\"vm.selectedActivity.type === 'PICTURES'\"></game-pictures-layout>\r" +
-    "\n" +
-    "    </div>\r" +
+    "    <div ng-include=\"'src/modules/game/views/_multiplayer.html'\"></div>\r" +
     "\n" +
     "</div>\r" +
     "\n"

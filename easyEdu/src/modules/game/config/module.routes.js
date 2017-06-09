@@ -1,4 +1,4 @@
-define(function() {
+define(function () {
     'use strict';
 
     function ModuleRoutes() {
@@ -8,29 +8,11 @@ define(function() {
                 state: 'game',
                 config: {
                     url: "/game",
-                    template: '<div class="container" ui-view></div>'
-                }
-            },
-            {
-                state: 'game.start',
-                config: {
-                    url: "/start?categoryId",
-                    controller: "GameCtrl",
-                    controllerAs: "vm",
+                    template: '<div ui-view></div>',
                     resolve: {
-                        CategoriesData: function() {
-                            return [];
-                        },
-                        CategoryData: function() {
-                            return {};
-                        }
-                    },
-                    templateUrl: partialPath + "start.html",
-                    onEnter: ["$state", "$stateParams", function($state, $stateParams) {
-                        if ($stateParams.categoryId) {
-                            $state.go("game.mode", {categoryId: $stateParams.categoryId});
-                        }
-                    }]
+                        LoadGApi: LoadGApi,
+                        UserInformationData: UserInformationData
+                    }
                 }
             },
             {
@@ -41,12 +23,12 @@ define(function() {
                     controllerAs: "vm",
                     resolve: {
                         CategoriesData: CategoriesData,
-                        CategoryData: function() {
+                        CategoryData: ["UserInformationData", function () {
                             return {};
-                        }
+                        }]
                     },
                     templateUrl: partialPath + "category.html",
-                    onEnter: ["$state", "$stateParams", function($state, $stateParams) {
+                    onEnter: ["$state", "$stateParams", function ($state, $stateParams) {
                         if ($stateParams.categoryId) {
                             $state.go("game.mode", {categoryId: $stateParams.categoryId});
                         }
@@ -57,9 +39,9 @@ define(function() {
                 state: 'game.mode',
                 config: {
                     resolve: {
-                        CategoriesData: function() {
+                        CategoriesData: ["UserInformationData", function () {
                             return [];
-                        },
+                        }],
                         CategoryData: CategoryData
                     },
                     url: "/mode/{categoryId}?{loaded:boolean}",
@@ -69,9 +51,9 @@ define(function() {
                     templateUrl: partialPath + "game-mode.html",
                     controller: "GameCtrl",
                     controllerAs: "vm",
-                    onEnter: ["$state", "$stateParams", function($state, $stateParams) {
+                    onEnter: ["$state", "$stateParams", function ($state, $stateParams) {
                         if (!$stateParams.categoryId) {
-                            $state.go("game.start", {}, {reload: true});
+                            $state.go("game.category", {}, {reload: true});
                         }
                         /* if (!$stateParams.category) {
                          // TODO: remover o comentário quando finalizar
@@ -85,53 +67,102 @@ define(function() {
                 state: 'game.play',
                 config: {
                     resolve: {
-                        CategoriesData: function() {
+                        CategoriesData: ["UserInformationData", function () {
                             return [];
-                        },
-                        CategoryData: function($stateParams) {
+                        }],
+                        CategoryData: ["UserInformationData", "$stateParams", function (UserInformationData, $stateParams) {
                             return $stateParams.category ? JSON.parse($stateParams.category) : undefined;
-                        }
+                        }]
                     },
                     url: "/play?gameMode?category",
                     templateUrl: partialPath + "play.html",
                     controller: "GameCtrl",
                     controllerAs: "vm",
-                    onEnter: ["$state", "$stateParams", function($state, $stateParams) {
+                    onEnter: ["$state", "$stateParams", function ($state, $stateParams) {
                         if (!$stateParams.category) {
-                            $state.go("game.start", {}, {reload: true});
+                            $state.go("game.category", {}, {reload: true});
+                        } else {
+                            $(".menu-toggler.sidebar-toggler").click();
                         }
                     }]
                 }
             }
         ];
 
-        CategoriesData.$inject = ["$state", "$stateParams", 'GameSvc'];
+        LoadGApi.$inject = ["AuthorizationSvc"];
         /*@ngInject*/
-        function CategoriesData($state, $stateParams, GameSvc) {
-            if (!$stateParams.categoryId) {
-                return GameSvc.getDefaultCategories()
-                    .then(function(response) {
+        function LoadGApi(AuthorizationSvc) {
+            AuthorizationSvc.isLoading = true;
+            return AuthorizationSvc.init()
+                .then(function (response) {
+                    console.log(response);
+                    return true;
+                })
+                .catch(function (error) {
+                    console.error(error);
+                    return false;
+                })
+                .finally(function () {
+                    AuthorizationSvc.isLoading = false;
+                });
+        }
+
+        UserInformationData.$inject = ["LoadGApi", "AuthorizationSvc", "$rootScope"];
+        /*@ngInject*/
+        function UserInformationData(LoadGApi, AuthorizationSvc, $rootScope) {
+            if (LoadGApi && AuthorizationSvc.isSignedInGoogle()) {
+                AuthorizationSvc.isLoading = true;
+                return AuthorizationSvc.getUserInformation()
+                    .then(function (response) {
+                        $rootScope.$emit("setUserInformation", response);
                         return response;
                     })
-                    .catch(function(error) {
+                    .catch(function (error) {
+                        console.error(error);
+                        return {};
+                    })
+                    .finally(function () {
+                        AuthorizationSvc.isLoading = false;
+                    });
+            }
+            return {};
+        }
+
+        CategoriesData.$inject = ["UserInformationData", "$state", "$stateParams", 'GameSvc', "AuthorizationSvc"];
+        /*@ngInject*/
+        function CategoriesData(UserInformationData, $state, $stateParams, GameSvc, AuthorizationSvc) {
+            if (!$stateParams.categoryId) {
+                AuthorizationSvc.isLoading = true;
+                return GameSvc.getDefaultCategories()
+                    .then(function (response) {
+                        return response;
+                    })
+                    .catch(function (error) {
                         console.error(error);
                         return $state.go("error.404", {}, {reload: true});
+                    })
+                    .finally(function () {
+                        AuthorizationSvc.isLoading = false;
                     });
             }
             return [];
         }
 
-        CategoryData.$inject = ["$state", "$stateParams", 'GameSvc'];
+        CategoryData.$inject = ["UserInformationData", "$state", "$stateParams", 'GameSvc', "AuthorizationSvc"];
         /*@ngInject*/
-        function CategoryData($state, $stateParams, GameSvc) {
+        function CategoryData(UserInformationData, $state, $stateParams, GameSvc, AuthorizationSvc) {
             if (!$stateParams.loaded) {
+                AuthorizationSvc.isLoading = true;
                 return GameSvc.getCategory($stateParams.categoryId)
-                    .then(function(response) {
+                    .then(function (response) {
                         return response;
                     })
-                    .catch(function(error) {
+                    .catch(function (error) {
                         console.error(error);
                         return $state.go("error.404", {}, {reload: true});
+                    })
+                    .finally(function () {
+                        AuthorizationSvc.isLoading = false;
                     });
             }
             return $stateParams.category;

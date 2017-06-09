@@ -82,7 +82,7 @@ define([], function () {
             var category = getActivitiesToExport();
             CategorySvc.createQrCodeJson(category)
                 .then(function (categoryId) {
-                    vm.qrCodeData = window.location.origin + window.location.pathname + "#/game/start?categoryId=" + categoryId;
+                    vm.qrCodeData = window.location.origin + window.location.pathname + "#/game/category?categoryId=" + categoryId;
                 });
         }
 
