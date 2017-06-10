@@ -163,7 +163,7 @@ angular.module('resources.views', []).run(['$templateCache', function($templateC
     "\n" +
     "                       title=\"Escolha uma imagem que a largura seja maior que a altura\"></i>\r" +
     "\n" +
-    "                    <i class=\"fa fa-times\" aria-hidden=\"true\"\r" +
+    "                    <i class=\"fa fa-times pointer\" aria-hidden=\"true\"\r" +
     "\n" +
     "                       title=\"Clique para remover a imagem\"\r" +
     "\n" +
@@ -251,7 +251,7 @@ angular.module('resources.views', []).run(['$templateCache', function($templateC
     "\n" +
     "                   title=\"Escolha uma imagem que a largura seja maior que a altura\"></i>\r" +
     "\n" +
-    "                <i class=\"fa fa-times\" aria-hidden=\"true\" title=\"Clique para remover a imagem\"\r" +
+    "                <i class=\"fa fa-times pointer\" aria-hidden=\"true\" title=\"Clique para remover a imagem\"\r" +
     "\n" +
     "                   ng-if=\"vm.hasImage()\" ng-click=\"vm.imageRemoved()\"></i>\r" +
     "\n" +
@@ -1138,6 +1138,20 @@ angular.module('resources.views', []).run(['$templateCache', function($templateC
     "\n" +
     "            </div>\r" +
     "\n" +
+    "            <div class=\"row\">\r" +
+    "\n" +
+    "                <div class=\"col-md-12\" ng-if=\"vm.isExporting\">\r" +
+    "\n" +
+    "                    <div>\r" +
+    "\n" +
+    "                        <i class=\"fa fa-fw fa-spin fa-spinner\"></i> <strong>{{'Aguarde um instante'}}</strong>\r" +
+    "\n" +
+    "                    </div>\r" +
+    "\n" +
+    "                </div>\r" +
+    "\n" +
+    "            </div>\r" +
+    "\n" +
     "            <hr>\r" +
     "\n" +
     "            <div class=\"row\">\r" +
@@ -1224,11 +1238,21 @@ angular.module('resources.views', []).run(['$templateCache', function($templateC
     "\n" +
     "    <div class=\"col-sm-8 col-md-9 margin-top-25\">\r" +
     "\n" +
-    "        <div class=\"row\">\r" +
+    "        <div class=\"row\" ng-if=\"vm.qrCodeData\">\r" +
     "\n" +
     "            <div class=\"col-md-12\">\r" +
     "\n" +
-    "                <qrcode data=\"{{vm.qrCodeData}}\" href=\"{{vm.qrCodeData}}\" ng-if=\"vm.qrCodeData\" size=\"200\"></qrcode>\r" +
+    "                <i class=\"fa fa-times pointer\" aria-hidden=\"true\"\r" +
+    "\n" +
+    "                   title=\"Clique para remover o QR Code\"\r" +
+    "\n" +
+    "                   ng-click=\"vm.qrCodeData = ''\"></i>\r" +
+    "\n" +
+    "            </div>\r" +
+    "\n" +
+    "            <div class=\"col-md-12\">\r" +
+    "\n" +
+    "                <qrcode data=\"{{vm.qrCodeData}}\" href=\"{{vm.qrCodeData}}\" size=\"200\"></qrcode>\r" +
     "\n" +
     "            </div>\r" +
     "\n" +
@@ -1299,7 +1323,7 @@ angular.module('resources.views', []).run(['$templateCache', function($templateC
     "\n" +
     "                <div class=\"row\">\r" +
     "\n" +
-    "                    <div class=\"col-sm-4 col-md-3\" ng-if=\"app.auth.isSignedInGoogle()\">\r" +
+    "                    <div class=\"col-sm-4 col-md-3\" ng-if=\"app.authSvc.isSignedInGoogle()\">\r" +
     "\n" +
     "                        <a class=\"text-decoration-none\" ui-sref=\"editor.category.add\">\r" +
     "\n" +

@@ -57,6 +57,7 @@ define(function () {
         service.createPicker = createPicker;
         service.createQrCodeJson = createQrCodeJson;
         service.createRootFolder = createRootFolder;
+        service.defineFilePublic = defineFilePublic;
         service.deleteFile = deleteFile;
         service.getFile = getFile;
         service.getQrCodeJson = getQrCodeJson;
@@ -214,6 +215,7 @@ define(function () {
          */
         function updateSignInStatus(_isSignedIn) {
             isSignedIn = _isSignedIn;
+            $rootScope.$apply();
         }
 
         function isSignedInGoogle() {
@@ -241,19 +243,6 @@ define(function () {
                     $rootScope.$apply();
                 });
         }
-
-        /*
-         function insertPermission(file){
-         return gapi.client.drive.permissions.insert({
-         'fileId': file.id,
-         'resource': {
-         "withLink": true,
-         "role": "reader",
-         "type": "anyone"
-         }
-         })
-         }
-         */
 
         /**
          * Cria uma pasta e retorna o ID no callback
@@ -652,6 +641,28 @@ define(function () {
         function renameFile(fileId, newTitle) {
             var body = {'title': newTitle};
             return updateFile(fileId, body);
+        }
+
+        function defineFilePublic(fileId) {
+            var future = $q.defer();
+            gapi.client.drive.permissions.create({
+                'fileId': fileId,
+                'resource': {
+                    "withLink": true,
+                    "role": "reader",
+                    "type": "anyone"
+                }
+            }).then(success, error);
+
+            function success(response) {
+                future.resolve(response.result);
+            }
+
+            function error(response) {
+                future.reject(response.result);
+            }
+
+            return future.promise;
         }
 
         function getUserInformation() {

@@ -10,6 +10,7 @@ define(function () {
         service.createQrCodeJson = createQrCodeJson;
         service.getCategory = getCategory;
         service.updateCategory = updateCategory;
+        service.setImagesPublic = setImagesPublic;
         service.deleteCategory = deleteCategory;
         service.renameCategory = renameCategory;
         service.getMetadataRoot = getMetadataRoot;
@@ -38,6 +39,32 @@ define(function () {
 
         function updateCategory(category) {
             return AuthorizationSvc.updateJson(category.id, category, category.parent);
+        }
+
+        function setImagesPublic(category) {
+            var promises = [];
+
+            createImagePromise(promises, category.image);
+
+            angular.forEach(category.activities, function (activity) {
+                if (activity.type === "LETTERS") {
+                    createImagePromise(promises, activity.image);
+                } else {
+                    if (activity.type === "PICTURES") {
+                        angular.forEach(activity.answerOptions, function (answerOption) {
+                            createImagePromise(promises, answerOption.image);
+                        });
+                    }
+                }
+            });
+
+            return $q.all(promises);
+        }
+
+        function createImagePromise(promises, image) {
+            if (image && image.id) {
+                promises.push(AuthorizationSvc.defineFilePublic(image.id));
+            }
         }
 
         function deleteCategory(parentId) {

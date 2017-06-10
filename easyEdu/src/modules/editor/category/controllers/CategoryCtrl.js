@@ -53,7 +53,7 @@ define([], function () {
         }
 
         function isEnabledBtnExport() {
-            return vm.category.activities ? vm.category.activities.filter(function (activity) {
+            return !vm.isExporting && vm.category.activities ? vm.category.activities.filter(function (activity) {
                 return activity.export;
             }).length : 0;
         }
@@ -71,18 +71,39 @@ define([], function () {
         function exportJSON() {
             var category = getActivitiesToExport();
 
-            var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(category));
-            var dlAnchorElem = document.getElementById('downloadAnchorElem');
-            dlAnchorElem.setAttribute("href", dataStr);
-            dlAnchorElem.setAttribute("download", "activities.json");
-            dlAnchorElem.click();
+            vm.isExporting = true;
+            CategorySvc.setImagesPublic(category)
+                .then(function () {
+                    var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(category));
+                    var dlAnchorElem = document.getElementById('downloadAnchorElem');
+                    dlAnchorElem.setAttribute("href", dataStr);
+                    dlAnchorElem.setAttribute("download", "activities.json");
+                    dlAnchorElem.click();
+                })
+                .catch(function (error) {
+                    console.error(error);
+                })
+                .finally(function () {
+                    vm.isExporting = false;
+                });
         }
 
         function generateQrCode() {
             var category = getActivitiesToExport();
-            CategorySvc.createQrCodeJson(category)
+
+            vm.isExporting = true;
+            CategorySvc.setImagesPublic(category)
+                .then(function () {
+                    return CategorySvc.createQrCodeJson(category);
+                })
                 .then(function (categoryId) {
                     vm.qrCodeData = window.location.origin + window.location.pathname + "#/game/category?categoryId=" + categoryId;
+                })
+                .catch(function (error) {
+                    console.error(error);
+                })
+                .finally(function () {
+                    vm.isExporting = false;
                 });
         }
 
