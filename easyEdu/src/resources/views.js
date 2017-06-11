@@ -1406,7 +1406,7 @@ angular.module('resources.views', []).run(['$templateCache', function($templateC
     "\n" +
     "                    <div class=\"row\">\r" +
     "\n" +
-    "                        <div class=\"col-sm-3 text-center\" ng-repeat=\"category in vm.categories\">\r" +
+    "                        <div class=\"col-sm-3 text-center\" ng-repeat=\"category in vm.categories | orderBy:'createdTime':true\">\r" +
     "\n" +
     "                            <a class=\"text-decoration-none\" href=\"#\" ui-sref=\"editor.category.edit({id: category.id})\">\r" +
     "\n" +

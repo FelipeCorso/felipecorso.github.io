@@ -16,7 +16,7 @@
                 </div>
                 <div ng-if="app.authSvc.isSignedInGoogle()">
                     <div class="row">
-                        <div class="col-sm-3 text-center" ng-repeat="category in vm.categories">
+                        <div class="col-sm-3 text-center" ng-repeat="category in vm.categories | orderBy:'createdTime':true">
                             <a class="text-decoration-none" href="#" ui-sref="editor.category.edit({id: category.id})">
                                 <div class="img-responsive my-gallery-no-img"
                                      ng-style="category.image.id && {'background-image': 'url(https://drive.google.com/uc?export=view&id={{category.image.id}})'}">
