@@ -91,16 +91,20 @@
             </editor-category-list-activities>
         </div>
         <hr>
-        <div class="row margin-bottom-20">
-            <div class="col-md-12">
-                <button type="button" class="btn btn-circle btn-primary"
+        <div class="row">
+            <div class="col-lg-6 margin-bottom-10">
+                <button type="button" class="btn btn-sm btn-circle btn-primary"
                         ng-disabled="vm.isLoading"
                         ng-click="vm.saveCategory()">
-                    Salvar
+                    Salvar assunto
                 </button>
-                <button type="button" class="btn btn-circle btn-danger"
+            </div>
+            <div class="col-lg-6">
+                <button type="button" class="btn btn-sm btn-circle btn-danger"
                         ng-disabled="vm.isLoading"
-                        ng-click="vm.deleteCategory()">Excluir</button>
+                        ng-click="vm.deleteCategory()">
+                    Excluir assunto
+                </button>
             </div>
         </div>
         <div class="row">

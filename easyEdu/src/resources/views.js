@@ -314,9 +314,9 @@ angular.module('resources.views', []).run(['$templateCache', function($templateC
     "\n" +
     "        <button type=\"button\" class=\"btn btn-circle btn-primary\" ng-click=\"vm.answerOptionsForm.$valid && vm.saveAction()\"\r" +
     "\n" +
-    "                ng-disabled=\"vm.answerOptionsForm.$invalid\">Salvar</button>\r" +
+    "                ng-disabled=\"vm.answerOptionsForm.$invalid\">Salvar atividade</button>\r" +
     "\n" +
-    "        <button type=\"button\" class=\"btn btn-circle btn-danger\" ng-click=\"vm.deleteAction()\" ng-if=\"vm.selectedActivity.id\">Excluir</button>\r" +
+    "        <button type=\"button\" class=\"btn btn-circle btn-danger\" ng-click=\"vm.deleteAction()\" ng-if=\"vm.selectedActivity.id\">Excluir atividade</button>\r" +
     "\n" +
     "        <button type=\"button\" class=\"btn btn-link pull-right\" ng-click=\"vm.cancelAction()\">Cancelar</button>\r" +
     "\n" +
@@ -1198,25 +1198,33 @@ angular.module('resources.views', []).run(['$templateCache', function($templateC
     "\n" +
     "        <hr>\r" +
     "\n" +
-    "        <div class=\"row margin-bottom-20\">\r" +
+    "        <div class=\"row\">\r" +
     "\n" +
-    "            <div class=\"col-md-12\">\r" +
+    "            <div class=\"col-lg-6 margin-bottom-10\">\r" +
     "\n" +
-    "                <button type=\"button\" class=\"btn btn-circle btn-primary\"\r" +
+    "                <button type=\"button\" class=\"btn btn-sm btn-circle btn-primary\"\r" +
     "\n" +
     "                        ng-disabled=\"vm.isLoading\"\r" +
     "\n" +
     "                        ng-click=\"vm.saveCategory()\">\r" +
     "\n" +
-    "                    Salvar\r" +
+    "                    Salvar assunto\r" +
     "\n" +
     "                </button>\r" +
     "\n" +
-    "                <button type=\"button\" class=\"btn btn-circle btn-danger\"\r" +
+    "            </div>\r" +
+    "\n" +
+    "            <div class=\"col-lg-6\">\r" +
+    "\n" +
+    "                <button type=\"button\" class=\"btn btn-sm btn-circle btn-danger\"\r" +
     "\n" +
     "                        ng-disabled=\"vm.isLoading\"\r" +
     "\n" +
-    "                        ng-click=\"vm.deleteCategory()\">Excluir</button>\r" +
+    "                        ng-click=\"vm.deleteCategory()\">\r" +
+    "\n" +
+    "                    Excluir assunto\r" +
+    "\n" +
+    "                </button>\r" +
     "\n" +
     "            </div>\r" +
     "\n" +
