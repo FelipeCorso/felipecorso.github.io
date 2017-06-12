@@ -38,7 +38,7 @@ angular.module('resources.views', []).run(['$templateCache', function($templateC
     "\n" +
     "    <div class=\"col-sm-3 text-center\">\r" +
     "\n" +
-    "        <button class=\"btn btn-link\" type=\"button\" ng-click=\"vm.setType('PUZZLE')\" disabled>\r" +
+    "        <button class=\"btn btn-link\" type=\"button\" title=\"Em desenvolvimento\" ng-click=\"vm.setType('PUZZLE')\" disabled>\r" +
     "\n" +
     "            <img class=\"img-responsive center-block\" ng-src=\"assets/img/puzzle.png\" alt=\"Imagem layout quebra-cabeça\">\r" +
     "\n" +
@@ -50,7 +50,7 @@ angular.module('resources.views', []).run(['$templateCache', function($templateC
     "\n" +
     "    <div class=\"col-sm-3 text-center\">\r" +
     "\n" +
-    "        <button class=\"btn btn-link\" type=\"button\" ng-click=\"vm.setType('MEMORY')\" disabled>\r" +
+    "        <button class=\"btn btn-link\" type=\"button\" title=\"Em desenvolvimento\" ng-click=\"vm.setType('MEMORY')\" disabled>\r" +
     "\n" +
     "            <img class=\"img-responsive center-block\" ng-src=\"assets/img/memoryGame.png\" alt=\"Imagem layout memória\">\r" +
     "\n" +
@@ -431,6 +431,8 @@ angular.module('resources.views', []).run(['$templateCache', function($templateC
     "                       type=\"text\"\r" +
     "\n" +
     "                       id=\"activity.answer\"\r" +
+    "\n" +
+    "                       ng-maxlength=\"20\"\r" +
     "\n" +
     "                       placeholder=\"Informe a resposta da atividade\"\r" +
     "\n" +

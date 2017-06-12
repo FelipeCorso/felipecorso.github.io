@@ -12,7 +12,6 @@ requirejs.config({
         qrcode: 'vendor/qrcode-generator/js/qrcode',
         'qrcode-utf8': 'vendor/qrcode-generator/js/qrcode_UTF8',
         'monospaced.qrcode': 'vendor/angular-qrcode/angular-qrcode',
-        phaser: 'vendor/phaser/build/phaser.min',
         'angular-qrcode': 'vendor/angular-qrcode/angular-qrcode',
         qrcode_UTF8: 'vendor/qrcode-generator/js/qrcode_UTF8',
         Hammer: "vendor/hammerjs/hammer.min"
@@ -63,9 +62,6 @@ requirejs.config({
             deps: [
                 'qrcode'
             ]
-        },
-        phaser: {
-            exports: 'phaser'
         }
     }
 });
