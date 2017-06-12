@@ -15,7 +15,7 @@ define([], function () {
         vm.toggleAll = toggleAll;
         vm.addActivity = addActivity;
         vm.isEnabledBtnExport = isEnabledBtnExport;
-        vm.getActivitiesToExport = getActivitiesToExport;
+        vm.getCategoryToExport = getCategoryToExport;
         vm.exportJSON = exportJSON;
         vm.generateQrCode = generateQrCode;
         vm.saveCategory = saveCategory;
@@ -58,7 +58,7 @@ define([], function () {
             }).length : 0;
         }
 
-        function getActivitiesToExport() {
+        function getCategoryToExport() {
             var selectedActivities = vm.category.activities.filter(function (activity) {
                 return activity.export;
             });
@@ -69,7 +69,7 @@ define([], function () {
         }
 
         function exportJSON() {
-            var category = getActivitiesToExport();
+            var category = getCategoryToExport();
 
             vm.isExporting = true;
             CategorySvc.setImagesPublic(category)
@@ -77,7 +77,7 @@ define([], function () {
                     var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(category));
                     var dlAnchorElem = document.getElementById('downloadAnchorElem');
                     dlAnchorElem.setAttribute("href", dataStr);
-                    dlAnchorElem.setAttribute("download", "activities.json");
+                    dlAnchorElem.setAttribute("download", category.name + ".json");
                     dlAnchorElem.click();
                 })
                 .catch(function (error) {
@@ -89,7 +89,7 @@ define([], function () {
         }
 
         function generateQrCode() {
-            var category = getActivitiesToExport();
+            var category = getCategoryToExport();
 
             vm.isExporting = true;
             CategorySvc.setImagesPublic(category)

@@ -28,7 +28,7 @@ define([], function () {
         var vm = this;
         var DEFAULT_TIMER = "59:59";
         var timerPromise;
-        vm.customClass = vm.customClass || "";
+        vm.customClass = vm.customClass || "single-player";
         var NODE_ANSWERS = "answers_" + vm.customClass;
         var NODE_ANSWER_OPTIONS = "answerOptions_" + vm.customClass;
 
@@ -41,7 +41,6 @@ define([], function () {
             vm.isWonMatch = vm.activity.answers === vm.activity.correctAnswers;
             if (vm.isWonMatch) {
                 if (!vm.areThereMorePhases) {
-                    // if (!areThereMorePhases()) {
                     vm.isWonGame = true;
                 }
             }
@@ -56,8 +55,10 @@ define([], function () {
          */
         function cleanChildNodes(id) {
             var node = document.getElementById(id);
-            while (node.hasChildNodes()) {
-                node.removeChild(node.lastChild);
+            if (node) {
+                while (node.hasChildNodes()) {
+                    node.removeChild(node.lastChild);
+                }
             }
         }
 
@@ -184,10 +185,22 @@ define([], function () {
             document.getElementById("audio_" + vm.customClass).play();
         }
 
+        function restart() {
+            cleanChildNodes(NODE_ANSWERS);
+            cleanChildNodes(NODE_ANSWER_OPTIONS);
+            init();
+        }
+
         function init() {
             createTimer();
             loadPictures(vm.activity.answerOptions);
         }
+
+        $scope.$watch("vm.activity", function () {
+            if (vm.activity) {
+                restart();
+            }
+        });
 
         angular.element(document).ready(function () {
             init();

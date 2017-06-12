@@ -57,8 +57,10 @@ define([], function () {
          */
         function cleanChildNodes(id) {
             var node = document.getElementById(id);
-            while (node.hasChildNodes()) {
-                node.removeChild(node.lastChild);
+            if (node) {
+                while (node.hasChildNodes()) {
+                    node.removeChild(node.lastChild);
+                }
             }
         }
 
@@ -229,12 +231,24 @@ define([], function () {
             document.getElementById("audio_" + vm.customClass).play();
         }
 
+        function restart() {
+            cleanChildNodes(NODE_ANSWERS);
+            cleanChildNodes(NODE_ANSWER_OPTIONS);
+            init();
+        }
+
         function init() {
             createTimer();
             initAnswerKeys(vm.activity.answer);
             loadAnswerKeys(vm.activity.answer);
             loadAnswerOptions(shuffledLetters);
         }
+
+        $scope.$watch("vm.activity", function () {
+            if (vm.activity) {
+                restart();
+            }
+        });
 
         angular.element(document).ready(function () {
             init();

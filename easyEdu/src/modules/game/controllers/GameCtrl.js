@@ -105,24 +105,33 @@ define([], function () {
             defineNextLevel();
             if (currentLevel) {
                 selectActivity();
-                if (!vm.selectedActivity) {
-                    actionNextPhase();
+                if (vm.gameMode && vm.gameMode === "MULTIPLAYER") {
+                    if (!vm.selectedActivityLeft && !vm.selectedActivityRight) {
+                        actionNextPhase();
+                    }
                 } else {
-                    if (vm.gameMode && vm.gameMode === "MULTIPLAYER") {
-                        cleanGameStatus();
+                    if (!vm.selectedActivity) {
+                        actionNextPhase();
                     }
                 }
+                cleanGameStatus();
             }
         }
 
         function watchGameOver() {
-            createWatchGroup(collectionLeft, vm.isRightGameOver);
-            createWatchGroup(collectionRight, vm.isLeftGameOver);
+            watchGameOverLeft();
+            watchGameOverRight();
         }
 
-        function createWatchGroup(collection, variable) {
-            $scope.$watchGroup(collection, function (newValues) {
-                variable = newValues[0] || newValues[1];
+        function watchGameOverLeft() {
+            $scope.$watchGroup(collectionRight, function (newValues) {
+                vm.isLeftGameOver = newValues[0] || newValues[1];
+            });
+        }
+
+        function watchGameOverRight() {
+            $scope.$watchGroup(collectionLeft, function (newValues) {
+                vm.isRightGameOver = newValues[0] || newValues[1];
             });
         }
 
@@ -137,6 +146,9 @@ define([], function () {
         });
 
         function cleanGameStatus() {
+            vm.isWonMatch = false;
+            vm.isWonGame = false;
+            vm.isGameOver = false;
             vm.isLeftWonMatch = false;
             vm.isLeftWonGame = false;
             vm.isRightWonMatch = false;
@@ -145,10 +157,15 @@ define([], function () {
 
         function areThereMorePhases() {
             var nextLevel = getNextLevel();
-            var nextPhaseActivities = vm.category.activities.filter(function (activity) {
-                return activity.level === nextLevel;
-            });
-            return nextPhaseActivities && nextPhaseActivities.length;
+            var nextPhaseActivities = 0;
+
+            while (!nextPhaseActivities && nextLevel !== "IMPOSSIBLE") {
+                nextPhaseActivities = vm.category.activities.filter(function (activity) {
+                    return activity.level === nextLevel;
+                }).length;
+                nextLevel = difficultyLevels[difficultyLevels.indexOf(nextLevel) + 1];
+            }
+            return nextPhaseActivities;
         }
 
         function handleJsonSelect() {
