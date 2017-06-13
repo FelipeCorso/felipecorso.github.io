@@ -146,7 +146,7 @@ define([], function () {
         }
 
         function deleteCategory() {
-            var result = confirm("Você tem certeza que deseja deletar esse assunto?\nEssa ação não poderá ser desfeita!");
+            var result = confirm("Você tem certeza que deseja deletar esse conteúdo?\nEssa ação não poderá ser desfeita!");
             if (result) {
                 vm.isLoading = true;
                 CategorySvc.deleteCategory(vm.category.parent)

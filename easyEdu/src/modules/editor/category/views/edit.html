@@ -2,16 +2,16 @@
     <div class="col-sm-4 col-md-3">
 
         <!--<editor-multiple-uploads done-callback="vm.doneFile(file, activity)" on-remove-item="vm.removeFile(file, activity)" options="{queueLimit: 1}"></editor-multiple-uploads>-->
-        <label for="category.name" class="control-label">Assunto</label>
+        <label for="category.name" class="control-label">Descrição do conteúdo</label>
         <input class="form-control input-circle" type="text"
                id="category.name"
                ng-model="vm.categoryNewName"
                ng-value="vm.category.name"
-               placeholder="Informe uma breve descrição para o assunto">
+               placeholder="Ex. Geografia - Estados brasileiros">
 
         <hr>
 
-        <editor-insert-image model="vm.category" alt-image="Imagem do assunto"></editor-insert-image>
+        <editor-insert-image model="vm.category" alt-image="Imagem do conteúdo"></editor-insert-image>
 
 <!--
         <div ng-if="vm.hasImage()">
@@ -96,14 +96,14 @@
                 <button type="button" class="btn btn-sm btn-circle btn-primary"
                         ng-disabled="vm.isLoading"
                         ng-click="vm.saveCategory()">
-                    Salvar assunto
+                    Salvar conteúdo
                 </button>
             </div>
             <div class="col-lg-6">
                 <button type="button" class="btn btn-sm btn-circle btn-danger"
                         ng-disabled="vm.isLoading"
                         ng-click="vm.deleteCategory()">
-                    Excluir assunto
+                    Excluir conteúdo
                 </button>
             </div>
         </div>

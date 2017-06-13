@@ -180,7 +180,7 @@ define([], function () {
         }
 
         /**
-         * O stringify é necessário para passar o assunto para a rota game.play.
+         * O stringify é necessário para passar o conteúdo para a rota game.play.
          * Nessa rota é feito o parse para um objeto novamente.
          *
          * @param gameMode

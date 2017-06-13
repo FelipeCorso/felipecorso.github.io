@@ -67,7 +67,7 @@ angular.module('resources.views', []).run(['$templateCache', function($templateC
   $templateCache.put('src/components/editor/category/create-category/view/_create-category.html',
     "<div class=\"form-group\">\r" +
     "\n" +
-    "    <label for=\"category.name\" class=\"control-label\">Assunto</label>\r" +
+    "    <label for=\"category.name\" class=\"control-label\">Informe uma breve descrição para o conteúdo</label>\r" +
     "\n" +
     "    <input class=\"form-control input-circle\" type=\"text\"\r" +
     "\n" +
@@ -75,7 +75,7 @@ angular.module('resources.views', []).run(['$templateCache', function($templateC
     "\n" +
     "           ng-model=\"vm.category.name\"\r" +
     "\n" +
-    "           placeholder=\"Informe uma breve descrição para o assunto\">\r" +
+    "           placeholder=\"Ex. Geografia - Estados brasileiros\">\r" +
     "\n" +
     "</div>\r" +
     "\n" +
@@ -85,7 +85,7 @@ angular.module('resources.views', []).run(['$templateCache', function($templateC
     "\n" +
     "    <i class=\"fa fa-save\" aria-label=\"true\"></i>\r" +
     "\n" +
-    "    Salvar\r" +
+    "    Criar conteúdo\r" +
     "\n" +
     "</button>"
   );
@@ -1001,7 +1001,7 @@ angular.module('resources.views', []).run(['$templateCache', function($templateC
   $templateCache.put('src/modules/editor/category/views/add.html',
     "<div class=\"row\">\r" +
     "\n" +
-    "    <div class=\"col-sm-8 col-md-6 col-lg-4\">\r" +
+    "    <div class=\"col-sm-8 col-md-6\">\r" +
     "\n" +
     "        <editor-category-create-category category=\"vm.category\"></editor-category-create-category>\r" +
     "\n" +
@@ -1020,7 +1020,7 @@ angular.module('resources.views', []).run(['$templateCache', function($templateC
     "\n" +
     "        <!--<editor-multiple-uploads done-callback=\"vm.doneFile(file, activity)\" on-remove-item=\"vm.removeFile(file, activity)\" options=\"{queueLimit: 1}\"></editor-multiple-uploads>-->\r" +
     "\n" +
-    "        <label for=\"category.name\" class=\"control-label\">Assunto</label>\r" +
+    "        <label for=\"category.name\" class=\"control-label\">Descrição do conteúdo</label>\r" +
     "\n" +
     "        <input class=\"form-control input-circle\" type=\"text\"\r" +
     "\n" +
@@ -1030,7 +1030,7 @@ angular.module('resources.views', []).run(['$templateCache', function($templateC
     "\n" +
     "               ng-value=\"vm.category.name\"\r" +
     "\n" +
-    "               placeholder=\"Informe uma breve descrição para o assunto\">\r" +
+    "               placeholder=\"Ex. Geografia - Estados brasileiros\">\r" +
     "\n" +
     "\r" +
     "\n" +
@@ -1038,7 +1038,7 @@ angular.module('resources.views', []).run(['$templateCache', function($templateC
     "\n" +
     "\r" +
     "\n" +
-    "        <editor-insert-image model=\"vm.category\" alt-image=\"Imagem do assunto\"></editor-insert-image>\r" +
+    "        <editor-insert-image model=\"vm.category\" alt-image=\"Imagem do conteúdo\"></editor-insert-image>\r" +
     "\n" +
     "\r" +
     "\n" +
@@ -1208,7 +1208,7 @@ angular.module('resources.views', []).run(['$templateCache', function($templateC
     "\n" +
     "                        ng-click=\"vm.saveCategory()\">\r" +
     "\n" +
-    "                    Salvar assunto\r" +
+    "                    Salvar conteúdo\r" +
     "\n" +
     "                </button>\r" +
     "\n" +
@@ -1222,7 +1222,7 @@ angular.module('resources.views', []).run(['$templateCache', function($templateC
     "\n" +
     "                        ng-click=\"vm.deleteCategory()\">\r" +
     "\n" +
-    "                    Excluir assunto\r" +
+    "                    Excluir conteúdo\r" +
     "\n" +
     "                </button>\r" +
     "\n" +
@@ -1305,7 +1305,7 @@ angular.module('resources.views', []).run(['$templateCache', function($templateC
     "\n" +
     "                <div class=\"caption\">\r" +
     "\n" +
-    "                    <span class=\"caption-subject bold uppercase font-dark\">Galeria de assuntos padrão</span>\r" +
+    "                    <span class=\"caption-subject bold uppercase font-dark\">Galeria de conteúdos padrão</span>\r" +
     "\n" +
     "                </div>\r" +
     "\n" +
@@ -1319,11 +1319,11 @@ angular.module('resources.views', []).run(['$templateCache', function($templateC
     "\n" +
     "                        <div class=\"alert alert-info\">\r" +
     "\n" +
-    "                            Aqui são apresentados os assuntos padrão. Você pode escolher um deles e customizá-lo sem compromisso ;)\r" +
+    "                            Aqui são apresentados os conteúdos padrão. Você pode escolher um deles e customizá-lo sem compromisso ;)\r" +
     "\n" +
     "                            <br>\r" +
     "\n" +
-    "                            Se preferir, você pode acessar com sua conta Google. Clicar no botão \"Adicionar assunto\" e personalizar o assunto como quiser.\r" +
+    "                            Se preferir, você pode acessar com sua conta Google. Clicar no botão \"Adicionar conteúdo\" e personalizar o conteúdo como quiser.\r" +
     "\n" +
     "                        </div>\r" +
     "\n" +
@@ -1343,7 +1343,7 @@ angular.module('resources.views', []).run(['$templateCache', function($templateC
     "\n" +
     "                            </div>\r" +
     "\n" +
-    "                            <h4 class=\"text-center ellipsis\">Adicionar assunto</h4>\r" +
+    "                            <h4 class=\"text-center ellipsis\">Adicionar conteúdo</h4>\r" +
     "\n" +
     "                        </a>\r" +
     "\n" +
@@ -1390,7 +1390,7 @@ angular.module('resources.views', []).run(['$templateCache', function($templateC
     "\n" +
     "                <div class=\"caption\">\r" +
     "\n" +
-    "                    <span class=\"caption-subject bold uppercase font-dark\">Meu álbum de assuntos</span>\r" +
+    "                    <span class=\"caption-subject bold uppercase font-dark\">Meu álbum de conteúdos</span>\r" +
     "\n" +
     "                </div>\r" +
     "\n" +
@@ -1404,7 +1404,7 @@ angular.module('resources.views', []).run(['$templateCache', function($templateC
     "\n" +
     "                        <div class=\"alert alert-info\">\r" +
     "\n" +
-    "                            Aqui são apresentados os assuntos já criados. Você pode editá-los quando quiser.\r" +
+    "                            Aqui são apresentados os conteúdos já criados. Você pode editá-los quando quiser.\r" +
     "\n" +
     "                        </div>\r" +
     "\n" +
@@ -1442,7 +1442,7 @@ angular.module('resources.views', []).run(['$templateCache', function($templateC
     "\n" +
     "                        <div class=\"col-md-12\">\r" +
     "\n" +
-    "                            <div class=\"alert alert-info\">Você não possui assuntos em seu álbum. :(</div>\r" +
+    "                            <div class=\"alert alert-info\">Você não possui conteúdos em seu álbum. :(</div>\r" +
     "\n" +
     "                        </div>\r" +
     "\n" +
@@ -1582,13 +1582,13 @@ angular.module('resources.views', []).run(['$templateCache', function($templateC
     "\n" +
     "                <div class=\"caption\">\r" +
     "\n" +
-    "                    <span class=\"caption-subject bold uppercase font-dark\">Escolha um assunto</span>\r" +
+    "                    <span class=\"caption-subject bold uppercase font-dark\">Escolha um conteúdo</span>\r" +
     "\n" +
     "                </div>\r" +
     "\n" +
     "                <div class=\"actions\">\r" +
     "\n" +
-    "                    <label class=\"btn btn-link pull-right\" for=\"JSON_upload\" ng-click=\"vm.handleJsonSelect()\">Importar assunto</label>\r" +
+    "                    <label class=\"btn btn-link pull-right\" for=\"JSON_upload\" ng-click=\"vm.handleJsonSelect()\">Importar conteúdo</label>\r" +
     "\n" +
     "                    <input type=\"file\"\r" +
     "\n" +
@@ -1792,7 +1792,7 @@ angular.module('resources.views', []).run(['$templateCache', function($templateC
     "\n" +
     "                <div class=\"col-md-12\">\r" +
     "\n" +
-    "                    <label class=\"btn btn-link pull-right\" for=\"JSON_upload\" ng-click=\"vm.handleJsonSelect()\">Importar assunto</label>\r" +
+    "                    <label class=\"btn btn-link pull-right\" for=\"JSON_upload\" ng-click=\"vm.handleJsonSelect()\">Importar conteúdo</label>\r" +
     "\n" +
     "                    <input type=\"file\"\r" +
     "\n" +

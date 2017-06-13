@@ -19,7 +19,7 @@ define(function () {
     }
 
     MyGalleryData.$inject = ["LoadGApi", "MyGallerySvc", "AuthorizationSvc"];
-    function MyGalleryData(LoadGApi, MyGallerySvc,AuthorizationSvc) {
+    function MyGalleryData(LoadGApi, MyGallerySvc, AuthorizationSvc) {
         if (AuthorizationSvc.isSignedInGoogle()) {
             AuthorizationSvc.isLoading = true;
             return AuthorizationSvc.isExistRootFolder()
@@ -30,7 +30,7 @@ define(function () {
                     return [];
                 })
                 .then(function (metadataRoot) {
-                    if (metadataRoot) {
+                    if (metadataRoot && metadataRoot.id) {
                         return MyGallerySvc.getMyGalleryData(metadataRoot.id);
                     }
                     return [];
