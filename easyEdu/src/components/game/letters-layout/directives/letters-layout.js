@@ -187,8 +187,8 @@ define([], function () {
             });
         }
 
-        function handleTouch(picture) {
-            var mc = new Hammer.Manager(picture, {});
+        function handleTouch(letter) {
+            var mc = new Hammer.Manager(letter, {});
 
             mc.add(new Hammer.Pan({direction: Hammer.DIRECTION_ALL, threshold: 0}));
 

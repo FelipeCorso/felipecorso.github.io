@@ -1266,6 +1266,12 @@ angular.module('resources.views', []).run(['$templateCache', function($templateC
     "\n" +
     "            </div>\r" +
     "\n" +
+    "            <div class=\"col-md-12\">\r" +
+    "\n" +
+    "                Link para o conteúdo: <a ng-href=\"{{vm.qrCodeData}}\" target=\"_blank\">{{vm.qrCodeData}}</a>\r" +
+    "\n" +
+    "            </div>\r" +
+    "\n" +
     "        </div>\r" +
     "\n" +
     "        <editor-category-activity-type\r" +

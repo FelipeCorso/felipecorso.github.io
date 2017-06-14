@@ -17,13 +17,13 @@ define([], function () {
         vm.gameMode = $stateParams.gameMode || "SINGLE_PLAYER";
         vm.gameModes = [
             {
-                icon: "fa-user",
-                label: "Único jogador",
+                icon: "fa-hand-pointer-o",
+                label: "Partida única",
                 type: "SINGLE_PLAYER"
             },
             {
-                icon: "fa-users",
-                label: "Multijogador",
+                icon: "fa-hand-peace-o",
+                label: "Partida dupla",
                 type: "MULTIPLAYER"
             }];
         vm.isWonMatch = false;
