@@ -42,14 +42,17 @@
                 <div class="col-sm-4 text-center">
                     <h4 ng-if="vm.activity.tip">Dica: {{vm.activity.tip}}</h4>
                 </div>
-                <div class="col-sm-4">
+                <div class="col-sm-4" ng-if="vm.hasAudio()">
                     <button type="button" class="btn btn-link text-decoration-none pull-right"
                             ng-click="vm.playSong()">
                         Reproduzir áudio
-                        <i class="fa fa-play-circle-o fa-2x"></i>
+                        <i class="fa fa-2x" ng-class="{'fa-play-circle-o' : !vm.isPlayingSong(), 'fa-pause-circle-o' : vm.isPlayingSong()}"></i>
                     </button>
-                    <audio id="audio_{{vm.customClass}}"
-                           src="src/components/editor/layouts/letters-layout/GALINHA.mp3"></audio>
+                    <audio id="audio_{{vm.customClass}}">
+                        <source embed-src="{{vm.getAudioSrc()}}" id="audio_{{vm.customClass}}_ogg" type="audio/ogg">
+                        <source embed-src="{{vm.getAudioSrc()}}" id="audio_{{vm.customClass}}_mpeg" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
                 </div>
             </div>
             <div class="row pictures-layout-answer-panel" id="answers_{{vm.customClass}}">

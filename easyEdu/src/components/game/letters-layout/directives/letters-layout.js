@@ -38,6 +38,9 @@ define([], function () {
         vm.actionPlayAgain = actionPlayAgain;
         vm.getTimeResult = getTimeResult;
         vm.playSong = playSong;
+        vm.isPlayingSong = isPlayingSong;
+        vm.hasAudio = hasAudio;
+        vm.getAudioSrc = getAudioSrc;
 
         function checkWonGame() {
             vm.isWonMatch = $("#" + NODE_ANSWERS).find("li.answered.letter-answer-option").length === vm.activity.answer.length;
@@ -228,7 +231,23 @@ define([], function () {
         }
 
         function playSong() {
-            document.getElementById("audio_" + vm.customClass).play();
+            if (vm.isPlayingSong()) {
+                document.getElementById("audio_" + vm.customClass).pause();
+            } else {
+                document.getElementById("audio_" + vm.customClass).play();
+            }
+        }
+
+        function isPlayingSong() {
+            return !document.getElementById("audio_" + vm.customClass).paused;
+        }
+
+        function hasAudio() {
+            return vm.activity && vm.activity.audio && vm.activity.audio.id;
+        }
+
+        function getAudioSrc() {
+            return hasAudio() ? "https://drive.google.com/uc?export=view&id=" + vm.activity.audio.id : "";
         }
 
         function restart() {

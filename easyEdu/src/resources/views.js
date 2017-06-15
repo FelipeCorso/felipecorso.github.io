@@ -148,6 +148,92 @@ angular.module('resources.views', []).run(['$templateCache', function($templateC
   );
 
 
+  $templateCache.put('src/components/editor/insert-audio/view/_insert-audio.html',
+    "<div ng-if=\"!vm.hasAudio()\">\r" +
+    "\n" +
+    "    <div class=\"row\">\r" +
+    "\n" +
+    "        <div class=\"col-md-12\">\r" +
+    "\n" +
+    "            <div class=\"pull-right\">\r" +
+    "\n" +
+    "                <i class=\"fa fa-info-circle\" aria-hidden=\"true\"\r" +
+    "\n" +
+    "                   title=\"O formato do arquivo de ser mp3\"></i>\r" +
+    "\n" +
+    "            </div>\r" +
+    "\n" +
+    "        </div>\r" +
+    "\n" +
+    "    </div>\r" +
+    "\n" +
+    "    <div class=\"row\">\r" +
+    "\n" +
+    "        <div class=\"col-md-12\">\r" +
+    "\n" +
+    "            <div class=\"img-responsive my-gallery-no-img pointer\"\r" +
+    "\n" +
+    "                 title=\"Clique para adicionar um áudio\"\r" +
+    "\n" +
+    "                 ng-click=\"vm.authSvc.createPicker(vm.model.parent, vm.audioSelected, false, 'audio/mpeg,audio/ogg')\">\r" +
+    "\n" +
+    "                <i class=\"fa fa-play-circle-o fa-3x\" aria-hidden=\"true\"></i>\r" +
+    "\n" +
+    "            </div>\r" +
+    "\n" +
+    "        </div>\r" +
+    "\n" +
+    "    </div>\r" +
+    "\n" +
+    "</div>\r" +
+    "\n" +
+    "\r" +
+    "\n" +
+    "<div ng-if=\"vm.hasAudio()\">\r" +
+    "\n" +
+    "    <div class=\"row\">\r" +
+    "\n" +
+    "        <div class=\"col-md-12\">\r" +
+    "\n" +
+    "            <span ng-bind=\"vm.model.audio.name\"></span>\r" +
+    "\n" +
+    "        </div>\r" +
+    "\n" +
+    "    </div>\r" +
+    "\n" +
+    "    <div class=\"row\">\r" +
+    "\n" +
+    "        <div class=\"col-md-12\">\r" +
+    "\n" +
+    "            <audio controls>\r" +
+    "\n" +
+    "                <source embed-src=\"{{vm.getAudioSrc()}}\" id=\"audio-ogg\" type=\"audio/ogg\">\r" +
+    "\n" +
+    "                <source embed-src=\"{{vm.getAudioSrc()}}\" id=\"audio-mpeg\" type=\"audio/mpeg\">\r" +
+    "\n" +
+    "                Your browser does not support the audio element.\r" +
+    "\n" +
+    "            </audio>\r" +
+    "\n" +
+    "            <i class=\"fa fa-info-circle\" aria-hidden=\"true\"\r" +
+    "\n" +
+    "               title=\"O formato do arquivo de ser mp3\"></i>\r" +
+    "\n" +
+    "            <i class=\"fa fa-times\" aria-hidden=\"true\"\r" +
+    "\n" +
+    "               title=\"Clique para remover o áudio\"\r" +
+    "\n" +
+    "               ng-click=\"vm.audioRemoved()\"></i>\r" +
+    "\n" +
+    "        </div>\r" +
+    "\n" +
+    "    </div>\r" +
+    "\n" +
+    "</div>\r" +
+    "\n"
+  );
+
+
   $templateCache.put('src/components/editor/insert-image/view/_insert-image.html',
     "<div class=\"row\" ng-if=\"vm.multipleSelect\">\r" +
     "\n" +
@@ -346,11 +432,11 @@ angular.module('resources.views', []).run(['$templateCache', function($templateC
     "\n" +
     "            </div>\r" +
     "\n" +
-    "            <div class=\"form-group hidden\">\r" +
+    "            <div class=\"form-group\">\r" +
     "\n" +
     "                <label>Adicionar um áudio para a atividade</label>\r" +
     "\n" +
-    "                <i>Permitir adicionar áudio</i>\r" +
+    "                <editor-insert-audio model=\"vm.selectedActivity\"></editor-insert-audio>\r" +
     "\n" +
     "            </div>\r" +
     "\n" +
@@ -718,7 +804,7 @@ angular.module('resources.views', []).run(['$templateCache', function($templateC
     "\n" +
     "                </div>\r" +
     "\n" +
-    "                <div class=\"col-sm-4\">\r" +
+    "                <div class=\"col-sm-4\" ng-if=\"vm.hasAudio()\">\r" +
     "\n" +
     "                    <button type=\"button\" class=\"btn btn-link text-decoration-none pull-right\"\r" +
     "\n" +
@@ -726,11 +812,19 @@ angular.module('resources.views', []).run(['$templateCache', function($templateC
     "\n" +
     "                        Reproduzir áudio\r" +
     "\n" +
-    "                        <i class=\"fa fa-play-circle-o fa-2x\"></i>\r" +
+    "                        <i class=\"fa fa-2x\" ng-class=\"{'fa-play-circle-o' : !vm.isPlayingSong(), 'fa-pause-circle-o' : vm.isPlayingSong()}\"></i>\r" +
     "\n" +
     "                    </button>\r" +
     "\n" +
-    "                    <audio id=\"audio_{{vm.customClass}}\" src=\"src/components/editor/layouts/letters-layout/GALINHA.mp3\"></audio>\r" +
+    "                    <audio id=\"audio_{{vm.customClass}}\">\r" +
+    "\n" +
+    "                        <source embed-src=\"{{vm.getAudioSrc()}}\" id=\"audio_{{vm.customClass}}_ogg\" type=\"audio/ogg\">\r" +
+    "\n" +
+    "                        <source embed-src=\"{{vm.getAudioSrc()}}\" id=\"audio_{{vm.customClass}}_mpeg\" type=\"audio/mpeg\">\r" +
+    "\n" +
+    "                        Your browser does not support the audio element.\r" +
+    "\n" +
+    "                    </audio>\r" +
     "\n" +
     "                </div>\r" +
     "\n" +
@@ -866,7 +960,7 @@ angular.module('resources.views', []).run(['$templateCache', function($templateC
     "\n" +
     "                </div>\r" +
     "\n" +
-    "                <div class=\"col-sm-4\">\r" +
+    "                <div class=\"col-sm-4\" ng-if=\"vm.hasAudio()\">\r" +
     "\n" +
     "                    <button type=\"button\" class=\"btn btn-link text-decoration-none pull-right\"\r" +
     "\n" +
@@ -874,13 +968,19 @@ angular.module('resources.views', []).run(['$templateCache', function($templateC
     "\n" +
     "                        Reproduzir áudio\r" +
     "\n" +
-    "                        <i class=\"fa fa-play-circle-o fa-2x\"></i>\r" +
+    "                        <i class=\"fa fa-2x\" ng-class=\"{'fa-play-circle-o' : !vm.isPlayingSong(), 'fa-pause-circle-o' : vm.isPlayingSong()}\"></i>\r" +
     "\n" +
     "                    </button>\r" +
     "\n" +
-    "                    <audio id=\"audio_{{vm.customClass}}\"\r" +
+    "                    <audio id=\"audio_{{vm.customClass}}\">\r" +
     "\n" +
-    "                           src=\"src/components/editor/layouts/letters-layout/GALINHA.mp3\"></audio>\r" +
+    "                        <source embed-src=\"{{vm.getAudioSrc()}}\" id=\"audio_{{vm.customClass}}_ogg\" type=\"audio/ogg\">\r" +
+    "\n" +
+    "                        <source embed-src=\"{{vm.getAudioSrc()}}\" id=\"audio_{{vm.customClass}}_mpeg\" type=\"audio/mpeg\">\r" +
+    "\n" +
+    "                        Your browser does not support the audio element.\r" +
+    "\n" +
+    "                    </audio>\r" +
     "\n" +
     "                </div>\r" +
     "\n" +
