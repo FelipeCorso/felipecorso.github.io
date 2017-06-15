@@ -19,9 +19,9 @@
                 <editor-insert-image model="vm.selectedActivity" alt-image="Imagem da atividade"></editor-insert-image>
                 <hr>
             </div>
-            <div class="form-group hidden">
+            <div class="form-group">
                 <label>Adicionar um áudio para a atividade</label>
-                <i>Permitir adicionar áudio</i>
+                <editor-insert-audio model="vm.selectedActivity"></editor-insert-audio>
             </div>
 
             <div ng-if="vm.selectedActivity.type === 'PICTURES'">

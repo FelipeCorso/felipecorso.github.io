@@ -165,11 +165,11 @@ define(function () {
         }
 
         // Create and render a Picker object for searching images.
-        function createPicker(parentId, callback, multipleSelect) {
+        function createPicker(parentId, callback, multipleSelect, viewTypes) {
             if (gApiLoaded && oauthToken) {
                 // var viewImages = new google.picker.View(google.picker.ViewId.DOCS_IMAGES);
                 var view = new google.picker.View(google.picker.ViewId.DOCS);
-                view.setMimeTypes("image/png,image/jpeg,image/jpg");
+                view.setMimeTypes(viewTypes || "image/png,image/jpeg,image/jpg");
                 view.setParent(parentId);
 
                 var uploadView = new google.picker.DocsUploadView();

@@ -9,9 +9,11 @@ define([
     /**
      * Then load all components...
      */
+    , 'src/components/editor/audio-src/component'
     , 'src/components/editor/category/activity-type/component'
     , 'src/components/editor/category/create-category/component'
     , 'src/components/editor/category/list-activities/component'
+    , 'src/components/editor/insert-audio/component'
     , 'src/components/editor/insert-image/component'
     , 'src/components/editor/layouts/answer-options/component'
     , 'src/components/editor/layouts/letters-layout/component'
@@ -64,6 +66,8 @@ define([
         /**
          * App components
          */
+        , namespace + '.components.editor.audio-src'
+        , namespace + '.components.editor.insert-audio'
         , namespace + '.components.editor.insert-image'
         , namespace + '.components.editor.category.activity-type'
         , namespace + '.components.editor.category.create-category'
