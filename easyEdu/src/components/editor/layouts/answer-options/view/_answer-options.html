@@ -3,8 +3,8 @@
         <button type="button" class="btn btn-circle btn-success" ng-click="vm.testSelectedActivity()"
                 title="Clique para testar a atividade">Testar atividade</button>
         <button type="button" class="btn btn-circle btn-primary" ng-click="vm.answerOptionsForm.$valid && vm.saveAction()"
-                ng-disabled="vm.answerOptionsForm.$invalid">Salvar</button>
-        <button type="button" class="btn btn-circle btn-danger" ng-click="vm.deleteAction()" ng-if="vm.selectedActivity.id">Excluir</button>
+                ng-disabled="vm.answerOptionsForm.$invalid">Salvar atividade</button>
+        <button type="button" class="btn btn-circle btn-danger" ng-click="vm.deleteAction()" ng-if="vm.selectedActivity.id">Excluir atividade</button>
         <button type="button" class="btn btn-link pull-right" ng-click="vm.cancelAction()">Cancelar</button>
     </div>
 </div>
@@ -19,9 +19,9 @@
                 <editor-insert-image model="vm.selectedActivity" alt-image="Imagem da atividade"></editor-insert-image>
                 <hr>
             </div>
-            <div class="form-group hidden">
+            <div class="form-group">
                 <label>Adicionar um áudio para a atividade</label>
-                <i>Permitir adicionar áudio</i>
+                <editor-insert-audio model="vm.selectedActivity"></editor-insert-audio>
             </div>
 
             <div ng-if="vm.selectedActivity.type === 'PICTURES'">
@@ -62,6 +62,7 @@
                 <input class="form-control input-circle"
                        type="text"
                        id="activity.answer"
+                       ng-maxlength="20"
                        placeholder="Informe a resposta da atividade"
                        ng-required="vm.selectedActivity.type === 'LETTERS'"
                        ng-model="vm.selectedActivity.answer">

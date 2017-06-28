@@ -1,4 +1,5 @@
 @import "_pictures-layout";
+@import "_letters-layout";
 
 .page-spinner-bar > div, .block-spinner-bar > div {
   background: #666666 !important;
@@ -7,7 +8,7 @@
 .middle-page {
   width: 100px;
   height: 100px;
-  background: url(/app/assets/img/loading.gif) center no-repeat;
+  background: url(../img/loading.gif) center no-repeat;
 
   position: absolute;
   top: 0;
@@ -21,6 +22,20 @@
 .brand-name {
   color: #FFFFFF;
   font-weight: bold;
+  text-decoration: none !important;
+}
+
+.brand-name:hover {
+  color: #FFFFFF;
+  cursor: default;
+}
+
+.brand-name > .app-name {
+  font-size: 32px;
+}
+
+.brand-name > .mode-name {
+  font-size: 16px;
 }
 
 .login-option {
@@ -36,7 +51,7 @@
 }
 
 .googleplus-icon {
-  background: url(/app/assets/img/googleplus.png) no-repeat;
+  background: url(../img/googleplus.png) no-repeat;
 }
 
 .vertical-align-middle {
@@ -66,176 +81,6 @@
   -ms-transform: rotate(-90deg);
   -o-transform: rotate(-90deg);
   transform: rotate(-90deg);
-}
-
-/**
- * For the correct positioning of the placeholder element, the dnd-list and
- * it's children must have position: relative
- */
-.typesDemo ul[dnd-list],
-.typesDemo ul[dnd-list] > li {
-  position: relative;
-}
-
-/**
- * The dnd-list should always have a min-height,
- * otherwise you can't drop to it once it's empty
- */
-.typesDemo ul[dnd-list] {
-  min-height: 42px;
-  padding-left: 0px;
-}
-
-/**
- * The dndDraggingSource class will be applied to
- * the source element of a drag operation. It makes
- * sense to hide it to give the user the feeling
- * that he's actually moving it.
- */
-.typesDemo ul[dnd-list] .dndDraggingSource {
-  display: none;
-}
-
-/**
- * An element with .dndPlaceholder class will be
- * added to the dnd-list while the user is dragging
- * over it.
- */
-.typesDemo ul[dnd-list] .dndPlaceholder {
-  display: block;
-  background-color: #ddd;
-  padding: 10px 15px;
-  min-height: 42px;
-}
-
-/**
- * The dnd-lists's child elements currently MUST have
- * position: relative. Otherwise we can not determine
- * whether the mouse pointer is in the upper or lower
- * half of the element we are dragging over. In other
- * browsers we can use event.offsetY for this.
- */
-.typesDemo ul[dnd-list] li {
-  background-color: #fff;
-  border: 1px solid #ddd;
-  border-top-right-radius: 4px;
-  border-top-left-radius: 4px;
-  display: block;
-  margin-bottom: -1px;
-
-  /* Disable text selection if item is not draggable */
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
-
-.typesDemo ul[dnd-list] li dnd-nodrag {
-  display: block;
-  padding: 10px 15px;
-}
-
-/**
- * Gender-specifc background
- */
-.typesDemo ul[dnd-list] li.background-man {
-  background-color: #CAE0FC;
-}
-
-.typesDemo ul[dnd-list] li.background-woman {
-  background-color: #FFE2F5;
-}
-
-.typesDemo ul[dnd-list] input.background-man {
-  background-color: #D8E9FF;
-  color: #2F4D99;
-}
-
-.typesDemo ul[dnd-list] input.background-woman {
-  background-color: #FFF0FA;
-  color: #D84FA7;
-}
-
-/**
- * Handle positioning
- */
-.typesDemo .handle {
-  cursor: move;
-  position: absolute;
-  top: 14px;
-}
-
-.typesDemo .name {
-  margin-left: 20px;
-}
-
-/***************************** Dropzone Styling *****************************/
-
-/**
- * The dnd-list should always have a min-height,
- * otherwise you can't drop to it once it's empty
- */
-.advancedDemo .dropzone ul[dnd-list] {
-  min-height: 42px;
-  margin: 0px;
-  padding-left: 0px;
-}
-
-.advancedDemo .dropzone li {
-  display: block;
-}
-
-/**
- * Reduce opacity of elements during the drag operation. This allows the user
- * to see where he is dropping his element, even if the element is huge. The
- * .dndDragging class is automatically set during the drag operation.
- */
-.advancedDemo .dropzone .dndDragging {
-  opacity: 0.7;
-}
-
-/**
- * The dndDraggingSource class will be applied to the source element of a drag
- * operation.
- */
-.advancedDemo .dropzone .dndDraggingSource {
-  opacity: 0.5;
-}
-
-/**
- * An element with .dndPlaceholder class will be added as child of the dnd-list
- * while the user is dragging over it.
- */
-.advancedDemo .dropzone .dndPlaceholder {
-  background-color: #ddd !important;
-  display: block;
-  min-height: 42px;
-}
-
-/***************************** Element type specific styles *****************************/
-
-.advancedDemo .dropzone .itemlist {
-  min-height: 120px !important;
-}
-
-.advancedDemo .dropzone .itemlist > li {
-  background-color: #337ab7;
-  border: none;
-  border-radius: .25em;
-  color: #fff;
-  float: left;
-  font-weight: 700;
-  height: 50px;
-  margin: 5px;
-  padding: 3px;
-  text-align: center;
-  width: 80px;
-}
-
-.advancedDemo .dropzone .container-element {
-  margin: 10px;
 }
 
 .thumbnail {
@@ -288,8 +133,8 @@
   border-radius: 3px;
 }
 
-.text-decoration-none, .text-decoration-none:hover {
-  color: #000000;
+.text-decoration-none, .text-decoration-none:hover .text-decoration-none:active {
+  color: #000000 !important;
   text-decoration: none !important;
 }
 

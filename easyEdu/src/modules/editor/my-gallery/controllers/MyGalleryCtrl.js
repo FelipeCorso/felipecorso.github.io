@@ -1,8 +1,8 @@
 define([], function() {
     'use strict';
-    Controller.$inject = ["$rootScope", "$state", "MyGalleryData", "AuthorizationSvc"];
+    Controller.$inject = ["$rootScope", "$state", "MyGalleryData", "MyGallerySvc", "AuthorizationSvc"];
     /*@ngInject*/
-    function Controller($rootScope, $state, MyGalleryData, AuthorizationSvc) {
+    function Controller($rootScope, $state, MyGalleryData, MyGallerySvc, AuthorizationSvc) {
         var vm = this;
         vm.categories = MyGalleryData;
 
@@ -14,7 +14,7 @@ define([], function() {
                 AuthorizationSvc.isExistRootFolder()
                     .then(function(rootFolder) {
                         if (rootFolder) {
-                            return AuthorizationSvc.searchFile(rootFolder.id, 'metadata.json');
+                            return MyGallerySvc.searchMetadataRoot(rootFolder.id);
                         }
                         return [];
                     })

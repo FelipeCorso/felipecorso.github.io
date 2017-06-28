@@ -1,0 +1,41 @@
+<div ng-if="!vm.hasAudio()">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="pull-right">
+                <i class="fa fa-info-circle" aria-hidden="true"
+                   title="O formato do arquivo de ser mp3"></i>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="img-responsive my-gallery-no-img pointer"
+                 title="Clique para adicionar um áudio"
+                 ng-click="vm.authSvc.createPicker(vm.model.parent, vm.audioSelected, false, 'audio/mpeg,audio/ogg')">
+                <i class="fa fa-play-circle-o fa-3x" aria-hidden="true"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div ng-if="vm.hasAudio()">
+    <div class="row">
+        <div class="col-md-12">
+            <span ng-bind="vm.model.audio.name"></span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <audio controls>
+                <source embed-src="{{vm.getAudioSrc()}}" id="audio-ogg" type="audio/ogg">
+                <source embed-src="{{vm.getAudioSrc()}}" id="audio-mpeg" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
+            <i class="fa fa-info-circle" aria-hidden="true"
+               title="O formato do arquivo de ser mp3"></i>
+            <i class="fa fa-times" aria-hidden="true"
+               title="Clique para remover o áudio"
+               ng-click="vm.audioRemoved()"></i>
+        </div>
+    </div>
+</div>

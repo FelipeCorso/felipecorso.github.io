@@ -7,27 +7,7 @@ define([], function() {
         vm.loadedGApi = LoadGApi;
         vm.userInformation = UserInformationData;
 
-        $rootScope.$on("signedInGoogle", loadUserInformation);
-        $rootScope.$on("signedOutGoogle", cleanUserInformation);
 
-        function loadUserInformation() {
-            if (AuthorizationSvc.isSignedInGoogle()) {
-                return AuthorizationSvc.getUserInformation()
-                    .then(function(response) {
-                        vm.userInformation = response;
-                    })
-                    .catch(function(error) {
-                        console.error(error);
-                        vm.userInformation = {};
-                    });
-            } else {
-                vm.userInformation = {};
-            }
-        }
-
-        function cleanUserInformation() {
-            vm.userInformation = {};
-        }
 
     }
 

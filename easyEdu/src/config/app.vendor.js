@@ -6,7 +6,6 @@ define([
     "qrcode",
     "qrcode-utf8",
     "monospaced.qrcode",
-    "phaser",
     "Hammer"
 ], function() {
     'use strict';

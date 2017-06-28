@@ -10,168 +10,13 @@ define(function () {
         service.createQrCodeJson = createQrCodeJson;
         service.getCategory = getCategory;
         service.updateCategory = updateCategory;
+        service.setImagesPublic = setImagesPublic;
         service.deleteCategory = deleteCategory;
         service.renameCategory = renameCategory;
         service.getMetadataRoot = getMetadataRoot;
         service.updateMetadataRoot = updateMetadataRoot;
 
-        categories = {
-            "1": {
-                "name": "Figuras geométricas",
-                "image": {"link": "http://escolakids.uol.com.br/public/images/legenda/10c1181b437fed906146f859a4b9f898.jpg"},
-                "activities": [
-                    {
-                        "tip": "Arraste apenas as figuras que representam quadrados",
-                        level: "EASY",
-                        "type": "PICTURES",
-                        answers: [],
-                        correctAnswers: 4,
-                        answerOptions: [
-                            {
-                                "image": {
-                                    "link": "http://192.168.0.105:7070/uploads/bandeira Santa Catarina.jpg",
-                                    "name": "bandeira Santa Catarina.jpg"
-                                },
-                                type: 'correct'
-                            },
-                            {
-                                "image": {
-                                    "link": "http://192.168.0.105:7070/uploads/bandeira-rio-grande-do-sul.jpg",
-                                    "name": "bandeira-rio-grande-do-sul.jpg"
-                                },
-                                type: 'incorrect'
-                            },
-                            {
-                                "image": {
-                                    "link": "http://192.168.0.105:7070/uploads/bandeira_parana.jpg",
-                                    "name": "bandeira parana.jpg"
-                                },
-                                type: 'correct'
-                            },
-                            {
-                                "image": {
-                                    "link": "http://192.168.0.105:7070/uploads/bandeira Santa Catarina.jpg",
-                                    "name": "bandeira Santa Catarina.jpg"
-                                },
-                                type: 'correct'
-                            },
-                            {
-                                "image": {
-                                    "link": "http://192.168.0.105:7070/uploads/bandeira-rio-grande-do-sul.jpg",
-                                    "name": "bandeira-rio-grande-do-sul.jpg"
-                                },
-                                type: 'incorrect'
-                            },
-                            {
-                                "image": {
-                                    "link": "http://192.168.0.105:7070/uploads/bandeira_parana.jpg",
-                                    "name": "bandeira parana.jpg"
-                                },
-                                type: 'correct'
-                            }
-                        ]
-                    },
-                    {
-                        "tip": "Arraste apenas as figuras que representam retângulos",
-                        level: "MEDIUM",
-                        "type": "PICTURES",
-                        answers: [],
-                        correctAnswers: 2,
-                        answerOptions: [
-                            {
-                                "image": {
-                                    "link": "http://192.168.0.105:7070/uploads/bandeira Santa Catarina.jpg",
-                                    "name": "bandeira Santa Catarina.jpg"
-                                },
-                                type: 'correct'
-                            },
-                            {
-                                "image": {
-                                    "link": "http://192.168.0.105:7070/uploads/bandeira-rio-grande-do-sul.jpg",
-                                    "name": "bandeira-rio-grande-do-sul.jpg"
-                                },
-                                type: 'incorrect'
-                            },
-                            {
-                                "image": {
-                                    "link": "http://192.168.0.105:7070/uploads/bandeira_parana.jpg",
-                                    "name": "bandeira parana.jpg"
-                                },
-                                type: 'correct'
-                            },
-                            {
-                                "image": {
-                                    "link": "http://192.168.0.105:7070/uploads/bandeira Santa Catarina.jpg",
-                                    "name": "bandeira Santa Catarina.jpg"
-                                },
-                                type: 'correct'
-                            },
-                            {
-                                "image": {
-                                    "link": "http://192.168.0.105:7070/uploads/bandeira-rio-grande-do-sul.jpg",
-                                    "name": "bandeira-rio-grande-do-sul.jpg"
-                                },
-                                type: 'incorrect'
-                            },
-                            {
-                                "image": {
-                                    "link": "http://192.168.0.105:7070/uploads/bandeira_parana.jpg",
-                                    "name": "bandeira parana.jpg"
-                                },
-                                type: 'correct'
-                            }
-                        ]
-                    }
-                ]
-            },
-            "2": {
-                "name": "Bandeiras estados do Sul",
-                "image": {"link": "https://upload.wikimedia.org/wikipedia/commons/0/09/Mapa_Regiao_Sul_do_Brasil_(somente).PNG"},
-                "activities": [
-                    {
-                        "answer": "Paraná",// "Paraná"
-                        //"answer": "P",// "Paraná"
-                        "type": "LETTERS",
-                        "level": "EASY",
-                        "tip": "Estado sul brasileiro",
-                        "time": "05:00",
-                        "files": {
-                            "image": {
-                                "link": "http://192.168.0.105:7070/uploads/bandeira_parana.jpg",
-                                "name": "bandeira parana.jpg"
-                            }
-                        }
-                    },
-                    {
-                        "$$hashKey": "object:35",
-                        "answer": "Santa Catarina",
-                        "type": "LETTERS",
-                        "tip": "Estado sul brasileiro",
-                        "time": "15:00",
-                        "level": "MEDIUM",
-                        "files": {
-                            "image": {
-                                "link": "http://192.168.0.105:7070/uploads/bandeira Santa Catarina.jpg",
-                                "name": "bandeira Santa Catarina.jpg"
-                            }
-                        }
-                    },
-                    {
-                        "$$hashKey": "object:70",
-                        "answer": "Rio Grande do Sul",
-                        "type": "LETTERS",
-                        "tip": "Estado sul brasileiro",
-                        "time": "20:00",
-                        "level": "HARD",
-                        "files": {
-                            "image": {
-                                "link": "http://192.168.0.105:7070/uploads/bandeira-rio-grande-do-sul.jpg",
-                                "name": "bandeira-rio-grande-do-sul.jpg"
-                            }
-                        }
-                    }]
-            }
-        };
+        categories = {};
 
         return service;
 
@@ -194,6 +39,32 @@ define(function () {
 
         function updateCategory(category) {
             return AuthorizationSvc.updateJson(category.id, category, category.parent);
+        }
+
+        function setImagesPublic(category) {
+            var promises = [];
+
+            createImagePromise(promises, category.image);
+
+            angular.forEach(category.activities, function (activity) {
+                if (activity.type === "LETTERS") {
+                    createImagePromise(promises, activity.image);
+                } else {
+                    if (activity.type === "PICTURES") {
+                        angular.forEach(activity.answerOptions, function (answerOption) {
+                            createImagePromise(promises, answerOption.image);
+                        });
+                    }
+                }
+            });
+
+            return $q.all(promises);
+        }
+
+        function createImagePromise(promises, image) {
+            if (image && image.id) {
+                promises.push(AuthorizationSvc.defineFilePublic(image.id));
+            }
         }
 
         function deleteCategory(parentId) {

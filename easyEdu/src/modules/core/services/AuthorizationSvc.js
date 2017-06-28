@@ -1,4 +1,4 @@
-define(function() {
+define(function () {
     'use strict';
     Service.$inject = ['$http', '$q', "$rootScope"];
     /*@ngInject*/
@@ -57,6 +57,7 @@ define(function() {
         service.createPicker = createPicker;
         service.createQrCodeJson = createQrCodeJson;
         service.createRootFolder = createRootFolder;
+        service.defineFilePublic = defineFilePublic;
         service.deleteFile = deleteFile;
         service.getFile = getFile;
         service.getQrCodeJson = getQrCodeJson;
@@ -82,32 +83,31 @@ define(function() {
         function init() {
             var initialized = $q.defer();
             if (!gApiLoaded) {
-                loadGApiClient()
-                    .then(function(response) {
+                service.isLoading = true;
+                initClient()
+                    .then(function (response) {
                         console.log(response);
-                        return loadGApiAuth();
+                        return initAuth();
                     })
-                    .then(function(response) {
+                    .then(function (response) {
                         console.log(response);
                         return loadGApiPicker();
                     })
-                    .then(function(response) {
+                    .then(function (response) {
                         console.log(response);
                         initialized.resolve("gapi was loaded");
                     })
-                    .catch(function(error) {
+                    .catch(function (error) {
                         console.error("An error occurred while loading gapi", error);
                         initialized.reject("An error occurred while loading gapi", error);
+                    })
+                    .finally(function () {
+                        service.isLoading = false;
                     });
             } else {
                 initialized.resolve("gapi was loaded");
             }
             return initialized.promise;
-        }
-
-        function loadGApiClient() {
-            gapi.load('client', initClient);
-            return gApiClientFuture.promise;
         }
 
         /**
@@ -116,36 +116,33 @@ define(function() {
          */
         function initClient() {
             gapi.client.init({
-                apiKey: DEVELOPER_KEY,
-                discoveryDocs: DISCOVERY_DOCS,
-                clientId: CLIENT_ID,
-                scope: SCOPES
-            })
-                .then(function() {
+                    apiKey: DEVELOPER_KEY,
+                    discoveryDocs: DISCOVERY_DOCS,
+                    clientId: CLIENT_ID,
+                    scope: SCOPES
+                })
+                .then(function () {
                     gApiClientFuture.resolve("gapi client was loaded");
-                    /*// Listen for sign-in state changes.
-                     gapi.auth2.getAuthInstance().isSignedIn.listen(updateSignInStatus);
+                    // Listen for sign-in state changes.
+                    gapi.auth2.getAuthInstance().isSignedIn.listen(updateSignInStatus);
 
-                     // Handle the initial sign-in state.
-                     updateSignInStatus(gapi.auth2.getAuthInstance().isSignedIn.get());*/
-                }, function() {
+                    // Handle the initial sign-in state.
+                    updateSignInStatus(gapi.auth2.getAuthInstance().isSignedIn.get());
+                }, function () {
                     gApiClientFuture.reject("gapi client was not loaded");
                 });
-        }
-
-        function loadGApiAuth() {
-            gapi.load('auth', initAuth);
-            return gApiAuthFuture.promise;
+            return gApiClientFuture.promise;
         }
 
         function initAuth() {
-            gapi.auth.authorize(
+            gapi.auth2.authorize(
                 {
                     'client_id': CLIENT_ID,
                     'scope': SCOPES,
                     'immediate': false
                 },
                 handleAuthResult);
+            return gApiAuthFuture.promise;
         }
 
         function handleAuthResult(authResult) {
@@ -168,11 +165,11 @@ define(function() {
         }
 
         // Create and render a Picker object for searching images.
-        function createPicker(parentId, callback, multipleSelect) {
+        function createPicker(parentId, callback, multipleSelect, viewTypes) {
             if (gApiLoaded && oauthToken) {
                 // var viewImages = new google.picker.View(google.picker.ViewId.DOCS_IMAGES);
                 var view = new google.picker.View(google.picker.ViewId.DOCS);
-                view.setMimeTypes("image/png,image/jpeg,image/jpg");
+                view.setMimeTypes(viewTypes || "image/png,image/jpeg,image/jpg");
                 view.setParent(parentId);
 
                 var uploadView = new google.picker.DocsUploadView();
@@ -218,10 +215,11 @@ define(function() {
          */
         function updateSignInStatus(_isSignedIn) {
             isSignedIn = _isSignedIn;
+            $rootScope.$apply();
         }
 
         function isSignedInGoogle() {
-            return gapi.auth2.getAuthInstance().isSignedIn.get();
+            return isSignedIn || (angular.isDefined(gapi) && angular.isDefined(gapi.auth2) && gapi.auth2.getAuthInstance().isSignedIn.get());
         }
 
         /**
@@ -229,7 +227,7 @@ define(function() {
          */
         function handleAuthClick(event) {
             gapi.auth2.getAuthInstance().signIn()
-                .then(function() {
+                .then(function () {
                     $rootScope.$emit("signedInGoogle");
                     $rootScope.$apply();
                 });
@@ -240,7 +238,7 @@ define(function() {
          */
         function handleSignOutClick(event) {
             gapi.auth2.getAuthInstance().signOut()
-                .then(function() {
+                .then(function () {
                     $rootScope.$emit("signedOutGoogle");
                     $rootScope.$apply();
                 });
@@ -268,10 +266,10 @@ define(function() {
             });
 
             request
-                .then(function(response) {
+                .then(function (response) {
                     console.log('Folder ID: ' + response.id);
                     future.resolve(response.result);
-                }, function(error) {
+                }, function (error) {
                     future.reject(error);
                 });
             return future.promise;
@@ -314,14 +312,14 @@ define(function() {
                     contentType: "application/json; charset=utf-8",
                     dataType: "json"
                 })
-                .then(function(response) {
+                .then(function (response) {
                     var data = response.data;
                     if (data && data.uri) {
                         var id = data.uri.substr(data.uri.lastIndexOf("/") + 1);
                         future.resolve(id);
                     }
                 })
-                .catch(function(error) {
+                .catch(function (error) {
                     future.reject(error);
                 });
 
@@ -385,10 +383,10 @@ define(function() {
             });
 
             request
-                .then(function(response) {
+                .then(function (response) {
                         future.resolve(response.result);
                     },
-                    function(error) {
+                    function (error) {
                         future.reject(error);
                     }
                 );
@@ -427,10 +425,10 @@ define(function() {
                 return future.promise;
             }
             $http.get(API_MYJSON + "/" + fileId)
-                .then(function(response) {
+                .then(function (response) {
                     future.resolve(response.data);
                 })
-                .catch(function(error) {
+                .catch(function (error) {
                     future.reject(error);
                 });
 
@@ -462,17 +460,17 @@ define(function() {
             q.push("mimeType " + (isFolder ? "=" : "!=") + " 'application/vnd.google-apps.folder'");
             q.push("name = '" + fileName + "'");
             gapi.client.drive.files.list({
-                q: q.join(" and "),
-                spaces: "drive",
-                pageSize: 1
-            })
-                .then(function(response) {
+                    q: q.join(" and "),
+                    spaces: "drive",
+                    pageSize: 1
+                })
+                .then(function (response) {
                     if (response.result && response.result.files) {
                         future.resolve(response.result.files[0]);
                     } else {
                         future.resolve(undefined);
                     }
-                }, function(error) {
+                }, function (error) {
                     future.reject(error);
                 });
 
@@ -535,10 +533,10 @@ define(function() {
             });
 
             request
-                .then(function(response) {
+                .then(function (response) {
                         future.resolve(response.result);
                     },
-                    function(error) {
+                    function (error) {
                         future.reject(error);
                     }
                 );
@@ -599,10 +597,10 @@ define(function() {
             });
 
             request
-                .then(function(response) {
+                .then(function (response) {
                         future.resolve(response.result);
                     },
-                    function(error) {
+                    function (error) {
                         future.reject(error);
                     }
                 );
@@ -625,9 +623,9 @@ define(function() {
             var request = gapi.client.drive.files.delete({
                 'fileId': fileId
             });
-            request.execute(function(resp) {
+            request.execute(function (resp) {
                 future.resolve(resp);
-            }, function(error) {
+            }, function (error) {
                 future.reject(error);
             });
 
@@ -643,6 +641,28 @@ define(function() {
         function renameFile(fileId, newTitle) {
             var body = {'title': newTitle};
             return updateFile(fileId, body);
+        }
+
+        function defineFilePublic(fileId) {
+            var future = $q.defer();
+            gapi.client.drive.permissions.create({
+                'fileId': fileId,
+                'resource': {
+                    "withLink": true,
+                    "role": "reader",
+                    "type": "anyone"
+                }
+            }).then(success, error);
+
+            function success(response) {
+                future.resolve(response.result);
+            }
+
+            function error(response) {
+                future.reject(response.result);
+            }
+
+            return future.promise;
         }
 
         function getUserInformation() {

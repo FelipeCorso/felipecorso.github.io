@@ -18,9 +18,10 @@ define(function () {
         ];
     }
 
-    GalleryData.$inject = ["LoadGApi", "GallerySvc"];
+    GalleryData.$inject = ["LoadGApi", "GallerySvc", "AuthorizationSvc"];
     /*@ngInject*/
-    function GalleryData(LoadGApi, GallerySvc) {
+    function GalleryData(LoadGApi, GallerySvc, AuthorizationSvc) {
+        AuthorizationSvc.isLoading = true;
         return GallerySvc.getDefaultCategories()
             .then(function (response) {
                 return response;
@@ -28,6 +29,9 @@ define(function () {
             .catch(function (error) {
                 console.error(error);
                 return {};
+            })
+            .finally(function () {
+                AuthorizationSvc.isLoading = false;
             });
     }
 

@@ -1,22 +1,33 @@
-<div class="panel-group">
-    <div class="panel panel-default">
-        <div class="panel-heading text-center">
-            <div class="row">
-                <div class="col-md-12">
-                    <h2>Escolha um assunto</h2>
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet light bordered">
+            <div class="portlet-title">
+                <div class="caption">
+                    <span class="caption-subject bold uppercase font-dark">Escolha um conteúdo</span>
+                </div>
+                <div class="actions">
+                    <label class="btn btn-link pull-right" for="JSON_upload" ng-click="vm.handleJsonSelect()">Importar conteúdo</label>
+                    <input type="file"
+                           style="display: none"
+                           id="JSON_upload"
+                           name="JSON_upload"
+                           ng-model="vm.categoryBase64"
+                           accept="application/json" game-file-reader/>
                 </div>
             </div>
-        </div>
-        <div class="panel-body text-center">
-            <div class="row">
-                <div class="col-sm-4 col-md-3" style="max-height: 235px; height: 235px;" ng-repeat="category in vm.categories">
-                    <a class="text-decoration-none" ui-sref="game.mode({category: category, categoryId: category.id, loaded: true})">
-                        <div class="img-responsive my-gallery-no-img"
-                             ng-style="category.image.id && {'background-image': 'url(https://drive.google.com/uc?export=view&id={{category.image.id}})'}">
-                            <i class="fa fa-picture-o fa-3x" aria-hidden="true" ng-if="!category.image.id"></i>
+            <div class="portlet-body text-center">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="col-sm-4 col-md-3" style="max-height: 235px; height: 235px;" ng-repeat="category in vm.categories">
+                            <a class="text-decoration-none" ui-sref="game.mode({category: category, categoryId: category.id, loaded: true})">
+                                <div class="img-responsive my-gallery-no-img"
+                                     ng-style="category.image.id && {'background-image': 'url(https://drive.google.com/uc?export=view&id={{category.image.id}})'}">
+                                    <i class="fa fa-picture-o fa-3x" aria-hidden="true" ng-if="!category.image.id"></i>
+                                </div>
+                                <h4 class="text-center ellipsis">{{category.name}}</h4>
+                            </a>
                         </div>
-                        <h4 class="text-center ellipsis">{{category.name}}</h4>
-                    </a>
+                    </div>
                 </div>
             </div>
         </div>

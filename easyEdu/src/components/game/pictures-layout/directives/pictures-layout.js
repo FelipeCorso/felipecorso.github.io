@@ -10,11 +10,13 @@ define([], function () {
             scope: {
                 actionNextPhase: "&",
                 activity: "=",
-                category: "=",
                 gameMode: "=",
                 areThereMorePhases: "=",
                 play: "&",
-                customClass: "@"
+                customClass: "@",
+                isWonMatch: "=wonMatch",
+                isWonGame: "=wonGame",
+                isGameOver: "=gameOver"
             }
         }
     }
@@ -23,31 +25,32 @@ define([], function () {
     /*@ngInject*/
     function Controller($scope, moment, $interval) {
         var _ = require('lodash');
-        var timerPromise;
-        var NODE_ANSWERS = "answers";
-        var NODE_ANSWER_OPTIONS = "answerOptions";
         var vm = this;
-        vm.isWonMatch = false;
-        vm.isWonGame = false;
-        vm.isGameOver = false;
-        var answerOptions;
+        var DEFAULT_TIMER = "59:59";
+        var timerPromise;
+        vm.customClass = vm.customClass || "single-player";
+        var NODE_ANSWERS = "answers_" + vm.customClass;
+        var NODE_ANSWER_OPTIONS = "answerOptions_" + vm.customClass;
 
         vm.init = init;
         vm.actionPlayAgain = actionPlayAgain;
         vm.getTimeResult = getTimeResult;
+        vm.playSong = playSong;
+        vm.isPlayingSong = isPlayingSong;
+        vm.hasAudio = hasAudio;
+        vm.getAudioSrc = getAudioSrc;
 
         function checkWonGame() {
             vm.isWonMatch = vm.activity.answers === vm.activity.correctAnswers;
             if (vm.isWonMatch) {
                 if (!vm.areThereMorePhases) {
-                    // if (!areThereMorePhases()) {
                     vm.isWonGame = true;
                 }
             }
         }
 
         function checkGameOver() {
-            vm.isGameOver = !vm.timer.get("minute") && !vm.timer.get("second");
+            vm.isGameOver = vm.isGameOver || (!vm.timer.get("minute") && !vm.timer.get("second"));
         }
 
         /**
@@ -55,17 +58,17 @@ define([], function () {
          */
         function cleanChildNodes(id) {
             var node = document.getElementById(id);
-            while (node.hasChildNodes()) {
-                node.removeChild(node.lastChild);
+            if (node) {
+                while (node.hasChildNodes()) {
+                    node.removeChild(node.lastChild);
+                }
             }
         }
 
         function actionPlayAgain() {
             if (vm.isWonGame) {
                 vm.play();
-                init();
             } else {
-                //vm.activity.answerOptions = vm.activity.answerOptions.concat(vm.activity.answers);
                 vm.activity.answers = 0;
                 cleanChildNodes(NODE_ANSWERS);
                 cleanChildNodes(NODE_ANSWER_OPTIONS);
@@ -85,7 +88,6 @@ define([], function () {
             vm.timer.startOf('year');
 
             if (!vm.activity.time) {
-                var DEFAULT_TIMER = "59:59";
                 vm.activity.time = DEFAULT_TIMER;
             }
 
@@ -133,7 +135,7 @@ define([], function () {
             for (var i = 0; i < answerOptionsLength; i++) {
                 var answerOption = answerOptions[i];
                 img_out += "<div class='col-xs-4 col-sm-2'>" +
-                    "<img src='https://drive.google.com/uc?export=view&id=" + answerOption.image.id + "' class='picture " + answerOption.type + " img-responsive' alt='" + answerOption.image.name + "'/>"
+                    "<img src='https://drive.google.com/uc?export=view&id=" + answerOption.image.id + "' class='picture " + answerOption.type + " " + vm.customClass + " img-responsive' alt='" + answerOption.image.name + "'/>"
                     + "</div>";
             }
 
@@ -162,10 +164,11 @@ define([], function () {
 
                     var elemClass = elem.getAttribute("class").split(" ");
                     var elemChecker = elemClass[1];
+                    var elemSide = elemClass[2];
 
                     var dropElemId = dropEl ? dropEl.getAttribute('id') : dropEl;
 
-                    if (dropElemId === NODE_ANSWERS) {
+                    if (dropElemId && dropElemId === NODE_ANSWERS && dropElemId.endsWith(elemSide)) {
                         if (elemChecker === "CORRECT") {
                             // processar acerto
                             dropEl.appendChild(angular.copy(elem.parentElement));
@@ -181,10 +184,46 @@ define([], function () {
             });
         }
 
+        function playSong() {
+            if (vm.isPlayingSong()) {
+                document.getElementById("audio_" + vm.customClass).pause();
+            } else {
+                document.getElementById("audio_" + vm.customClass).play();
+            }
+        }
+
+        function isPlayingSong() {
+            return !document.getElementById("audio_" + vm.customClass).paused;
+        }
+
+        function hasAudio() {
+            return vm.activity && vm.activity.audio && vm.activity.audio.id;
+        }
+
+        function getAudioSrc() {
+            return hasAudio() ? "https://drive.google.com/uc?export=view&id=" + vm.activity.audio.id : "";
+        }
+
+        function restart() {
+            cleanChildNodes(NODE_ANSWERS);
+            cleanChildNodes(NODE_ANSWER_OPTIONS);
+            init();
+        }
+
         function init() {
             createTimer();
             loadPictures(vm.activity.answerOptions);
         }
+
+        $scope.$watch("vm.activity", function () {
+            if (vm.activity) {
+                restart();
+            }
+        });
+
+        angular.element(document).ready(function () {
+            init();
+        });
     }
 
     return Component;

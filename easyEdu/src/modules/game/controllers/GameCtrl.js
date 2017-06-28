@@ -17,15 +17,26 @@ define([], function () {
         vm.gameMode = $stateParams.gameMode || "SINGLE_PLAYER";
         vm.gameModes = [
             {
-                icon: "fa-user",
-                label: "Único jogador",
+                icon: "fa-hand-pointer-o",
+                label: "Partida única",
                 type: "SINGLE_PLAYER"
             },
             {
-                icon: "fa-users",
-                label: "Multijogador",
+                icon: "fa-hand-peace-o",
+                label: "Partida dupla",
                 type: "MULTIPLAYER"
             }];
+        vm.isWonMatch = false;
+        vm.isWonGame = false;
+        vm.isGameOver = false;
+        vm.isLeftWonMatch = false;
+        vm.isLeftWonGame = false;
+        vm.isLeftGameOver = false;
+        vm.isRightWonMatch = false;
+        vm.isRightWonGame = false;
+        vm.isRightGameOver = false;
+        var collectionLeft = ["vm.isLeftWonMatch", "vm.isLeftWonGame"];
+        var collectionRight = ["vm.isRightWonMatch", "vm.isRightWonGame"];
 
         vm.setGameMode = setGameMode;
         vm.play = play;
@@ -75,37 +86,86 @@ define([], function () {
         }
 
         function selectActivity() {
-            vm.selectedActivity = raffleActivity(vm.category);
+            if (vm.gameMode && vm.gameMode === "MULTIPLAYER") {
+                vm.selectedActivityLeft = raffleActivity(vm.category);
+                vm.selectedActivityRight = raffleActivity(vm.category);
+            } else {
+                vm.selectedActivity = raffleActivity(vm.category);
+            }
         }
 
         function play() {
             initLevel();
             selectActivity();
+            cleanGameStatus();
+            watchGameOver();
         }
 
         function actionNextPhase() {
             defineNextLevel();
             if (currentLevel) {
                 selectActivity();
-                if (!vm.selectedActivity) {
-                    actionNextPhase();
+                if (vm.gameMode && vm.gameMode === "MULTIPLAYER") {
+                    if (!vm.selectedActivityLeft && !vm.selectedActivityRight) {
+                        actionNextPhase();
+                    }
+                } else {
+                    if (!vm.selectedActivity) {
+                        actionNextPhase();
+                    }
                 }
-                // createTimer(); // pictures
-                /*if (vm.activity) {
-                 game.state.restart(); // letters
-                 vm.isWinMatch = false; // pictures
-                 } else {
-                 actionNextPhase();
-                 }*/
+                cleanGameStatus();
             }
+        }
+
+        function watchGameOver() {
+            watchGameOverLeft();
+            watchGameOverRight();
+        }
+
+        function watchGameOverLeft() {
+            $scope.$watchGroup(collectionRight, function (newValues) {
+                vm.isLeftGameOver = newValues[0] || newValues[1];
+            });
+        }
+
+        function watchGameOverRight() {
+            $scope.$watchGroup(collectionLeft, function (newValues) {
+                vm.isRightGameOver = newValues[0] || newValues[1];
+            });
+        }
+
+        function cleanWatchGroup(collection) {
+            $scope.$watchGroup(collection, function () {
+            });
+        }
+
+        $scope.$on("$destroy", function () {
+            cleanWatchGroup(collectionLeft);
+            cleanWatchGroup(collectionRight);
+        });
+
+        function cleanGameStatus() {
+            vm.isWonMatch = false;
+            vm.isWonGame = false;
+            vm.isGameOver = false;
+            vm.isLeftWonMatch = false;
+            vm.isLeftWonGame = false;
+            vm.isRightWonMatch = false;
+            vm.isRightWonGame = false;
         }
 
         function areThereMorePhases() {
             var nextLevel = getNextLevel();
-            var nextPhaseActivities = vm.category.activities.filter(function (activity) {
-                return activity.level === nextLevel;
-            });
-            return nextPhaseActivities && nextPhaseActivities.length;
+            var nextPhaseActivities = 0;
+
+            while (!nextPhaseActivities && nextLevel !== "IMPOSSIBLE") {
+                nextPhaseActivities = vm.category.activities.filter(function (activity) {
+                    return activity.level === nextLevel;
+                }).length;
+                nextLevel = difficultyLevels[difficultyLevels.indexOf(nextLevel) + 1];
+            }
+            return nextPhaseActivities;
         }
 
         function handleJsonSelect() {
@@ -120,9 +180,9 @@ define([], function () {
         }
 
         /**
-         * O stringify é necessário para passar o assunto para a rota game.play.
+         * O stringify é necessário para passar o conteúdo para a rota game.play.
          * Nessa rota é feito o parse para um objeto novamente.
-         * 
+         *
          * @param gameMode
          * @returns {{category, gameMode: *}}
          */
@@ -131,7 +191,7 @@ define([], function () {
         }
 
         function goToPlay(gameMode) {
-            $state.go("game.play", getPlayParams(gameMode))
+            $state.go("game.play", getPlayParams(gameMode));
         }
     }
 

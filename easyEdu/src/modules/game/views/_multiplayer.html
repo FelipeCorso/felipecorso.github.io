@@ -1,0 +1,48 @@
+<div class="col-md-6" id="player1">
+    <game-letters-layout
+            action-next-phase="vm.actionNextPhase()"
+            activity="vm.selectedActivityLeft"
+            custom-class="left"
+            game-mode="vm.gameMode"
+            are-there-more-phases="vm.areThereMorePhases()"
+            play="vm.play()"
+            won-match="vm.isLeftWonMatch"
+            won-game="vm.isLeftWonGame"
+            game-over="vm.isLeftGameOver"
+            ng-if="vm.selectedActivityLeft.type === 'LETTERS'"></game-letters-layout>
+    <game-pictures-layout
+            action-next-phase="vm.actionNextPhase()"
+            activity="vm.selectedActivityLeft"
+            custom-class="left"
+            game-mode="vm.gameMode"
+            are-there-more-phases="vm.areThereMorePhases()"
+            play="vm.play()"
+            won-match="vm.isLeftWonMatch"
+            won-game="vm.isLeftWonGame"
+            game-over="vm.isLeftGameOver"
+            ng-if="vm.selectedActivityLeft.type === 'PICTURES'"></game-pictures-layout>
+</div>
+<div class="col-md-6" id="player2">
+    <game-letters-layout
+            action-next-phase="vm.actionNextPhase()"
+            activity="vm.selectedActivityRight"
+            custom-class="right"
+            game-mode="vm.gameMode"
+            are-there-more-phases="vm.areThereMorePhases()"
+            play="vm.play()"
+            won-match="vm.isRightWonMatch"
+            won-game="vm.isRightWonGame"
+            game-over="vm.isRightGameOver"
+            ng-if="vm.selectedActivityRight.type === 'LETTERS'"></game-letters-layout>
+    <game-pictures-layout
+            action-next-phase="vm.actionNextPhase()"
+            activity="vm.selectedActivityRight"
+            custom-class="right"
+            game-mode="vm.gameMode"
+            are-there-more-phases="vm.areThereMorePhases()"
+            play="vm.play()"
+            won-match="vm.isRightWonMatch"
+            won-game="vm.isRightWonGame"
+            game-over="vm.isRightGameOver"
+            ng-if="vm.selectedActivityRight.type === 'PICTURES'"></game-pictures-layout>
+</div>

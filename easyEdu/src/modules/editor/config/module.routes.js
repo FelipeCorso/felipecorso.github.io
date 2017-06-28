@@ -9,7 +9,7 @@ define(function () {
                     url: "/editor",
                     controller: 'EditorCtrl as vm',
                     // abstract: true,
-                    templateUrl: partialPath + "index.html",
+                    template: '<div ui-view></div>',
                     resolve: {
                         LoadGApi: LoadGApi,
                         UserInformationData: UserInformationData
@@ -22,6 +22,7 @@ define(function () {
     LoadGApi.$inject = ["AuthorizationSvc"];
     /*@ngInject*/
     function LoadGApi(AuthorizationSvc) {
+        AuthorizationSvc.isLoading = true;
         return AuthorizationSvc.init()
             .then(function (response) {
                 console.log(response);
@@ -30,20 +31,28 @@ define(function () {
             .catch(function (error) {
                 console.error(error);
                 return false;
+            })
+            .finally(function () {
+                AuthorizationSvc.isLoading = false;
             });
     }
 
-    UserInformationData.$inject = ["LoadGApi", "AuthorizationSvc"];
+    UserInformationData.$inject = ["LoadGApi", "AuthorizationSvc", "$rootScope"];
     /*@ngInject*/
-    function UserInformationData(LoadGApi, AuthorizationSvc) {
+    function UserInformationData(LoadGApi, AuthorizationSvc, $rootScope) {
         if (LoadGApi && AuthorizationSvc.isSignedInGoogle()) {
+            AuthorizationSvc.isLoading = true;
             return AuthorizationSvc.getUserInformation()
                 .then(function (response) {
+                    $rootScope.$emit("setUserInformation", response);
                     return response;
                 })
                 .catch(function (error) {
                     console.error(error);
                     return {};
+                })
+                .finally(function () {
+                    AuthorizationSvc.isLoading = false;
                 });
         }
         return {};

@@ -1,9 +1,82 @@
-<!--ng-class="vm.customClass"-->
-<!--
-<div class="row" style="margin-bottom: 20px; margin-top: 20px;">
-    <div class="col-md-12">
-        <div class="canvas-center" id="gameCanvas_{{vm.customClass}}"></div>
+<div class="panel-group">
+    <div class="panel panel-default">
+        <div class="panel-heading text-center">
+            <div ng-if="vm.isWonMatch || vm.isWonGame || vm.isGameOver">
+                <div class="row">
+                    <div class="col-md-12 game-result-text">
+                        <div ng-if="vm.isWonMatch || vm.isWonGame">
+                            <h1>Parabéns!</h1>
+                            <h3>Você ganhou {{vm.isWonGame ? "o jogo" : "a partida"}}</h3>
+                            <h4>O seu tempo foi de {{vm.getTimeResult() | date:"mm:ss"}}</h4>
+                        </div>
+                        <div ng-if="vm.isGameOver">
+                            <h1>Que pena!</h1>
+                            <h3>Você perdeu o jogo</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <button class="btn btn-warning"
+                                type="button"
+                                ng-if="vm.gameMode === 'MULTIPLAYER' && vm.isWonGame"
+                                ng-click="vm.actionPlayAgain()">Jogar novamente</button>
+                        <button class="btn btn-warning"
+                                type="button"
+                                ng-if="vm.gameMode === 'SINGLE_PLAYER'"
+                                ng-click="vm.actionPlayAgain()">{{vm.isGameOver ? "Tentar novamente" : "Jogar novamente"}}</button>
+                        <button class="btn btn-success"
+                                type="button"
+                                ng-click="vm.actionNextPhase()"
+                                ng-if="!vm.isWonGame && !vm.isGameOver">Próxima fase</button>
+                    </div>
+                </div>
+                <hr>
+            </div>
+            {{vm.timer | amDateFormat:"mm:ss"}}
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-sm-4">
+                    <button type="button" class="btn btn-link text-decoration-none pull-left"
+                            ng-if="vm.activity.image.id"
+                            ng-init="vm.showImage = false;" ng-click="vm.showImage = !vm.showImage;">
+                        <i class="fa fa-picture-o fa-2x"></i>
+                        {{vm.showImage ? "Ocultar" : "Exibir"}} imagem
+                    </button>
+                </div>
+                <div class="col-sm-4 text-center">
+                    <h4 ng-if="vm.activity.tip">Dica: {{vm.activity.tip}}</h4>
+                </div>
+                <div class="col-sm-4" ng-if="vm.hasAudio()">
+                    <button type="button" class="btn btn-link text-decoration-none pull-right"
+                            ng-click="vm.playSong()">
+                        Reproduzir áudio
+                        <i class="fa fa-2x" ng-class="{'fa-play-circle-o' : !vm.isPlayingSong(), 'fa-pause-circle-o' : vm.isPlayingSong()}"></i>
+                    </button>
+                    <audio id="audio_{{vm.customClass}}">
+                        <source embed-src="{{vm.getAudioSrc()}}" id="audio_{{vm.customClass}}_ogg" type="audio/ogg">
+                        <source embed-src="{{vm.getAudioSrc()}}" id="audio_{{vm.customClass}}_mpeg" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                </div>
+            </div>
+            <div class="row pictures-layout-answer-panel">
+                <div class="col-md-12"
+                     ng-if="vm.showImage && vm.activity.image.id">
+                    <img ng-src="https://drive.google.com/uc?export=view&id={{vm.activity.image.id}}" alt="vm.activity.image.name">
+                </div>
+                <div class="col-md-12 text-center">
+                    <ul class="list-inline letter-layout-answer" id="answers_{{vm.customClass}}"></ul>
+                </div>
+            </div>
+        </div>
+        <div class="panel-footer">
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <ul class="list-inline" id="answerOptions_{{vm.customClass}}"></ul>
+                </div>
+            </div>
+        </div>
     </div>
-</div>-->
-
-<div class="canvas-center" id="gameCanvas_{{vm.customClass}}"></div>
+</div>

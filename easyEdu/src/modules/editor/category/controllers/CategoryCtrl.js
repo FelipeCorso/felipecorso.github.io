@@ -1,4 +1,4 @@
-define([], function() {
+define([], function () {
     'use strict';
     Controller.$inject = ["$scope", "$state", "$stateParams", "moment", "CategoryData", "CategorySvc"];
     /*@ngInject*/
@@ -15,7 +15,7 @@ define([], function() {
         vm.toggleAll = toggleAll;
         vm.addActivity = addActivity;
         vm.isEnabledBtnExport = isEnabledBtnExport;
-        vm.getActivitiesToExport = getActivitiesToExport;
+        vm.getCategoryToExport = getCategoryToExport;
         vm.exportJSON = exportJSON;
         vm.generateQrCode = generateQrCode;
         vm.saveCategory = saveCategory;
@@ -27,20 +27,24 @@ define([], function() {
         vm.hasImage = hasImage;
 
         function optionToggled() {
-            vm.isAllActivitiesSelected = vm.category.activities.every(function(item) {
+            vm.isAllActivitiesSelected = vm.category.activities.every(function (item) {
                 return item.export;
             });
         }
 
         function toggleAll() {
-            angular.forEach(vm.category.activities, function(activity) {
-                activity.export = vm.isAllActivitiesSelected;
+            changeExportStatus(vm.category.activities, vm.isAllActivitiesSelected);
+        }
+
+        function changeExportStatus(activities, selected) {
+            angular.forEach(activities, function (activity) {
+                activity.export = selected;
             });
         }
 
         function addActivity() {
             vm.selectedActivity = {
-                answers: [],
+                answers: 0,
                 correctAnswers: 0,
                 export: vm.isAllActivitiesSelected,
                 level: "EASY",
@@ -49,13 +53,13 @@ define([], function() {
         }
 
         function isEnabledBtnExport() {
-            return vm.category.activities ? vm.category.activities.filter(function(activity) {
+            return !vm.isExporting && vm.category.activities ? vm.category.activities.filter(function (activity) {
                 return activity.export;
             }).length : 0;
         }
 
-        function getActivitiesToExport() {
-            var selectedActivities = vm.category.activities.filter(function(activity) {
+        function getCategoryToExport() {
+            var selectedActivities = vm.category.activities.filter(function (activity) {
                 return activity.export;
             });
 
@@ -65,20 +69,41 @@ define([], function() {
         }
 
         function exportJSON() {
-            var category = getActivitiesToExport();
+            var category = getCategoryToExport();
 
-            var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(category));
-            var dlAnchorElem = document.getElementById('downloadAnchorElem');
-            dlAnchorElem.setAttribute("href", dataStr);
-            dlAnchorElem.setAttribute("download", "activities.json");
-            dlAnchorElem.click();
+            vm.isExporting = true;
+            CategorySvc.setImagesPublic(category)
+                .then(function () {
+                    var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(category));
+                    var dlAnchorElem = document.getElementById('downloadAnchorElem');
+                    dlAnchorElem.setAttribute("href", dataStr);
+                    dlAnchorElem.setAttribute("download", category.name + ".json");
+                    dlAnchorElem.click();
+                })
+                .catch(function (error) {
+                    console.error(error);
+                })
+                .finally(function () {
+                    vm.isExporting = false;
+                });
         }
 
         function generateQrCode() {
-            var category = getActivitiesToExport();
-            CategorySvc.createQrCodeJson(category)
-                .then(function(categoryId) {
-                    vm.qrCodeData = window.location.origin + window.location.pathname + "#/game/start?categoryId=" + categoryId;
+            var category = getCategoryToExport();
+
+            vm.isExporting = true;
+            CategorySvc.setImagesPublic(category)
+                .then(function () {
+                    return CategorySvc.createQrCodeJson(category);
+                })
+                .then(function (categoryId) {
+                    vm.qrCodeData = window.location.origin + window.location.pathname + "#/game/category?categoryId=" + categoryId;
+                })
+                .catch(function (error) {
+                    console.error(error);
+                })
+                .finally(function () {
+                    vm.isExporting = false;
                 });
         }
 
@@ -91,13 +116,15 @@ define([], function() {
                 vm.categoryNewName = vm.category.name;// Nome não pode ser ""
             }
 
+            var category = angular.copy(vm.category);
+            changeExportStatus(category.activities, false);
             vm.isLoading = true;
-            CategorySvc.updateCategory(vm.category)
-                .then(function() {
+            CategorySvc.updateCategory(category)
+                .then(function () {
                     return CategorySvc.getMetadataRoot(vm.category.metadataRoot.id);
                 })
-                .then(function(metadata) {
-                    angular.forEach(metadata, function(item) {
+                .then(function (metadata) {
+                    angular.forEach(metadata, function (item) {
                         if (item.id === vm.category.id) {
                             item.image = vm.category.image;
                             item.name = vm.category.name;
@@ -105,42 +132,42 @@ define([], function() {
                     });
                     return CategorySvc.updateMetadataRoot(vm.category.metadataRoot.id, metadata);
                 })
-                .then(function() {
+                .then(function () {
                     if (newName) {
                         CategorySvc.renameCategory(vm.category.parent, vm.categoryNewName);
                     }
                 })
-                .catch(function(error) {
+                .catch(function (error) {
                     console.log(error);
                 })
-                .finally(function() {
+                .finally(function () {
                     vm.isLoading = false;
                 });
         }
 
         function deleteCategory() {
-            var result = confirm("Você tem certeza que deseja deletar esse assunto?\nEssa ação não poderá ser desfeita!");
+            var result = confirm("Você tem certeza que deseja deletar esse conteúdo?\nEssa ação não poderá ser desfeita!");
             if (result) {
                 vm.isLoading = true;
                 CategorySvc.deleteCategory(vm.category.parent)
-                    .then(function() {
+                    .then(function () {
                         return CategorySvc.getMetadataRoot(vm.category.metadataRoot.id);
                     })
-                    .then(function(metadata) {
-                        angular.forEach(metadata, function(item, index) {
+                    .then(function (metadata) {
+                        angular.forEach(metadata, function (item, index) {
                             if (item.id === vm.category.id) {
                                 metadata.splice(index, 1);
                             }
                         });
                         return CategorySvc.updateMetadataRoot(vm.category.metadataRoot.id, metadata);
                     })
-                    .then(function() {
+                    .then(function () {
                         $state.go("editor.my-gallery");
                     })
-                    .catch(function(error) {
+                    .catch(function (error) {
                         console.error(error);
                     })
-                    .finally(function() {
+                    .finally(function () {
                         vm.isLoading = false;
                     });
             }

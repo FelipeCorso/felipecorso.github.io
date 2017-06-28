@@ -13,8 +13,8 @@ define([], function() {
         };
     }
 
-    Controller.$inject = ["$state", "AuthorizationSvc"];
-    function Controller($state, AuthorizationSvc) {
+    Controller.$inject = ["$state", "moment", "AuthorizationSvc"];
+    function Controller($state, moment, AuthorizationSvc) {
         var METADATA_FILE_NAME = "metadata";
         var vm = this;
         vm.rootFolder = {};
@@ -49,6 +49,7 @@ define([], function() {
                     })
                     .then(function(categoryFolder) {
                         vm.category.parent = categoryFolder.id;
+                        vm.category.createdTime = moment().valueOf();
                         return AuthorizationSvc.createJson(METADATA_FILE_NAME, vm.category, categoryFolder.id);
                     })
                     .then(function(categoryMetadata) {
@@ -62,7 +63,8 @@ define([], function() {
                     .then(function(metadataContent) {
                         metadataContent.push({
                             id: vm.category.id,
-                            name: vm.category.name
+                            name: vm.category.name,
+                            createdTime: vm.category.createdTime
                         });
                         return AuthorizationSvc.updateJson(vm.metadata.id, metadataContent, vm.rootFolder.id);
                     })

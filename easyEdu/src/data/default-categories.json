@@ -137,8 +137,7 @@
     },
     "activities": [
       {
-        "answers": [
-        ],
+        "answers": 0,
         "correctAnswers": 0,
         "export": false,
         "level": "EASY",
@@ -155,8 +154,7 @@
         "id": 1496625056963
       },
       {
-        "answers": [
-        ],
+        "answers": 0,
         "correctAnswers": 4,
         "export": false,
         "level": "HARD",
@@ -226,8 +224,7 @@
         "id": 1496625410095
       },
       {
-        "answers": [
-        ],
+        "answers": 0,
         "correctAnswers": 0,
         "export": false,
         "level": "MEDIUM",
@@ -330,21 +327,6 @@
         "tip": "Norte do Brasil",
         "time": "10:00",
         "id": 1496195665479
-      },
-      {
-        "answers": 0,
-        "correctAnswers": 0,
-        "export": false,
-        "level": "HARD",
-        "parent": "0B1_Ihk-LLpk9VHFTVW11NFBwYnM",
-        "type": "PUZZLE",
-        "image": {
-          "id": "0B1_Ihk-LLpk9NkVCcU9yNnVZRFE",
-          "name": "minas_gerais.jpg"
-        },
-        "name": "Minas",
-        "time": "15:00",
-        "id": 1496196594458
       }
     ]
   }

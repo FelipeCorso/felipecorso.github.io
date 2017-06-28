@@ -4,15 +4,15 @@ define(function () {
     /*@ngInject*/
     function appConfig($urlRouterProvider, $urlMatcherFactory) {
         $urlRouterProvider
-            .when('', '/game/start')
+            .when('', '/game/category')
             .when('/editor', '/editor/gallery')
             .when('/editor/', '/editor/gallery')
-            .when('/game', '/game/start')
+            .when('/game', '/game/category')
 
             /**
              * Redirect to root
              */
-            .otherwise('/game/start');
+            .otherwise('/game/category');
 
         $urlMatcherFactory.type('boolean',
             {

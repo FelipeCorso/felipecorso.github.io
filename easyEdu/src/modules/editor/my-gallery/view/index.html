@@ -1,25 +1,45 @@
-<div ng-if="app.authSvc.isSignedInGoogle()">
-    <div class="row">
-        <div class="col-sm-3 text-center" ng-repeat="category in vm.categories">
-            <a href="#" ui-sref="editor.category.edit({id: category.id})">
-                <div class="img-responsive my-gallery-no-img"
-                     ng-style="category.image.id && {'background-image': 'url(https://drive.google.com/uc?export=view&id={{category.image.id}})'}">
-                    <i class="fa fa-picture-o fa-3x" aria-hidden="true" ng-if="!category.image.id"></i>
-                </div>
-                <h4 class="text-center ellipsis">{{category.name}}</h4>
-            </a>
-        </div>
-    </div>
-
-    <div class="row" ng-if="!vm.categories.length">
-        <div class="col-md-12">
-            <div class="alert alert-info">Você não possui assuntos em seu álbum. :(</div>
-        </div>
-    </div>
-</div>
-
-<div class="row" ng-if="!app.authSvc.isSignedInGoogle()">
+<div class="row">
     <div class="col-md-12">
-        <div class="alert alert-warning">Para consultar o seu álbum é necessário estar conectado com o Google.</div>
+        <div class="portlet light bordered">
+            <div class="portlet-title">
+                <div class="caption">
+                    <span class="caption-subject bold uppercase font-dark">Meu álbum de conteúdos</span>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="alert alert-info">
+                            Aqui são apresentados os conteúdos já criados. Você pode editá-los quando quiser.
+                        </div>
+                    </div>
+                </div>
+                <div ng-if="app.authSvc.isSignedInGoogle()">
+                    <div class="row">
+                        <div class="col-sm-3 text-center" ng-repeat="category in vm.categories | orderBy:'createdTime':true">
+                            <a class="text-decoration-none" href="#" ui-sref="editor.category.edit({id: category.id})">
+                                <div class="img-responsive my-gallery-no-img"
+                                     ng-style="category.image.id && {'background-image': 'url(https://drive.google.com/uc?export=view&id={{category.image.id}})'}">
+                                    <i class="fa fa-picture-o fa-3x" aria-hidden="true" ng-if="!category.image.id"></i>
+                                </div>
+                                <h4 class="text-center ellipsis">{{category.name}}</h4>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="row" ng-if="!vm.categories.length">
+                        <div class="col-md-12">
+                            <div class="alert alert-info">Você não possui conteúdos em seu álbum. :(</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" ng-if="!app.authSvc.isSignedInGoogle()">
+                    <div class="col-md-12">
+                        <div class="alert alert-warning">Para consultar o seu álbum é necessário estar conectado com o Google.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

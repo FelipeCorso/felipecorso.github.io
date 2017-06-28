@@ -2,16 +2,16 @@
     <div class="col-sm-4 col-md-3">
 
         <!--<editor-multiple-uploads done-callback="vm.doneFile(file, activity)" on-remove-item="vm.removeFile(file, activity)" options="{queueLimit: 1}"></editor-multiple-uploads>-->
-        <label for="category.name" class="control-label">Assunto</label>
+        <label for="category.name" class="control-label">Descrição do conteúdo</label>
         <input class="form-control input-circle" type="text"
                id="category.name"
                ng-model="vm.categoryNewName"
                ng-value="vm.category.name"
-               placeholder="Informe uma breve descrição para o assunto">
+               placeholder="Ex. Geografia - Estados brasileiros">
 
         <hr>
 
-        <editor-insert-image model="vm.category" alt-image="Imagem do assunto"></editor-insert-image>
+        <editor-insert-image model="vm.category" alt-image="Imagem do conteúdo"></editor-insert-image>
 
 <!--
         <div ng-if="vm.hasImage()">
@@ -62,6 +62,13 @@
                     <a id="downloadAnchorElem" style="display:none"></a>
                 </div>
             </div>
+            <div class="row">
+                <div class="col-md-12" ng-if="vm.isExporting">
+                    <div>
+                        <i class="fa fa-fw fa-spin fa-spinner"></i> <strong>{{'Aguarde um instante'}}</strong>
+                    </div>
+                </div>
+            </div>
             <hr>
             <div class="row">
                 <div class="col-md-12">
@@ -84,16 +91,20 @@
             </editor-category-list-activities>
         </div>
         <hr>
-        <div class="row margin-bottom-20">
-            <div class="col-md-12">
-                <button type="button" class="btn btn-circle btn-primary"
+        <div class="row">
+            <div class="col-lg-6 margin-bottom-10">
+                <button type="button" class="btn btn-sm btn-circle btn-primary"
                         ng-disabled="vm.isLoading"
                         ng-click="vm.saveCategory()">
-                    Salvar
+                    Salvar conteúdo
                 </button>
-                <button type="button" class="btn btn-circle btn-danger"
+            </div>
+            <div class="col-lg-6">
+                <button type="button" class="btn btn-sm btn-circle btn-danger"
                         ng-disabled="vm.isLoading"
-                        ng-click="vm.deleteCategory()">Excluir</button>
+                        ng-click="vm.deleteCategory()">
+                    Excluir conteúdo
+                </button>
             </div>
         </div>
         <div class="row">
@@ -105,9 +116,17 @@
         </div>
     </div>
     <div class="col-sm-8 col-md-9 margin-top-25">
-        <div class="row">
+        <div class="row" ng-if="vm.qrCodeData">
             <div class="col-md-12">
-                <qrcode data="{{vm.qrCodeData}}" href="{{vm.qrCodeData}}" ng-if="vm.qrCodeData" size="200"></qrcode>
+                <i class="fa fa-times pointer" aria-hidden="true"
+                   title="Clique para remover o QR Code"
+                   ng-click="vm.qrCodeData = ''"></i>
+            </div>
+            <div class="col-md-12">
+                <qrcode data="{{vm.qrCodeData}}" href="{{vm.qrCodeData}}" size="200"></qrcode>
+            </div>
+            <div class="col-md-12">
+                Link para o conteúdo: <a ng-href="{{vm.qrCodeData}}" target="_blank">{{vm.qrCodeData}}</a>
             </div>
         </div>
         <editor-category-activity-type
