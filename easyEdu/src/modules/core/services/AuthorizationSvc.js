@@ -135,7 +135,7 @@ define(function () {
         }
 
         function initAuth() {
-            gapi.auth2.authorize(
+            gapi.auth.authorize(
                 {
                     'client_id': CLIENT_ID,
                     'scope': SCOPES,

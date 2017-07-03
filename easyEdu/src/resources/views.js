@@ -428,16 +428,6 @@ angular.module('resources.views', []).run(['$templateCache', function($templateC
     "\n" +
     "                <editor-insert-image model=\"vm.selectedActivity\" alt-image=\"Imagem da atividade\"></editor-insert-image>\r" +
     "\n" +
-    "                <hr>\r" +
-    "\n" +
-    "            </div>\r" +
-    "\n" +
-    "            <div class=\"form-group\">\r" +
-    "\n" +
-    "                <label>Adicionar um áudio para a atividade</label>\r" +
-    "\n" +
-    "                <editor-insert-audio model=\"vm.selectedActivity\"></editor-insert-audio>\r" +
-    "\n" +
     "            </div>\r" +
     "\n" +
     "\r" +
@@ -481,6 +471,20 @@ angular.module('resources.views', []).run(['$templateCache', function($templateC
     "                                         multiple-select=\"true\"></editor-insert-image>\r" +
     "\n" +
     "                </div>\r" +
+    "\n" +
+    "            </div>\r" +
+    "\n" +
+    "            \r" +
+    "\n" +
+    "            <hr>\r" +
+    "\n" +
+    "\r" +
+    "\n" +
+    "            <div class=\"form-group\">\r" +
+    "\n" +
+    "                <label>Adicionar um áudio para a atividade</label>\r" +
+    "\n" +
+    "                <editor-insert-audio model=\"vm.selectedActivity\"></editor-insert-audio>\r" +
     "\n" +
     "            </div>\r" +
     "\n" +
